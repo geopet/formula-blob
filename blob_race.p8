@@ -1,5 +1,53 @@
 pico-8 cartridge // http://www.pico-8.com
 version 42
+__lua__
+-- blob race
+-- by @geopet
+
+-- game state variable
+state = "start"
+
+function _init()
+    -- inialize things here
+end
+
+function _update()
+    if (state == "start") then
+        if (btnp(4)) then -- 🅾️ button (z key)
+            state = "guess"
+        end
+    elseif (state == "guess") then
+        if (btnp(4)) then
+            state = "racing"
+        end
+    elseif (state == "racing") then
+        if (btnp(4)) then
+            state = "result"
+        end
+    elseif (state == "result") then
+        if (btnp(4)) then
+            state = "start"
+        end
+    end
+end
+
+function _draw()
+    cls() -- clear the screen
+
+    if (state == "start") then
+        print("welcome to blob race!", 20, 20, 7)
+        print("press 🅾️ to start", 20, 40, 6)
+    elseif (state == "guess") then
+        print("choose your blob!", 20, 20, 7)
+        print("press 🅾️ to lock in", 20, 40, 6)
+    elseif (state == "racing") then
+        print("the race is on!", 20, 20, 7)
+        print("press 🅾️ to see result", 20, 40, 6)
+    elseif (state == "result") then
+        print("the race is over!!", 20, 20, 7)
+        print("press 🅾️ to play again", 20, 40, 6)
+    end
+end
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
