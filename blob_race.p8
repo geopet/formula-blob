@@ -14,9 +14,9 @@ end
 function _update()
     if (state == "start") then
         if (btnp(4)) then -- 🅾️ button (z key)
-            state = "guess"
+            state = "choose"
         end
-    elseif (state == "guess") then
+    elseif (state == "choose") then
         if (btnp(4)) then
             state = "racing"
         end
@@ -37,15 +37,24 @@ function _draw()
     if (state == "start") then
         print("welcome to blob race!", 20, 20, 7)
         print("press 🅾️ to start", 20, 40, 6)
-    elseif (state == "guess") then
+    elseif (state == "choose") then
         print("choose your blob!", 20, 20, 7)
-        print("press 🅾️ to lock in", 20, 40, 6)
+
+        -- draw blobs
+        circfill(30, 60, 8, 11) -- left blob (color 11 = light blue)
+        circfill(90, 60, 8, 8) -- right blob (color 8 = red)
+
+        -- add labels
+        print ("1", 29, 57, 0)
+        print ("2", 89, 57, 0)
+
+        print("press 🅾️ to lock in", 20, 90, 6)
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
         print("press 🅾️ to see result", 20, 40, 6)
     elseif (state == "result") then
         print("the race is over!!", 20, 20, 7)
-        print("press 🅾️ to play again", 20, 40, 6)
+        print("press 🅾️ to play again", 20, 0, 6)
     end
 end
 __gfx__
