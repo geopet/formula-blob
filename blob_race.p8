@@ -7,6 +7,8 @@ __lua__
 -- game state variable
 state = "start"
 selected_blob = 0
+logging = true
+log_msg = ""
 
 function _init()
     -- inialize things here
@@ -21,8 +23,10 @@ function _update()
 
         if (btnp(0)) then -- left blob (1)
             selected_blob = 1
+            log_msg = "left blob selected"
         elseif (btnp(1)) then -- right blob (2)
             selected_blob = 2
+            log_msg = "right blob selected"
         end
 
         if (btnp(4)) then
@@ -55,6 +59,11 @@ function _draw()
         -- add labels
         print ("1", 29, 57, 0)
         print ("2", 89, 57, 0)
+
+        -- print log message
+        if (logging) then 
+            print(log_msg, 0, 120, 5)
+        end
 
         print("press 🅾️ to lock in", 20, 90, 6)
     elseif (state == "racing") then
