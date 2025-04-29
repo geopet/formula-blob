@@ -6,6 +6,7 @@ __lua__
 
 -- game state variable
 state = "start"
+selected_blob = 0
 
 function _init()
     -- inialize things here
@@ -17,6 +18,13 @@ function _update()
             state = "choose"
         end
     elseif (state == "choose") then
+
+        if (btnp(0)) then -- left blob (1)
+            selected_blob = 1
+        elseif (btnp(1)) then -- right blob (2)
+            selected_blob = 2
+        end
+
         if (btnp(4)) then
             state = "racing"
         end
