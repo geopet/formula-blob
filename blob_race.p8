@@ -4,11 +4,14 @@ __lua__
 -- blob race
 -- by @geopet
 
+-- logging variables
+logging = true
+log_msg = ""
+
 -- game state variable
 state = "start"
 selected_blob = 0
-logging = true
-log_msg = ""
+arrow_phase = rnd(1)
 
 function _init()
     -- inialize things here
@@ -45,8 +48,8 @@ end
 
 function _draw()
     cls() -- clear the screen
-    local bobbing_offset = sin(time() * 1.5) * 2
-    local wiggle_offset = sin(time() * 3) * 2
+    local bobbing_offset = sin((time() * 1.5) + arrow_phase) * 2
+    local wiggle_offset = sin((time() * 3) + arrow_phase) * 2
 
     if (state == "start") then
         print("welcome to blob race!", 20, 20, 7)
