@@ -45,6 +45,8 @@ end
 
 function _draw()
     cls() -- clear the screen
+    local bobbing_offset = sin(time() * 1.5) * 2
+    local wiggle_offset = sin(time() * 3) * 2
 
     if (state == "start") then
         print("welcome to blob race!", 20, 20, 7)
@@ -67,9 +69,9 @@ function _draw()
 
         -- highlight selected blob
         if (selected_blob == 1) then
-            print("⬇️", 27, 45, 7)
+            print("⬇️", 27 + wiggle_offset, 45 + bobbing_offset, 7)
         elseif (selected_blob == 2) then
-            print("⬇️", 87, 45, 7)
+            print("⬇️", 87 + wiggle_offset, 45 + bobbing_offset, 7)
         end
 
         print("press 🅾️ to lock in", 20, 90, 6)
