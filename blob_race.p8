@@ -48,8 +48,10 @@ end
 
 function _draw()
     cls() -- clear the screen
-    local bobbing_offset = sin((time() * 1.5) + arrow_phase) * 2
-    local wiggle_offset = sin((time() * 3) + arrow_phase) * 2
+
+    local speed_mod = abs(sin(time() * 2))
+    local bobbing_offset = sin((time() * 1.5) + arrow_phase) * 2 * speed_mod
+    local wiggle_offset = sin((time() * 3) + arrow_phase) * 2 * speed_mod
 
     if (state == "start") then
         print("welcome to blob race!", 20, 20, 7)
