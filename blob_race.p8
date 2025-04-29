@@ -12,6 +12,7 @@ log_msg = ""
 state = "start"
 selected_blob = 0
 arrow_phase = rnd(1)
+lock_timer = 0
 
 function _init()
     -- inialize things here
@@ -35,11 +36,16 @@ function _update()
         elseif (btnp(4)) then
             if selected_blob != 0 then
                 sfx(1)
-                log_msg = "locked in blob " .. selected_blob
-                state = "racing"
+                lock_timer = 0
+                state = "locked_in"
             else
                 log_msg = "please select a blob first"
             end
+        end
+    elseif (state == "locked_in") then
+        log_msg = "locked in blob " .. selected_blob
+        if (btnp(4)) then
+            state = "racing"
         end
     elseif (state == "racing") then
         if (btnp(4)) then
@@ -88,12 +94,18 @@ function _draw()
         end
 
         print("press 🅾️ to lock in", 20, 90, 6)
+    elseif (state == "locked_in") then
+        print("you've locked in on blob " .. selected_blob, 20, 20, 7)
+        print("press 🅾️ to race!", 20, 40, 6)
+        if (logging) then 
+            print(log_msg, 0, 120, 5)
+        end
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
         print("press 🅾️ to see result", 20, 40, 6)
     elseif (state == "result") then
         print("the race is over!!", 20, 20, 7)
-        print("press 🅾️ to play again", 20, 0, 6)
+        print("press 🅾️ to play again", 20, 40, 6)
     end
 end
 __gfx__
