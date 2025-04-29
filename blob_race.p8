@@ -65,6 +65,13 @@ function _draw()
             print(log_msg, 0, 120, 5)
         end
 
+        -- highlight selected blob
+        if (selected_blob == 1) then
+            print("⬇️", 27, 45, 7)
+        elseif (selected_blob == 2) then
+            print("⬇️", 87, 45, 7)
+        end
+
         print("press 🅾️ to lock in", 20, 90, 6)
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
