@@ -4,8 +4,15 @@ __lua__
 -- blob race
 -- by @geopet
 
+-- logging variables
+logging = true
+log_msg = ""
+
 -- game state variable
 state = "start"
+selected_blob = 0
+arrow_phase = rnd(1)
+lock_timer = 0
 
 function _init()
     -- inialize things here
@@ -17,6 +24,26 @@ function _update()
             state = "choose"
         end
     elseif (state == "choose") then
+
+        if (btnp(0)) then -- left blob (1)
+            selected_blob = 1
+            sfx(0)
+            log_msg = "left blob selected"
+        elseif (btnp(1)) then -- right blob (2)
+            selected_blob = 2
+            sfx(0)
+            log_msg = "right blob selected"
+        elseif (btnp(4)) then
+            if selected_blob != 0 then
+                sfx(1)
+                lock_timer = 0
+                state = "locked_in"
+            else
+                log_msg = "please select a blob first"
+            end
+        end
+    elseif (state == "locked_in") then
+        log_msg = "locked in blob " .. selected_blob
         if (btnp(4)) then
             state = "racing"
         end
@@ -34,6 +61,12 @@ end
 function _draw()
     cls() -- clear the screen
 
+    local speed_mod = abs(sin(time() * 2))
+    local bobbing_offset = sin((time() * 1.5) + arrow_phase) * 2 * speed_mod
+    local wiggle_offset = sin((time() * 3) + arrow_phase) * 2 * speed_mod
+    local blob_pulse = sin((time() * 2) + arrow_phase) * 1.5 * speed_mod
+    local blob_pulse_2 = sin((time() * 2.5) + arrow_phase) * 1.5 * speed_mod
+
     if (state == "start") then
         print("welcome to blob race!", 20, 20, 7)
         print("press 🅾️ to start", 20, 40, 6)
@@ -41,20 +74,38 @@ function _draw()
         print("choose your blob!", 20, 20, 7)
 
         -- draw blobs
-        circfill(30, 60, 8, 11) -- left blob (color 11 = light blue)
-        circfill(90, 60, 8, 8) -- right blob (color 8 = red)
+        circfill(30, 60, 8 + blob_pulse, 11) -- left blob (color 11 = light blue)
+        circfill(90, 60, 8 + blob_pulse_2, 8) -- right blob (color 8 = red)
 
         -- add labels
         print ("1", 29, 57, 0)
         print ("2", 89, 57, 0)
 
+        -- print log message
+        if (logging) then 
+            print(log_msg, 0, 120, 5)
+        end
+
+        -- highlight selected blob
+        if (selected_blob == 1) then
+            print("⬇️", 27 + wiggle_offset, 45 + bobbing_offset, 7)
+        elseif (selected_blob == 2) then
+            print("⬇️", 87 + wiggle_offset, 45 + bobbing_offset, 7)
+        end
+
         print("press 🅾️ to lock in", 20, 90, 6)
+    elseif (state == "locked_in") then
+        print("you've locked in on blob " .. selected_blob, 20, 20, 7)
+        print("press 🅾️ to race!", 20, 40, 6)
+        if (logging) then 
+            print(log_msg, 0, 120, 5)
+        end
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
         print("press 🅾️ to see result", 20, 40, 6)
     elseif (state == "result") then
         print("the race is over!!", 20, 20, 7)
-        print("press 🅾️ to play again", 20, 0, 6)
+        print("press 🅾️ to play again", 20, 40, 6)
     end
 end
 __gfx__
@@ -66,3 +117,6 @@ __gfx__
 0070070008c88c800bbbbbb000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 0000000008cccc800babbab000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 000000000088880000bbbb0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+__sfx__
+460100001035011350103501135010350113501035011350000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+370100002a7502b7502c7502d7502e7502f7502475025750267502775028750297503675000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
