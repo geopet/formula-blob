@@ -45,6 +45,11 @@ function _update()
     elseif (state == "locked_in") then
         log_msg = "locked in blob " .. selected_blob
         if (btnp(4)) then
+            state = "countdown"
+        end
+    elseif (state == "countdown") then
+        lock_timer += 1
+        if (lock_timer > 119) then
             state = "racing"
         end
     elseif (state == "racing") then
@@ -97,6 +102,31 @@ function _draw()
     elseif (state == "locked_in") then
         print("you've locked in on blob " .. selected_blob, 20, 20, 7)
         print("press 🅾️ to race!", 20, 40, 6)
+        if (logging) then
+            print(log_msg, 0, 120, 5)
+        end
+    elseif (state == "countdown") then
+        log_msg = "countdown timer: " .. lock_timer
+
+        if (lock_timer < 30) then
+            announcer_opt = {string = "racers on the ready...", x = 25, y = 30, color = 7}
+            countdown_opt = {string = "3", x = 60, y = 50, color = 7}
+        elseif (lock_timer < 60) then
+            announcer_opt = {string = "on your marks...", x = 37, y = 30, color = 7}
+            countdown_opt = {string = "2", x = 60, y = 50, color = 10}
+        elseif (lock_timer < 90) then
+            announcer_opt = {string = "get set...", x = 47, y = 30, color = 7}
+            countdown_opt = {string = "1", x = 60, y = 50, color = 9}
+        elseif (lock_timer < 120) then
+            announcer_opt = {string = "and they're off!", x = 37, y = 30, color = 7}
+            countdown_opt = {string = "go!", x = 60, y = 50, color = 8}
+        else
+            announcer_opt = {string = "there's a problem on the track!", x = 20, y = 30, color = 14}
+            countdown_opt = {string = "false start!", x = 60, y = 50, color = 14}
+        end
+
+        countdown_msg(announcer_opt, countdown_opt)
+
         if (logging) then 
             print(log_msg, 0, 120, 5)
         end
@@ -108,6 +138,12 @@ function _draw()
         print("press 🅾️ to play again", 20, 40, 6)
     end
 end
+
+function countdown_msg(announcer_opt, countdown_opt)
+    print(announcer_opt.string, announcer_opt.x, announcer_opt.y, announcer_opt.color)
+    print(countdown_opt.string, countdown_opt.x, countdown_opt.y, countdown_opt.color)
+end
+
 __gfx__
 000000000088880000bbbb0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000080cc0800ba00ab000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
