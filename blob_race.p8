@@ -106,38 +106,26 @@ function _draw()
             print(log_msg, 0, 120, 5)
         end
     elseif (state == "countdown") then
-        local announcer_msg = ""
-        local countdown_msg = ""
-        local msg_color = 7
         log_msg = "countdown timer: " .. lock_timer
 
         if (lock_timer < 30) then
-            announcer_msg = "racers on the ready..."
-            msg = "3"
-            msg_color = 7
-            print(announcer_msg, 25, 30, 7)
+            announcer_opt = {string = "racers on the ready...", x = 25, y = 30, color = 7}
+            countdown_opt = {string = "3", x = 60, y = 50, color = 7}
         elseif (lock_timer < 60) then
-            announcer_msg = "on your marks..."
-            msg = "2"
-            msg_color = 10
-            print(announcer_msg, 37, 30, 7)
+            announcer_opt = {string = "on your marks...", x = 37, y = 30, color = 7}
+            countdown_opt = {string = "2", x = 60, y = 50, color = 10}
         elseif (lock_timer < 90) then
-            announcer_msg = "get set..."
-            msg = "1"
-            msg_color = 9
-            print(announcer_msg, 47, 30, 7)
+            announcer_opt = {string = "get set...", x = 47, y = 30, color = 7}
+            countdown_opt = {string = "1", x = 60, y = 50, color = 9}
         elseif (lock_timer < 120) then
-            announcer_msg = "and they're off!"
-            msg = "go!"
-            msg_color = 8
-            print(announcer_msg, 37, 30, 7)
+            announcer_opt = {string = "and they're off!", x = 37, y = 30, color = 7}
+            countdown_opt = {string = "go!", x = 60, y = 50, color = 8}
         else
-            announcer_msg = "there's a problem on the track!"
-            msg = "false start!"
-            msg_color = 14
+            announcer_opt = {string = "there's a problem on the track!", x = 20, y = 30, color = 14}
+            countdown_opt = {string = "false start!", x = 60, y = 50, color = 14}
         end
 
-        print(msg, 60, 50, msg_color)
+        countdown_msg(announcer_opt, countdown_opt)
 
         if (logging) then 
             print(log_msg, 0, 120, 5)
@@ -150,6 +138,12 @@ function _draw()
         print("press 🅾️ to play again", 20, 40, 6)
     end
 end
+
+function countdown_msg(announcer_opt, countdown_opt)
+    print(announcer_opt.string, announcer_opt.x, announcer_opt.y, announcer_opt.color)
+    print(countdown_opt.string, countdown_opt.x, countdown_opt.y, countdown_opt.color)
+end
+
 __gfx__
 000000000088880000bbbb0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000080cc0800ba00ab000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
