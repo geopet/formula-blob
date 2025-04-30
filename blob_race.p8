@@ -20,11 +20,14 @@ end
 
 function _update()
     if (state == "start") then
+        log_msg = "start state"
         if (btnp(4)) then -- 🅾️ button (z key)
             state = "choose"
         end
     elseif (state == "choose") then
-
+        if (log_msg == "start state") then
+            log_msg = "choose state"
+        end
         if (btnp(0)) then -- left blob (1)
             selected_blob = 1
             sfx(0)
@@ -75,6 +78,8 @@ function _draw()
     if (state == "start") then
         print("welcome to blob race!", 20, 20, 7)
         print("press 🅾️ to start", 20, 40, 6)
+
+        print_log_msg(log_msg)
     elseif (state == "choose") then
         print("choose your blob!", 20, 20, 7)
 
@@ -87,9 +92,7 @@ function _draw()
         print ("2", 89, 57, 0)
 
         -- print log message
-        if (logging) then 
-            print(log_msg, 0, 120, 5)
-        end
+        print_log_msg(log_msg)
 
         -- highlight selected blob
         if (selected_blob == 1) then
@@ -102,9 +105,8 @@ function _draw()
     elseif (state == "locked_in") then
         print("you've locked in on blob " .. selected_blob, 20, 20, 7)
         print("press 🅾️ to race!", 20, 40, 6)
-        if (logging) then
-            print(log_msg, 0, 120, 5)
-        end
+
+        print_log_msg(log_msg)
     elseif (state == "countdown") then
         log_msg = "countdown timer: " .. lock_timer
 
@@ -127,21 +129,33 @@ function _draw()
 
         countdown_msg(announcer_opt, countdown_opt)
 
-        if (logging) then 
-            print(log_msg, 0, 120, 5)
-        end
+        print_log_msg(log_msg)
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
         print("press 🅾️ to see result", 20, 40, 6)
+
+        print_log_msg(log_msg)
     elseif (state == "result") then
         print("the race is over!!", 20, 20, 7)
         print("press 🅾️ to play again", 20, 40, 6)
+
+        print_log_msg(log_msg)
     end
 end
 
 function countdown_msg(announcer_opt, countdown_opt)
     print(announcer_opt.string, announcer_opt.x, announcer_opt.y, announcer_opt.color)
     print(countdown_opt.string, countdown_opt.x, countdown_opt.y, countdown_opt.color)
+end
+
+function print_log_msg(msg)
+    if logging then
+        if (log_msg != "") then
+            print("log: " .. msg, 0, 120, 5)
+        else
+            print("log: na", 0, 120, 5)
+        end
+    end
 end
 
 __gfx__
