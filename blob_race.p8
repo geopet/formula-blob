@@ -45,6 +45,11 @@ function _update()
     elseif (state == "locked_in") then
         log_msg = "locked in blob " .. selected_blob
         if (btnp(4)) then
+            state = "countdown"
+        end
+    elseif (state == "countdown") then
+        lock_timer += 1
+        if (lock_timer > 119) then
             state = "racing"
         end
     elseif (state == "racing") then
@@ -97,6 +102,43 @@ function _draw()
     elseif (state == "locked_in") then
         print("you've locked in on blob " .. selected_blob, 20, 20, 7)
         print("press 🅾️ to race!", 20, 40, 6)
+        if (logging) then
+            print(log_msg, 0, 120, 5)
+        end
+    elseif (state == "countdown") then
+        local announcer_msg = ""
+        local countdown_msg = ""
+        local msg_color = 7
+        log_msg = "countdown timer: " .. lock_timer
+
+        if (lock_timer < 30) then
+            announcer_msg = "racers on the ready..."
+            msg = "3"
+            msg_color = 7
+            print(announcer_msg, 25, 30, 7)
+        elseif (lock_timer < 60) then
+            announcer_msg = "on your marks..."
+            msg = "2"
+            msg_color = 10
+            print(announcer_msg, 37, 30, 7)
+        elseif (lock_timer < 90) then
+            announcer_msg = "get set..."
+            msg = "1"
+            msg_color = 9
+            print(announcer_msg, 47, 30, 7)
+        elseif (lock_timer < 120) then
+            announcer_msg = "and they're off!"
+            msg = "go!"
+            msg_color = 8
+            print(announcer_msg, 37, 30, 7)
+        else
+            announcer_msg = "there's a problem on the track!"
+            msg = "false start!"
+            msg_color = 14
+        end
+
+        print(msg, 60, 50, msg_color)
+
         if (logging) then 
             print(log_msg, 0, 120, 5)
         end
