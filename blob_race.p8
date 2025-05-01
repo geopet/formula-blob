@@ -164,8 +164,10 @@ function _draw()
         circfill(blob1_x, blob1_y, 8, 11)
         circfill(blob2_x, blob2_y, 8, 8)
 
-        print("blob1_x: " .. blob1_x .. " speed: " .. blob1_speed, 0, 90, 6)
-        print("blob2_x: " .. blob2_x .. " speed: " .. blob2_speed, 0, 100, 6)
+        if (logging) then
+            print("blob1_x: " .. blob1_x .. " speed: " .. blob1_speed, 0, 90, 6)
+            print("blob2_x: " .. blob2_x .. " speed: " .. blob2_speed, 0, 100, 6)
+        end
 
         print_log_msg(log_msg)
     elseif (state == "result") then
