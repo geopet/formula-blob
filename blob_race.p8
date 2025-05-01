@@ -16,7 +16,9 @@ lock_timer = 0
 
 -- race variables
 blob1_x = nil
+blob1_y = nil
 blob2_x = nil
+blob2_y = nil
 blob1_speed = nil
 blob2_speed = nil
 race_winner = nil
@@ -61,8 +63,10 @@ function _update()
         lock_timer += 1
         if (lock_timer > 119) then
             state = "racing"
-            blob1_x = 30
-            blob2_x = 90
+            blob1_x = 20
+            blob2_x = 20
+            blob1_y = 50
+            blob2_y = 70
             blob1_speed = 0.5 * rnd(1)
             blob2_speed = 0.5 * rnd(1)
 
@@ -154,7 +158,14 @@ function _draw()
         print_log_msg(log_msg)
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
-        print("press 🅾️ to see result", 20, 40, 6)
+
+        log_msg = "racing..."
+
+        circfill(blob1_x, blob1_y, 8, 11)
+        circfill(blob2_x, blob2_y, 8, 8)
+
+        print("blob1_x: " .. blob1_x .. " speed: " .. blob1_speed, 0, 90, 6)
+        print("blob2_x: " .. blob2_x .. " speed: " .. blob2_speed, 0, 100, 6)
 
         print_log_msg(log_msg)
     elseif (state == "result") then
