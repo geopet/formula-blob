@@ -1,7 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 42
 __lua__
--- blob race
+-- blob race 1.0
 -- by @geopet
 
 -- logging variables
@@ -13,6 +13,13 @@ state = "start"
 selected_blob = 0
 arrow_phase = rnd(1)
 lock_timer = 0
+
+-- race variables
+blob1_x = nil
+blob2_x = nil
+blob1_speed = nil
+blob2_speed = nil
+race_winner = nil
 
 function _init()
     -- inialize things here
