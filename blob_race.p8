@@ -69,8 +69,17 @@ function _update()
             race_winner = 0
         end
     elseif (state == "racing") then
-        if (btnp(4)) then
-            state = "result"
+        blob1_x += blob1_speed
+        blob2_x += blob2_speed
+
+        if race_winner == 0 then
+            if (blob1_x >= 120) then
+                race_winner = 1
+                state = "result"
+            elseif (blob2_x >= 120) then
+                race_winner = 2
+                state = "result"
+            end
         end
     elseif (state == "result") then
         if (btnp(4)) then
