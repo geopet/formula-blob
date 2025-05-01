@@ -61,6 +61,12 @@ function _update()
         lock_timer += 1
         if (lock_timer > 119) then
             state = "racing"
+            blob1_x = 30
+            blob2_x = 90
+            blob1_speed = 0.5 * rnd(1)
+            blob2_speed = 0.5 * rnd(1)
+
+            race_winner = 0
         end
     elseif (state == "racing") then
         if (btnp(4)) then
