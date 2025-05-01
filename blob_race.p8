@@ -67,8 +67,8 @@ function _update()
             blob2_x = 20
             blob1_y = 50
             blob2_y = 70
-            blob1_speed = 0.5 * rnd(1)
-            blob2_speed = 0.5 * rnd(1)
+            blob1_speed = (0.5 * rnd(1)) + 0.08
+            blob2_speed = (0.5 * rnd(1)) + 0.08
 
             race_winner = 0
         end
