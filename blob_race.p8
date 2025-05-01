@@ -1,7 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 42
 __lua__
--- blob race
+-- blob race 1.0
 -- by @geopet
 
 -- logging variables
@@ -13,6 +13,15 @@ state = "start"
 selected_blob = 0
 arrow_phase = rnd(1)
 lock_timer = 0
+
+-- race variables
+blob1_x = nil
+blob1_y = nil
+blob2_x = nil
+blob2_y = nil
+blob1_speed = nil
+blob2_speed = nil
+race_winner = nil
 
 function _init()
     -- inialize things here
@@ -54,10 +63,27 @@ function _update()
         lock_timer += 1
         if (lock_timer > 119) then
             state = "racing"
+            blob1_x = 20
+            blob2_x = 20
+            blob1_y = 50
+            blob2_y = 70
+            blob1_speed = (0.5 * rnd(1)) + 0.08
+            blob2_speed = (0.5 * rnd(1)) + 0.08
+
+            race_winner = 0
         end
     elseif (state == "racing") then
-        if (btnp(4)) then
-            state = "result"
+        blob1_x += blob1_speed
+        blob2_x += blob2_speed
+
+        if race_winner == 0 then
+            if (blob1_x >= 120) then
+                race_winner = 1
+                state = "result"
+            elseif (blob2_x >= 120) then
+                race_winner = 2
+                state = "result"
+            end
         end
     elseif (state == "result") then
         if (btnp(4)) then
@@ -132,12 +158,32 @@ function _draw()
         print_log_msg(log_msg)
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
-        print("press 🅾️ to see result", 20, 40, 6)
+
+        log_msg = "racing..."
+
+        circfill(blob1_x, blob1_y, 8, 11)
+        circfill(blob2_x, blob2_y, 8, 8)
+
+        if (logging) then
+            print("blob1_x: " .. blob1_x .. " speed: " .. blob1_speed, 0, 90, 6)
+            print("blob2_x: " .. blob2_x .. " speed: " .. blob2_speed, 0, 100, 6)
+        end
 
         print_log_msg(log_msg)
     elseif (state == "result") then
         print("the race is over!!", 20, 20, 7)
-        print("press 🅾️ to play again", 20, 40, 6)
+        print("the winner is blob " .. race_winner, 20, 40, 7)
+
+        if (race_winner == selected_blob) then
+            print("you guessed the right blob!", 0, 60, 7)
+            print("congratulations!", 0, 70, 9)
+            print("you are always right!", 0, 80, 8)
+        else
+            print("you guessed the wrong blob...", 0, 60, 14)
+            print("better luck next time!", 0, 70, 12)
+        end
+
+        print("press 🅾️ to play again", 20, 90, 6)
 
         print_log_msg(log_msg)
     end
