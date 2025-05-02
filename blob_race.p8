@@ -1,7 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 42
 __lua__
--- blob race 1.0
+-- blob race 0.1.0
 -- by @geopet
 
 -- logging variables
