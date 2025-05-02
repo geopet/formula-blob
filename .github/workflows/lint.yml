@@ -1,0 +1,33 @@
+name: Lint Pico-8 Cart
+
+on:
+  push:
+    paths:
+      - '**.p8'
+  pull_request:
+    paths:
+      - '**.p8'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install picotool
+      run: |
+        pip install picotool
+
+    - name: Lint .p8 files
+      run: |
+        for file in $(find . -name "*.p8"); do
+          echo "Linting $file"
+          picotool lint "$file"
+        done
