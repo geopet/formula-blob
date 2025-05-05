@@ -21,20 +21,13 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Install picotool from GitHub
+    - name: Clone picotool
       run: |
-        pip install --user git+https://github.com/dansanderson/picotool.git
-        echo "$HOME/.local/bin" >> $GITHUB_PATH
-        export PATH="$HOME/.local/bin:$PATH"  # Ensure the path is updated for this step
-
-    - name: Verify picotool installation
-      run: |
-        export PATH="$HOME/.local/bin:$PATH"  # Add this line to ensure the updated PATH is available
-        which picotool || exit 1  # Fail if picotool is still not found
+        git clone https://github.com/dansanderson/picotool.git
 
     - name: Lint .p8 files
       run: |
         for file in $(find . -name "*.p8"); do
           echo "Linting $file"
-          picotool lint "$file"
+          python3 picotool/picotool.py lint "$file"
         done
