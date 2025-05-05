@@ -23,11 +23,11 @@ jobs:
 
     - name: Clone picotool
       run: |
-        git clone https://github.com/dansanderson/picotool.git
+        git clone https://github.com/dansanderson/picotool.git tools/picotool
 
     - name: Lint .p8 files
       run: |
-        for file in $(find . -name "*.p8"); do
+        for file in $(find . -name "*.p8" -not -path "./tools/*"); do
           echo "Linting $file"
-          python3 picotool/picotool.py lint "$file"
+          python3 tools/picotool/picotool.py lint "$file"
         done
