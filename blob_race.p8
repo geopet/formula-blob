@@ -223,8 +223,6 @@ function _draw()
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
 
-        log_msg = "racing..."
-
         circfill(blob1_x, blob1_y, 8, 11)
         circfill(blob2_x, blob2_y, 8, 8)
 
