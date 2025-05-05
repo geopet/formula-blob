@@ -25,10 +25,11 @@ jobs:
       run: |
         pip install --user git+https://github.com/dansanderson/picotool.git
         echo "$HOME/.local/bin" >> $GITHUB_PATH
+        export PATH="$HOME/.local/bin:$PATH"  # Ensure the path is updated for this step
 
     - name: Verify picotool installation
       run: |
-        which picotool || echo "picotool not found"
+        which picotool || exit 1  # Fail if picotool is still not found
 
     - name: Lint .p8 files
       run: |
