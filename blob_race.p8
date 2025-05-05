@@ -23,6 +23,13 @@ blob1_speed = nil
 blob2_speed = nil
 race_winner = nil
 
+-- boost variables
+player_blob_speed = nil
+player_boost_meter = nil
+player_boost_active = false
+player_overheat = false
+overheat_timer = nil
+
 function _init()
     -- inialize things here
 end
@@ -70,12 +77,69 @@ function _update()
             blob1_speed = (0.5 * rnd(1)) + 0.08
             blob2_speed = (0.5 * rnd(1)) + 0.08
 
+            -- testing values
+            -- blob1_speed = 0.3
+            -- blob2_speed = 0.3
+
             race_winner = 0
         end
-    elseif (state == "racing") then
-        blob1_x += blob1_speed
-        blob2_x += blob2_speed
 
+        player_boost_meter = 100
+        player_boost_active = false
+        player_overheat = false
+
+        if (selected_blob == 1) then
+            player_blob_speed = blob1_speed
+        elseif (selected_blob == 2) then
+            player_blob_speed = blob2_speed
+        end
+    elseif (state == "racing") then
+        local boost_amount = 0
+
+        if (player_overheat) then
+
+            overheat_timer += 1
+
+            if (overheat_timer > 60) then
+                player_overheat = false
+                overheat_timer = 0
+                boost_amount = 0.01
+                log_msg = "overheat off!"
+            end
+
+            player_boost_active = false
+            boost_amount = -0.5
+            log_msg = "overheating! no boost!"
+        else
+            log_msg = "racing..."
+        end
+
+        if (btn(5) and not player_overheat) then
+            if (player_boost_meter > 0) then
+                player_boost_active = true
+                player_boost_meter -= 5
+                boost_amount = 1.5
+            else
+                player_overheat = true
+                overheat_timer = 0
+                player_boost_active = false
+                player_boost_meter = 0
+
+                log_msg = "boost meter depleted!"
+            end
+        else
+            player_boost_active = false
+        end
+
+        if (selected_blob == 1) then
+            blob1_x += blob1_speed + boost_amount
+            blob2_x += blob2_speed
+        else
+            blob2_x += blob2_speed + boost_amount
+            blob1_x += blob1_speed
+        end
+
+        -- race winner logic
         if race_winner == 0 then
             if (blob1_x >= 120) then
                 race_winner = 1
