@@ -27,7 +27,11 @@ jobs:
 
     - name: Lint .p8 files
       run: |
+<<<<<<< HEAD
         for file in $(find . -name "*.p8" -not -path "./tools/*"); do
+=======
+        for file in $(find . -name "*.p8" -not -path "./picotool/*"); do
+>>>>>>> 62073de (fix(linting): exclude picotool directory)
           echo "Linting $file"
           python3 tools/picotool/picotool.py lint "$file"
         done
