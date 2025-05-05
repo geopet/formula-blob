@@ -1,4 +1,4 @@
-name: Lint Pico-8 Cart
+name: Lint
 
 on:
   push:
@@ -13,21 +13,53 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
 
-    - name: Clone picotool
-      run: |
-        git clone https://github.com/dansanderson/picotool.git tools/picotool
+      - name: Clone and install picotool (for p8tool)
+        run: |
+          git clone https://github.com/dansanderson/picotool.git tools/picotool
+          pip install ./tools/picotool
 
-    - name: Lint .p8 files
-      run: |
-        for file in $(find . -name "*.p8" -not -path "./tools/*"); do
-          echo "Linting $file"
-          python3 tools/picotool/picotool.py lint "$file"
-        done
+      - name: Check .p8 file formatting using luafmt (diff check)
+        run: |
+          shopt -s nullglob
+          files=( $(find . -name "*.p8" -not -path "./tools/*") )
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No .p8 files found to check."
+          else
+            fail=0
+            for file in "${files[@]}"; do
+              echo "Checking formatting of $file"
+              cp "$file" "$file.tmp"
+              p8tool luafmt "$file.tmp"
+              if ! diff -q "$file" "$file.tmp" > /dev/null; then
+                echo "Formatting issue found in $file"
+                fail=1
+              else
+                echo "$file is properly formatted."
+              fi
+              rm "$file.tmp"
+            done
+            if [ $fail -ne 0 ]; then
+              echo "Some files are not properly formatted."
+              exit 1
+            else
+              echo "All files are properly formatted."
+            fi
+          fi
+
+      - name: Debug - list files after clone
+        run: |
+          echo "PWD is $(pwd)"
+          echo "== Root contents =="
+          ls -al
+          echo "== Tools contents =="
+          ls -al tools
+          echo "== Picotool contents =="
+          ls -al tools/picotool
