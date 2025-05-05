@@ -21,9 +21,9 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Install picotool
+    - name: Install picotool from GitHub
       run: |
-        pip install picotool
+        pip install git+https://github.com/dansanderson/picotool.git
 
     - name: Lint .p8 files
       run: |
