@@ -29,6 +29,7 @@ jobs:
 
     - name: Verify picotool installation
       run: |
+        export PATH="$HOME/.local/bin:$PATH"  # Add this line to ensure the updated PATH is available
         which picotool || exit 1  # Fail if picotool is still not found
 
     - name: Lint .p8 files
