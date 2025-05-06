@@ -96,6 +96,8 @@ function _update()
         elseif (selected_blob == 2) then
             player_blob_speed = blob2_speed
         end
+
+        log_msg = "countdown timer: " .. lock_timer
     elseif (state == "racing") then
         local boost_amount = 0
 
@@ -201,8 +203,6 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "countdown") then
-        log_msg = "countdown timer: " .. lock_timer
-
         if (lock_timer < 30) then
             announcer_opt = {string = "racers on the ready...", x = 25, y = 30, color = 7}
             countdown_opt = {string = "3", x = 60, y = 50, color = 7}
