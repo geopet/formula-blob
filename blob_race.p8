@@ -105,11 +105,11 @@ function _update()
                 overheat_timer = 0
                 boost_amount = 0.01
                 log_msg = "overheat off!"
+            else
+                player_boost_active = false
+                boost_amount = -0.5
+                log_msg = "overheating! no boost!"
             end
-
-            player_boost_active = false
-            boost_amount = -0.5
-            log_msg = "overheating! no boost!"
         else
             log_msg = "racing..."
         end
