@@ -81,6 +81,7 @@ function _update()
             player_boost_meter = 100
             player_boost_active = false
             player_overheat = false
+            overheat_timer = 0
 
             -- testing values
             -- blob1_speed = 0.3
@@ -94,7 +95,6 @@ function _update()
         local boost_amount = 0
 
         if (player_overheat) then
-
             overheat_timer += 1
 
             if (overheat_timer > 60) then
@@ -123,8 +123,6 @@ function _update()
                 player_boost_active = false
                 player_boost_meter = 0
                 sfx(2)
-
-                log_msg = "boost meter depleted!"
             end
         else
             player_boost_active = false
