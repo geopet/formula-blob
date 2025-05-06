@@ -24,7 +24,6 @@ blob2_speed = nil
 race_winner = nil
 
 -- boost variables
-player_blob_speed = nil
 player_boost_meter = nil
 player_boost_active = false
 player_overheat = false
@@ -89,12 +88,6 @@ function _update()
             -- blob2_speed = 0.3
 
             race_winner = 0
-        end
-
-        if (selected_blob == 1) then
-            player_blob_speed = blob1_speed
-        elseif (selected_blob == 2) then
-            player_blob_speed = blob2_speed
         end
 
         log_msg = "countdown timer: " .. lock_timer
