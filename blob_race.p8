@@ -122,6 +122,7 @@ function _update()
                 overheat_timer = 0
                 player_boost_active = false
                 player_boost_meter = 0
+                sfx(2)
 
                 log_msg = "boost meter depleted!"
             end
@@ -192,7 +193,8 @@ function _draw()
         print("press 🅾️ to lock in", 20, 90, 6)
     elseif (state == "locked_in") then
         print("you've locked in on blob " .. selected_blob, 20, 20, 7)
-        print("press 🅾️ to race!", 20, 40, 6)
+        print("press 🅾️ to start race!", 20, 40, 6)
+        print("press ❎ to boost!", 20, 50, 6)
 
         print_log_msg(log_msg)
     elseif (state == "countdown") then
@@ -218,6 +220,13 @@ function _draw()
         print_log_msg(log_msg)
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
+
+
+        if (player_overheat) then
+            print("boost overheat!", 20, 30, 8)
+        else
+            print("press ❎ to boost!", 20, 30, 7)
+        end
 
         circfill(blob1_x, blob1_y, 8, 11)
         circfill(blob2_x, blob2_y, 8, 8)
