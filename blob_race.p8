@@ -54,7 +54,6 @@ function _update()
         elseif (btnp(4)) then
             if selected_blob != 0 then
                 sfx(1)
-                lock_timer = 0
                 state = "locked_in"
             else
                 log_msg = "please select a blob first"
