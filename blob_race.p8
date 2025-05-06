@@ -70,6 +70,8 @@ function _update()
         lock_timer += 1
         if (lock_timer > 119) then
             state = "racing"
+
+            -- blob setup
             blob1_x = 20
             blob2_x = 20
             blob1_y = 50
@@ -77,16 +79,17 @@ function _update()
             blob1_speed = (0.5 * rnd(1)) + 0.08
             blob2_speed = (0.5 * rnd(1)) + 0.08
 
+            -- boost setup
+            player_boost_meter = 100
+            player_boost_active = false
+            player_overheat = false
+
             -- testing values
             -- blob1_speed = 0.3
             -- blob2_speed = 0.3
 
             race_winner = 0
         end
-
-        player_boost_meter = 100
-        player_boost_active = false
-        player_overheat = false
 
         if (selected_blob == 1) then
             player_blob_speed = blob1_speed
