@@ -259,10 +259,10 @@ function countdown_msg(announcer_opt, countdown_opt)
     print(countdown_opt.string, countdown_opt.x, countdown_opt.y, countdown_opt.color)
 end
 
-function print_log_msg(msg)
+function print_log_msg()
     if logging then
         if (log_msg != "") then
-            print("log: " .. msg, 0, 120, 5)
+            print("log: " .. log_msg, 0, 120, 5)
         else
             print("log: na", 0, 120, 5)
         end
