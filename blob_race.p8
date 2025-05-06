@@ -24,7 +24,6 @@ blob2_speed = nil
 race_winner = nil
 
 -- boost variables
-player_blob_speed = nil
 player_boost_meter = nil
 player_boost_active = false
 player_overheat = false
@@ -91,11 +90,7 @@ function _update()
             race_winner = 0
         end
 
-        if (selected_blob == 1) then
-            player_blob_speed = blob1_speed
-        elseif (selected_blob == 2) then
-            player_blob_speed = blob2_speed
-        end
+        log_msg = "countdown timer: " .. lock_timer
     elseif (state == "racing") then
         local boost_amount = 0
 
@@ -201,8 +196,6 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "countdown") then
-        log_msg = "countdown timer: " .. lock_timer
-
         if (lock_timer < 30) then
             announcer_opt = {string = "racers on the ready...", x = 25, y = 30, color = 7}
             countdown_opt = {string = "3", x = 60, y = 50, color = 7}
@@ -259,10 +252,10 @@ function countdown_msg(announcer_opt, countdown_opt)
     print(countdown_opt.string, countdown_opt.x, countdown_opt.y, countdown_opt.color)
 end
 
-function print_log_msg(msg)
+function print_log_msg()
     if logging then
         if (log_msg != "") then
-            print("log: " .. msg, 0, 120, 5)
+            print("log: " .. log_msg, 0, 120, 5)
         else
             print("log: na", 0, 120, 5)
         end
