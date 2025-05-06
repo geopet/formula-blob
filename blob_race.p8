@@ -54,7 +54,6 @@ function _update()
         elseif (btnp(4)) then
             if selected_blob != 0 then
                 sfx(1)
-                lock_timer = 0
                 state = "locked_in"
             else
                 log_msg = "please select a blob first"
@@ -82,6 +81,7 @@ function _update()
             player_boost_meter = 100
             player_boost_active = false
             player_overheat = false
+            overheat_timer = 0
 
             -- testing values
             -- blob1_speed = 0.3
@@ -95,7 +95,6 @@ function _update()
         local boost_amount = 0
 
         if (player_overheat) then
-
             overheat_timer += 1
 
             if (overheat_timer > 60) then
@@ -112,18 +111,18 @@ function _update()
             log_msg = "racing..."
         end
 
-        if (btn(5) and not player_overheat) then
+        if (btn(5) and not player_overheat) then -- press ❎ to boost
             if (player_boost_meter > 0) then
                 player_boost_active = true
                 player_boost_meter -= 5
                 boost_amount = 1.5
+                sfx(3)
             else
                 player_overheat = true
                 overheat_timer = 0
                 player_boost_active = false
                 player_boost_meter = 0
-
-                log_msg = "boost meter depleted!"
+                sfx(2)
             end
         else
             player_boost_active = false
@@ -192,7 +191,8 @@ function _draw()
         print("press 🅾️ to lock in", 20, 90, 6)
     elseif (state == "locked_in") then
         print("you've locked in on blob " .. selected_blob, 20, 20, 7)
-        print("press 🅾️ to race!", 20, 40, 6)
+        print("press 🅾️ to start race!", 20, 40, 6)
+        print("press ❎ to boost!", 20, 50, 6)
 
         print_log_msg(log_msg)
     elseif (state == "countdown") then
@@ -218,6 +218,13 @@ function _draw()
         print_log_msg(log_msg)
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
+
+
+        if (player_overheat) then
+            print("boost overheat!", 20, 30, 8)
+        else
+            print("press ❎ to boost!", 20, 30, 7)
+        end
 
         circfill(blob1_x, blob1_y, 8, 11)
         circfill(blob2_x, blob2_y, 8, 8)
@@ -274,3 +281,5 @@ __gfx__
 __sfx__
 460100001035011350103501135010350113501035011350000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 370100002a7502b7502c7502d7502e7502f7502475025750267502775028750297503675000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+490800000c6501865024650306503c650000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+470500002475026750247503275030750000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
