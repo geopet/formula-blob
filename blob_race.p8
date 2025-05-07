@@ -33,6 +33,8 @@ function _init()
     -- inialize things here
 end
 
+-->8
+
 function _update()
     if (state == "start") then
         log_msg = "start state"
@@ -153,6 +155,8 @@ function _update()
     end
 end
 
+-->8
+
 function _draw()
     cls() -- clear the screen
 
@@ -253,6 +257,9 @@ function _draw()
         print_log_msg(log_msg)
     end
 end
+
+-->8
+-- helper functions
 
 function countdown_msg(announcer_opt, countdown_opt)
     print(announcer_opt.string, announcer_opt.x, announcer_opt.y, announcer_opt.color)
