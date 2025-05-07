@@ -23,11 +23,19 @@ blob1_speed = nil
 blob2_speed = nil
 race_winner = nil
 
--- boost variables
+-- player boost variables
 player_boost_meter = nil
 player_boost_active = false
 player_overheat = false
-overheat_timer = nil
+player_overheat_timer = nil
+player_boost_amount = nil
+
+-- opponent boost variables
+opponent_boost_meter = nil
+opponent_boost_active = false
+opponent_overheat = false
+opponent_overheat_timer = nil
+opponent_boost_amount = nil
 
 function _init()
     -- inialize things here
@@ -79,11 +87,19 @@ function _update()
             blob1_speed = (0.5 * rnd(1)) + 0.08
             blob2_speed = (0.5 * rnd(1)) + 0.08
 
-            -- boost setup
+            -- player boost setup
             player_boost_meter = 100
             player_boost_active = false
             player_overheat = false
-            overheat_timer = 0
+            player_overheat_timer = 0
+            player_boost_amount = 0
+
+             -- opponent boost setup
+             opponent_boost_meter = 100
+             opponent_boost_active = false
+             opponent_overheat = false
+             opponent_overheat_timer = 0
+             opponent_boost_amount = 0
 
             -- testing values
             -- blob1_speed = 0.3
@@ -117,11 +133,11 @@ function _update()
             if (player_boost_meter > 0) then
                 player_boost_active = true
                 player_boost_meter -= 5
-                boost_amount = 1.5
+                player_boost_amount = 1.5
                 sfx(3)
             else
                 player_overheat = true
-                overheat_timer = 0
+                player_overheat_timer = 0
                 player_boost_active = false
                 player_boost_meter = 0
                 sfx(2)
@@ -131,10 +147,10 @@ function _update()
         end
 
         if (selected_blob == 1) then
-            blob1_x += blob1_speed + boost_amount
+            blob1_x += blob1_speed + player_boost_amount
             blob2_x += blob2_speed
         else
-            blob2_x += blob2_speed + boost_amount
+            blob2_x += blob2_speed + player_boost_amount
             blob1_x += blob1_speed
         end
 
