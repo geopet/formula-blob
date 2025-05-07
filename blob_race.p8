@@ -110,24 +110,26 @@ function _update()
 
         log_msg = "countdown timer: " .. lock_timer
     elseif (state == "racing") then
-        local boost_amount = 0
+        -- local player_boost_amount = 0
 
-        if (player_overheat) then
-            overheat_timer += 1
+        -- if (player_overheat) then
+        --     player_overheat_timer += 1
 
-            if (overheat_timer > 60) then
-                player_overheat = false
-                overheat_timer = 0
-                boost_amount = 0.01
-                log_msg = "overheat off!"
-            else
-                player_boost_active = false
-                boost_amount = -0.5
-                log_msg = "overheating! no boost!"
-            end
-        else
-            log_msg = "racing..."
-        end
+        --     if (player_overheat_timer > 60) then
+        --         player_overheat = false
+        --         player_overheat_timer = 0
+        --         player_boost_amount = 0.01
+        --         log_msg = "overheat off!"
+        --     else
+        --         player_boost_active = false
+        --         player_boost_amount = -0.5
+        --         log_msg = "overheating! no boost!"
+        --     end
+        -- else
+        --     log_msg = "racing..."
+        -- end
+
+        update_overheat()
 
         if (btn(5) and not player_overheat) then -- press ❎ to boost
             if (player_boost_meter > 0) then
@@ -280,6 +282,26 @@ end
 function countdown_msg(announcer_opt, countdown_opt)
     print(announcer_opt.string, announcer_opt.x, announcer_opt.y, announcer_opt.color)
     print(countdown_opt.string, countdown_opt.x, countdown_opt.y, countdown_opt.color)
+end
+
+function update_overheat()
+    if (player_overheat) then
+        player_overheat_timer += 1
+
+        if (player_overheat_timer > 60) then
+            player_overheat = false
+            player_overheat_timer = 0
+            player_boost_amount = 0.01
+            log_msg = "overheat off!"
+        else
+            player_boost_active = false
+            player_boost_amount = -0.5
+            log_msg = "overheating! no boost!"
+        end
+    elseif (not player_overheat) then
+            player_boost_amount = 0
+            log_msg = "racing..."
+    end
 end
 
 function print_log_msg()
