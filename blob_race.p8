@@ -10,9 +10,13 @@ log_msg = ""
 
 -- game state variable
 state = "start"
-selected_blob = 0
 arrow_phase = rnd(1)
 lock_timer = 0
+
+-- blob sprite variables
+selected_blob = 0
+blob1_sprite = 3
+blob2_sprite = 5
 
 -- race variables
 blob1_x = nil
@@ -57,11 +61,11 @@ function _update()
         if (btnp(0)) then -- left blob (1)
             selected_blob = 1
             sfx(0)
-            log_msg = "left blob selected"
+            log_msg = "blob 1 selected"
         elseif (btnp(1)) then -- right blob (2)
             selected_blob = 2
             sfx(0)
-            log_msg = "right blob selected"
+            log_msg = "blob 2 selected"
         elseif (btnp(4)) then
             if selected_blob != 0 then
                 sfx(1)
@@ -184,6 +188,7 @@ function _update()
         if (btnp(4)) then
             state = "start"
         end
+        log_msg = "result state"
     end
 end
 
@@ -198,6 +203,12 @@ function _draw()
     local blob_pulse = sin((time() * 2) + arrow_phase) * 1.5 * speed_mod
     local blob_pulse_2 = sin((time() * 2.5) + arrow_phase) * 1.5 * speed_mod
 
+    -- blob sprite animation
+    local blob1_sprite_frame = blob1_sprite + flr(time() * 2.5) % 2
+    local blob1_flip = flr(time() * 2) % 2 == 1
+    local blob2_sprite_frame = blob2_sprite + flr(time() * 1.5) % 2
+    local blob2_flip = flr(time()) % 2 == 1
+
     if (state == "start") then
         print("welcome to blob race!", 20, 20, 7)
         print("press 🅾️ to start", 20, 40, 6)
@@ -207,28 +218,35 @@ function _draw()
         print("choose your blob!", 20, 20, 7)
 
         -- draw blobs
-        circfill(30, 60, 8 + blob_pulse, 11) -- left blob (color 11 = light blue)
-        circfill(90, 60, 8 + blob_pulse_2, 8) -- right blob (color 8 = red)
+        sspr(blob1_sprite_frame * 8, 0, 8, 8, 30-12, 60-12 + blob_pulse, 24, 24, blob1_flip, false)
+        sspr(blob2_sprite_frame * 8, 0, 8, 8, 90-12, 60-12 + blob_pulse_2, 24, 24, blob2_flip, false)
 
         -- add labels
-        print ("1", 29, 57, 0)
-        print ("2", 89, 57, 0)
+        print ("1", 29, 77, 7)
+        print ("2", 89, 77, 7)
 
         -- print log message
         print_log_msg(log_msg)
 
         -- highlight selected blob
         if (selected_blob == 1) then
-            print("⬇️", 27 + wiggle_offset, 45 + bobbing_offset, 7)
+            print("⬇️", 27 + wiggle_offset, 40 + bobbing_offset, 7)
         elseif (selected_blob == 2) then
-            print("⬇️", 87 + wiggle_offset, 45 + bobbing_offset, 7)
+            print("⬇️", 87 + wiggle_offset, 40 + bobbing_offset, 7)
         end
 
         print("press 🅾️ to lock in", 20, 90, 6)
     elseif (state == "locked_in") then
-        print("you've locked in on blob " .. selected_blob, 20, 20, 7)
-        print("press 🅾️ to start race!", 20, 40, 6)
-        print("press ❎ to boost!", 20, 50, 6)
+        print("your blob racer is ready!", 15, 20, 7)
+
+        if (selected_blob == 1) then
+            sspr(blob1_sprite_frame * 8, 0, 8, 8, 52, 32 + blob_pulse, 24, 24, blob1_flip, false)
+        else
+            sspr(blob2_sprite_frame * 8, 0, 8, 8, 52, 32 + blob_pulse_2, 24, 24, blob2_flip, false)
+        end
+
+        print("press 🅾️ to start race!", 20, 60, 6)
+        print("press ❎ to boost!", 30, 70, 6)
 
         print_log_msg(log_msg)
     elseif (state == "countdown") then
@@ -255,15 +273,14 @@ function _draw()
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
 
-
         if (player_overheat) then
             print("boost overheat!", 20, 30, 8)
         else
             print("press ❎ to boost!", 20, 30, 7)
         end
 
-        circfill(blob1_x, blob1_y, 8, 11)
-        circfill(blob2_x, blob2_y, 8, 8)
+        sspr(blob1_sprite_frame * 8, 0, 8, 8, blob1_x - 12, blob1_y - 12, 24, 24, false, false)
+        sspr(blob2_sprite_frame * 8, 0, 8, 8, blob2_x - 12, blob2_y - 12, 24, 24, false, false)
 
         if (logging) then
             print("blob1_x: " .. blob1_x .. " speed: " .. blob1_speed, 0, 90, 6)
@@ -350,12 +367,12 @@ end
 
 __gfx__
 000000000088880000bbbb0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000080cc0800ba00ab000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00700700088888800b0bb0b000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00077000080cc0800b0000b000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00077000088888800babbab000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0070070008c88c800bbbbbb000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0000000008cccc800babbab000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000080cc0800ba00ab000cccc0000cccc0000eeee0000eeee00000000000000000000000000000000000000000000000000000000000000000000000000
+00700700088888800b0bb0b00ccacac00ccacac00eedede00eedede0000000000000000000000000000000000000000000000000000000000000000000000000
+00077000080cc0800b0000b00cccccc00cccccc00eeeeee00eeeeee0000000000000000000000000000000000000000000000000000000000000000000000000
+00077000088888800babbab00ccbabc00ccbabc00ee232e00ee232e0000000000000000000000000000000000000000000000000000000000000000000000000
+0070070008c88c800bbbbbb00cccccc00cccacc00eee3ee00eee3ee0000000000000000000000000000000000000000000000000000000000000000000000000
+0000000008cccc800babbab000cccc0000cccc0000eeee0000e33e00000000000000000000000000000000000000000000000000000000000000000000000000
 000000000088880000bbbb0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 __sfx__
 460100001035011350103501135010350113501035011350000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
