@@ -10,9 +10,13 @@ log_msg = ""
 
 -- game state variable
 state = "start"
-selected_blob = 0
 arrow_phase = rnd(1)
 lock_timer = 0
+
+-- blob sprite variables
+selected_blob = 0
+blob1_sprite = 3
+blob2_sprite = 5
 
 -- race variables
 blob1_x = nil
@@ -199,9 +203,9 @@ function _draw()
     local blob_pulse_2 = sin((time() * 2.5) + arrow_phase) * 1.5 * speed_mod
 
     -- blob sprite animation
-    local blob1_sprite_frame = 3 + flr(time() * 2) % 2
+    local blob1_sprite_frame = blob1_sprite + flr(time() * 2.5) % 2
     local blob1_flip = flr(time() * 2) % 2 == 1
-    local blob2_sprite_frame = 5 + flr(time() * 3) % 2
+    local blob2_sprite_frame = blob2_sprite + flr(time() * 1.5) % 2
     local blob2_flip = flr(time()) % 2 == 1
 
     if (state == "start") then
