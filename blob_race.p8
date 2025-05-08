@@ -101,6 +101,7 @@ function _update()
              opponent_overheat = false
              opponent_overheat_timer = 0
              opponent_boost_amount = 0
+             opponent.overheat = false
 
             -- testing values
             -- blob1_speed = 0.3
