@@ -61,11 +61,11 @@ function _update()
         if (btnp(0)) then -- left blob (1)
             selected_blob = 1
             sfx(0)
-            log_msg = "left blob selected"
+            log_msg = "blob 1 selected"
         elseif (btnp(1)) then -- right blob (2)
             selected_blob = 2
             sfx(0)
-            log_msg = "right blob selected"
+            log_msg = "blob 2 selected"
         elseif (btnp(4)) then
             if selected_blob != 0 then
                 sfx(1)
@@ -188,6 +188,7 @@ function _update()
         if (btnp(4)) then
             state = "start"
         end
+        log_msg = "result state"
     end
 end
 
@@ -217,9 +218,6 @@ function _draw()
         print("choose your blob!", 20, 20, 7)
 
         -- draw blobs
-        -- circfill(30, 60, 8 + blob_pulse, 11) -- left blob (color 11 = light blue)
-        -- circfill(90, 60, 8 + blob_pulse_2, 8) -- right blob (color 8 = red)
-
         sspr(blob1_sprite_frame * 8, 0, 8, 8, 30-12, 60-12 + blob_pulse, 24, 24, blob1_flip, false)
         sspr(blob2_sprite_frame * 8, 0, 8, 8, 90-12, 60-12 + blob_pulse_2, 24, 24, blob2_flip, false)
 
