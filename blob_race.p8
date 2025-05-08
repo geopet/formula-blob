@@ -275,15 +275,14 @@ function _draw()
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
 
-
         if (player_overheat) then
             print("boost overheat!", 20, 30, 8)
         else
             print("press ❎ to boost!", 20, 30, 7)
         end
 
-        circfill(blob1_x, blob1_y, 8, 11)
-        circfill(blob2_x, blob2_y, 8, 8)
+        sspr(blob1_sprite_frame * 8, 0, 8, 8, blob1_x - 12, blob1_y - 12, 24, 24, false, false)
+        sspr(blob2_sprite_frame * 8, 0, 8, 8, blob2_x - 12, blob2_y - 12, 24, 24, false, false)
 
         if (logging) then
             print("blob1_x: " .. blob1_x .. " speed: " .. blob1_speed, 0, 90, 6)
