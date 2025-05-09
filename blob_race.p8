@@ -99,13 +99,13 @@ function _update()
             player_overheat_timer = 0
             player_boost_amount = 0
 
-             -- opponent boost setup
-             opponent_boost_meter = 100
-             opponent_boost_active = false
-             opponent_overheat = false
-             opponent_overheat_timer = 0
-             opponent_boost_amount = 0
-             opponent.overheat = false
+            -- opponent boost setup
+            opponent_boost_meter = 100
+            opponent_boost_active = false
+            opponent_overheat = false
+            opponent_overheat_timer = 0
+            opponent_boost_amount = 0
+            opponent.overheat = false
 
             -- testing values
             -- blob1_speed = 0.3
