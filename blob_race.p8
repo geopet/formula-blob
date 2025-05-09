@@ -5,7 +5,7 @@ __lua__
 -- by @geopet
 
 function _init()
-    -- inialize things here
+    -- initalize things here
 
     -- logging variables
     logging = true
@@ -146,7 +146,7 @@ function _update()
             player_boost.active = false
         end
 
-        if (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown >= 0) then
+        if (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown == 0) then
             opponent_boost_random = rnd(1)
 
             if (opponent_boost_random < 0.05) then
