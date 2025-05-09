@@ -30,8 +30,8 @@ race_winner = nil
 -- player boost variables
 player_boost_meter = nil
 player_boost_active = false
-player_overheat = false
-player_overheat_timer = nil
+player_overheating = false
+player_overheating_timer = nil
 player_boost_amount = nil
 
 -- opponent boost table
@@ -97,8 +97,8 @@ function _update()
             -- player boost setup
             player_boost_meter = 100
             player_boost_active = false
-            player_overheat = false
-            player_overheat_timer = 0
+            player_overheating = false
+            player_overheating_timer = 0
             player_boost_amount = 0
 
             -- opponent boost setup
@@ -122,15 +122,15 @@ function _update()
         update_player_overheat()
         update_opponent_overheat()
 
-        if (btn(5) and not player_overheat) then -- press ❎ to boost
+        if (btn(5) and not player_overheating) then -- press ❎ to boost
             if (player_boost_meter > 0) then
                 player_boost_active = true
                 player_boost_meter -= 5
                 player_boost_amount = 1.5
                 sfx(3)
             else
-                player_overheat = true
-                player_overheat_timer = 0
+                player_overheating = true
+                player_overheating_timer = 0
                 player_boost_active = false
                 player_boost_meter = 0
                 sfx(2)
@@ -275,7 +275,7 @@ function _draw()
     elseif (state == "racing") then
         print("the race is on!", 20, 20, 7)
 
-        if (player_overheat) then
+        if (player_overheating) then
             print("boost overheat!", 20, 30, 8)
         else
             print("press ❎ to boost!", 20, 30, 7)
@@ -318,12 +318,12 @@ function countdown_msg(announcer_opt, countdown_opt)
 end
 
 function update_player_overheat()
-    if (player_overheat) then
-        player_overheat_timer += 1
+    if (player_overheating) then
+        player_overheating_timer += 1
 
-        if (player_overheat_timer > 60) then
-            player_overheat = false
-            player_overheat_timer = 0
+        if (player_overheating_timer > 60) then
+            player_overheating = false
+            player_overheating_timer = 0
             player_boost_amount = 0.01
             log_msg = "overheat off!"
         else
@@ -331,7 +331,7 @@ function update_player_overheat()
             player_boost_amount = -0.5
             log_msg = "overheating! no boost!"
         end
-    elseif (not player_overheat) then
+    elseif (not player_overheating) then
             player_boost_amount = 0
             log_msg = "racing..."
     end
