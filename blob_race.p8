@@ -4,50 +4,50 @@ __lua__
 -- blob race 0.1.0
 -- by @geopet
 
--- logging variables
-logging = true
-log_msg = ""
-
--- game state variable
-state = "start"
-arrow_phase = rnd(1)
-lock_timer = 0
-
--- blob sprite variables
-selected_blob = 0
-blob1_sprite = 3
-blob2_sprite = 5
-
--- race variables
-blob1_x = nil
-blob1_y = nil
-blob2_x = nil
-blob2_y = nil
-blob1_speed = nil
-blob2_speed = nil
-race_winner = nil
-
--- player boost table
-player_boost = {
-    meter = nil,
-    active = false,
-    overheating = false,
-    overheating_timer = nil,
-    amount = nil
-}
-
--- opponent boost table
-opponent_boost = {
-    meter = nil,
-    active = false,
-    overheating = false,
-    overheating_timer = nil,
-    amount = nil,
-    did_breakdown = false
-}
-
 function _init()
     -- inialize things here
+
+    -- logging variables
+    logging = true
+    log_msg = ""
+
+    -- game state variable
+    state = "start"
+    arrow_phase = rnd(1)
+    lock_timer = 0
+
+    -- blob sprite variables
+    selected_blob = 0
+    blob1_sprite = 3
+    blob2_sprite = 5
+
+    -- race variables
+    blob1_x = nil
+    blob1_y = nil
+    blob2_x = nil
+    blob2_y = nil
+    blob1_speed = nil
+    blob2_speed = nil
+    race_winner = nil
+    
+    -- player boost table
+    player_boost = {
+        meter = nil,
+        active = false,
+        overheating = false,
+        overheating_timer = nil,
+        amount = nil
+    }
+
+    -- opponent boost table
+    opponent_boost = {
+        meter = nil,
+        active = false,
+        overheating = false,
+        overheating_timer = nil,
+        amount = nil,
+        did_breakdown = false
+    }
 end
 
 -->8
