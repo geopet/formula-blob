@@ -29,7 +29,7 @@ function _init()
     blob1_speed = nil
     blob2_speed = nil
     race_winner = nil
-    
+
     -- player boost table
     player_boost = {
         meter = nil,
@@ -46,6 +46,8 @@ function _init()
         overheating = false,
         overheating_timer = nil,
         amount = nil,
+        timer = nil,
+        cooldown = nil,
         did_breakdown = false
     }
 end
@@ -109,11 +111,13 @@ function _update()
             opponent_boost.overheating = false
             opponent_boost.overheating_timer = 0
             opponent_boost.amount = 0
+            opponent_boost.timer = 0
+            opponent_boost.cooldown = 0
             opponent_boost.did_breakdown = false
 
             -- testing values
-            -- blob1_speed = 0.3
-            -- blob2_speed = 0.3
+            -- blob1_speed = 0.1
+            -- blob2_speed = 0.1
 
             race_winner = 0
         end
@@ -129,6 +133,7 @@ function _update()
                 player_boost.active = true
                 player_boost.meter -= 5
                 player_boost.amount = 1.5
+                -- log_msg = "player boost meter: " .. player_boost.meter
                 sfx(3)
             else
                 player_boost.overheating = true
@@ -141,15 +146,29 @@ function _update()
             player_boost.active = false
         end
 
-        -- will opponent boost?
-        if (not opponent_boost.did_breakdown and not opponent_boost.overheating and not opponent_boost.active) then
-            opponent_boost_check = rnd(1)
-            if ((opponent_boost_check < 0.1)) then
-                opponent_boost.active = true
+        if (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown >= 0) then
+            opponent_boost_random = rnd(1)
+
+            if (opponent_boost_random < 0.05) then
+                if (opponent_boost.timer <= 5) then
+                    if (opponent_boost.meter > 0) then
+                        opponent_boost.active = true -- boost away!
+                        sfx(5)
+                    end
+                end
             else
-                opponent_boost.active = false
+                opponent_boost.active = false -- didn't meet random chance
             end
-            -- log_msg = "opp boost check: " .. opponent_boost_check
+        elseif (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown > 0) then
+            opponent_boost.cooldown -= 1
+            opponent_boost.active = false
+        elseif (opponent_boost.active and opponent_boost.timer >= 5) then
+            opponent_boost.active = false
+            opponent_boost.timer = 0
+            opponent_boost.cooldown = 30
+        elseif (opponent_boost.active and opponent_boost.timer < 5) then
+            opponent_boost.timer += 1
+            opponent_boost.active = true
         end
 
         -- opponent boost logic
@@ -158,6 +177,7 @@ function _update()
                 opponent_boost.meter -= 5
                 opponent_boost.amount = 1.5
                 sfx(5)
+                --log_msg = "opponent boost timer: " .. opponent_boost.timer
             else
                 opponent_boost.overheating = true
                 opponent_boost.overheating_timer = 0
@@ -165,6 +185,7 @@ function _update()
                 opponent_boost.meter = 0
                 opponent_boost.did_breakdown = true
                 sfx(4)
+                --log_msg = "opponent boost meter: " .. opponent_boost.meter
             end
         else
             opponent_boost.active = false
@@ -327,15 +348,15 @@ function update_player_overheat()
             player_boost.overheating = false
             player_boost.overheating_timer = 0
             player_boost.amount = 0.01
-            log_msg = "overheat off!"
+            -- log_msg = "overheat off!"
         else
             player_boost.active = false
             player_boost.amount = -0.5
-            log_msg = "overheating! no boost!"
+            -- log_msg = "overheating! no boost!"
         end
     elseif (not player_boost.overheating) then
             player_boost.amount = 0
-            log_msg = "racing..."
+            -- log_msg = "racing..."
     end
 end
 
@@ -347,15 +368,15 @@ function update_opponent_overheat()
             opponent_boost.overheating = false
             opponent_boost.overheating_timer = 0
             opponent_boost.amount = 0.01
-            log_msg = "overheat off!"
+            -- log_msg = "overheat off!"
         else
             opponent_boost.active = false
             opponent_boost.amount = -0.5
-            log_msg = "opponent overheating! no boost!"
+            -- log_msg = "opponent overheating! no boost!"
         end
     elseif (not opponent_boost.overheating) then
             opponent_boost.amount = 0
-            log_msg = "racing..."
+            -- log_msg = "racing..."
     end
 end
 
