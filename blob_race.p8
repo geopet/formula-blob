@@ -236,56 +236,58 @@ function _draw()
 
     if (state == "start") then
         print("welcome to blob race!", 20, 20, 7)
-        print("press 🅾️ to start", 20, 40, 6)
+        print("version 0.1.0", 20, 30, 12)
+        print("press 🅾️ or z to start", 20, 90, 10)
 
         print_log_msg(log_msg)
     elseif (state == "choose") then
-        print("choose your blob!", 20, 20, 7)
+        print("choose your blob!", 30, 20, 7)
 
         -- draw blobs
-        sspr(blob1_sprite_frame * 8, 0, 8, 8, 30-12, 60-12 + blob_pulse, 24, 24, blob1_flip, false)
-        sspr(blob2_sprite_frame * 8, 0, 8, 8, 90-12, 60-12 + blob_pulse_2, 24, 24, blob2_flip, false)
-
-        -- add labels
-        print ("1", 29, 77, 7)
-        print ("2", 89, 77, 7)
-
-        -- print log message
-        print_log_msg(log_msg)
+        sspr(blob1_sprite_frame * 8, 0, 8, 8, 30-12, 55-12 + blob_pulse, 24, 24, blob1_flip, false)
+        sspr(blob2_sprite_frame * 8, 0, 8, 8, 90-12, 55-12 + blob_pulse_2, 24, 24, blob2_flip, false)
 
         -- highlight selected blob
         if (selected_blob == 1) then
-            print("⬇️", 27 + wiggle_offset, 40 + bobbing_offset, 7)
+            print("⬇️", 27 + wiggle_offset, 35 + bobbing_offset, 7)
         elseif (selected_blob == 2) then
-            print("⬇️", 87 + wiggle_offset, 40 + bobbing_offset, 7)
+            print("⬇️", 87 + wiggle_offset, 35 + bobbing_offset, 7)
         end
 
-        print("press 🅾️ to lock in", 20, 90, 6)
+        -- add labels
+        print ("blob 01", 17, 72, 11)
+        print ("blob 02", 77, 72, 11)
+
+        print("use ⬅️ or ➡️ to choose", 20, 90, 9)
+        print("press 🅾️ or z to select!", 15, 100, 10)
+
+        -- print log message
+        print_log_msg(log_msg)
     elseif (state == "locked_in") then
-        print("your blob racer is ready!", 15, 20, 7)
+        print("your blob racer is ready!", 15, 20, 12)
 
         if (selected_blob == 1) then
-            sspr(blob1_sprite_frame * 8, 0, 8, 8, 52, 32 + blob_pulse, 24, 24, blob1_flip, false)
+            sspr(blob1_sprite_frame * 8, 0, 8, 8, 52, 42 + blob_pulse, 24, 24, blob1_flip, false)
         else
-            sspr(blob2_sprite_frame * 8, 0, 8, 8, 52, 32 + blob_pulse_2, 24, 24, blob2_flip, false)
+            sspr(blob2_sprite_frame * 8, 0, 8, 8, 52, 42 + blob_pulse_2, 24, 24, blob2_flip, false)
         end
 
-        print("press 🅾️ to start race!", 20, 60, 6)
-        print("press ❎ to boost!", 30, 70, 6)
+        print("press 🅾️ or z to start race!", 10, 90, 10)
+        print("press ❎ or x to boost!", 20, 100, 14)
 
         print_log_msg(log_msg)
     elseif (state == "countdown") then
         if (lock_timer < 30) then
-            announcer_opt = {string = "racers on the ready...", x = 25, y = 30, color = 7}
+            announcer_opt = {string = "racers on the ready...", x = 25, y = 30, color = 14}
             countdown_opt = {string = "3", x = 60, y = 50, color = 7}
         elseif (lock_timer < 60) then
-            announcer_opt = {string = "on your marks...", x = 37, y = 30, color = 7}
+            announcer_opt = {string = "on your marks...", x = 37, y = 30, color = 13}
             countdown_opt = {string = "2", x = 60, y = 50, color = 10}
         elseif (lock_timer < 90) then
-            announcer_opt = {string = "get set...", x = 47, y = 30, color = 7}
+            announcer_opt = {string = "get set...", x = 47, y = 30, color = 12}
             countdown_opt = {string = "1", x = 60, y = 50, color = 9}
         elseif (lock_timer < 120) then
-            announcer_opt = {string = "and they're off!", x = 37, y = 30, color = 7}
+            announcer_opt = {string = "and they're off!", x = 37, y = 30, color = 11}
             countdown_opt = {string = "go!", x = 60, y = 50, color = 8}
         else
             announcer_opt = {string = "there's a problem on the track!", x = 20, y = 30, color = 14}
@@ -296,12 +298,12 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "racing") then
-        print("the race is on!", 20, 20, 7)
+        print("the race is on!", 35, 20, 11)
 
         if (player_boost.overheating) then
-            print("boost overheat!", 20, 30, 8)
+            print("boost overheat!", 35, 30, 8)
         else
-            print("press ❎ to boost!", 20, 30, 7)
+            print("press ❎ or x to boost!", 20, 30, 9)
         end
 
         sspr(blob1_sprite_frame * 8, 0, 8, 8, blob1_x - 12, blob1_y - 12, 24, 24, false, false)
@@ -314,19 +316,18 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "result") then
-        print("the race is over!!", 20, 20, 7)
-        print("the winner is blob " .. race_winner, 20, 40, 7)
+        print("the race is over!!", 30, 20, 11)
+        print("the winner is blob " .. race_winner .. "!", 25, 30, 14)
 
         if (race_winner == selected_blob) then
-            print("you guessed the right blob!", 0, 60, 7)
-            print("congratulations!", 0, 70, 9)
-            print("you are always right!", 0, 80, 8)
+            print("you won!", 48, 50, 12)
+            print("congratulations!", 31, 60, 12)
         else
-            print("you guessed the wrong blob...", 0, 60, 14)
-            print("better luck next time!", 0, 70, 12)
+            print("you didn't win", 36, 50, 9)
+            print("better luck next time!", 22, 60, 9)
         end
 
-        print("press 🅾️ to play again", 20, 90, 6)
+        print("press 🅾️ or z to play again", 11, 90, 10)
 
         print_log_msg(log_msg)
     end
