@@ -278,16 +278,16 @@ function _draw()
         print_log_msg(log_msg)
     elseif (state == "countdown") then
         if (lock_timer < 30) then
-            announcer_opt = {string = "racers on the ready...", x = 25, y = 30, color = 7}
+            announcer_opt = {string = "racers on the ready...", x = 25, y = 30, color = 14}
             countdown_opt = {string = "3", x = 60, y = 50, color = 7}
         elseif (lock_timer < 60) then
-            announcer_opt = {string = "on your marks...", x = 37, y = 30, color = 7}
+            announcer_opt = {string = "on your marks...", x = 37, y = 30, color = 13}
             countdown_opt = {string = "2", x = 60, y = 50, color = 10}
         elseif (lock_timer < 90) then
-            announcer_opt = {string = "get set...", x = 47, y = 30, color = 7}
+            announcer_opt = {string = "get set...", x = 47, y = 30, color = 12}
             countdown_opt = {string = "1", x = 60, y = 50, color = 9}
         elseif (lock_timer < 120) then
-            announcer_opt = {string = "and they're off!", x = 37, y = 30, color = 7}
+            announcer_opt = {string = "and they're off!", x = 37, y = 30, color = 11}
             countdown_opt = {string = "go!", x = 60, y = 50, color = 8}
         else
             announcer_opt = {string = "there's a problem on the track!", x = 20, y = 30, color = 14}
