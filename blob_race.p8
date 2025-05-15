@@ -128,6 +128,7 @@ function _update()
         update_player_overheat()
         update_opponent_overheat()
         player_boost_check()
+        opponent_boost_check()
 
         if (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown == 0) then
             opponent_boost_random = rnd(1)
@@ -152,26 +153,6 @@ function _update()
         elseif (opponent_boost.active and opponent_boost.timer < 5) then
             opponent_boost.timer += 1
             opponent_boost.active = true
-        end
-
-        -- opponent boost logic
-        if (opponent_boost.active and not opponent_boost.overheating) then
-            if (opponent_boost.meter > 0) then
-                opponent_boost.meter -= 5
-                opponent_boost.amount = 1.5
-                sfx(5)
-                --log_msg = "opponent boost timer: " .. opponent_boost.timer
-            else
-                opponent_boost.overheating = true
-                opponent_boost.overheating_timer = 0
-                opponent_boost.active = false
-                opponent_boost.meter = 0
-                opponent_boost.did_breakdown = true
-                sfx(4)
-                --log_msg = "opponent boost meter: " .. opponent_boost.meter
-            end
-        else
-            opponent_boost.active = false
         end
 
         if (selected_blob == 1) then
@@ -381,6 +362,27 @@ function player_boost_check()
         end
     else
         player_boost.active = false
+    end
+end
+
+function opponent_boost_check()
+    if (opponent_boost.active and not opponent_boost.overheating) then
+        if (opponent_boost.meter > 0) then
+            opponent_boost.meter -= 5
+            opponent_boost.amount = 1.5
+            sfx(5)
+            --log_msg = "opponent boost timer: " .. opponent_boost.timer
+        else
+            opponent_boost.overheating = true
+            opponent_boost.overheating_timer = 0
+            opponent_boost.active = false
+            opponent_boost.meter = 0
+            opponent_boost.did_breakdown = true
+            sfx(4)
+            --log_msg = "opponent boost meter: " .. opponent_boost.meter
+        end
+    else
+        opponent_boost.active = false
     end
 end
 
