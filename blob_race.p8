@@ -347,8 +347,8 @@ function opponent_boost_check()
 end
 
 function opponent_boost_cooldown_check()
-    opponent_boost_random = rnd(1)
-    random_timer = flr(opponent_boost_random * 50)
+    local opponent_boost_random = rnd(1)
+    local random_timer = flr(opponent_boost_random * 50)
 
     if (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown == 0) then
         if (opponent_boost_random < 0.05) then
