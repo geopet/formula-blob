@@ -347,11 +347,12 @@ function opponent_boost_check()
 end
 
 function opponent_boost_cooldown_check()
-    if (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown == 0) then
-        opponent_boost_random = rnd(1)
+    opponent_boost_random = rnd(1)
+    random_timer = flr(opponent_boost_random * 50)
 
+    if (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown == 0) then
         if (opponent_boost_random < 0.05) then
-            if (opponent_boost.timer <= 5) then
+            if (opponent_boost.timer <= random_timer) then
                 if (opponent_boost.meter > 0) then
                     opponent_boost.active = true -- boost away!
                     sfx(5)
@@ -363,11 +364,11 @@ function opponent_boost_cooldown_check()
     elseif (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown > 0) then
         opponent_boost.cooldown -= 1
         opponent_boost.active = false
-    elseif (opponent_boost.active and opponent_boost.timer >= 5) then
+    elseif (opponent_boost.active and opponent_boost.timer >= random_timer) then
         opponent_boost.active = false
         opponent_boost.timer = 0
         opponent_boost.cooldown = 30
-    elseif (opponent_boost.active and opponent_boost.timer < 5) then
+    elseif (opponent_boost.active and opponent_boost.timer < random_timer) then
         opponent_boost.timer += 1
         opponent_boost.active = true
     end
