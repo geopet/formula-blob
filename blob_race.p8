@@ -131,17 +131,8 @@ function _update()
         opponent_boost_check()
         opponent_boost_cooldown_check()
         update_blobs_speed()
+        win_condition_check()
 
-        -- race winner logic
-        if race_winner == 0 then
-            if (blob1_x >= 120) then
-                race_winner = 1
-                state = "result"
-            elseif (blob2_x >= 120) then
-                race_winner = 2
-                state = "result"
-            end
-        end
     elseif (state == "result") then
         if (btnp(4)) then
             state = "start"
@@ -389,6 +380,18 @@ function update_blobs_speed()
     else
         blob2_x += blob2_speed + player_boost.amount
         blob1_x += blob1_speed + opponent_boost.amount
+    end
+end
+
+function win_condition_check()
+    if race_winner == 0 then
+        if (blob1_x >= 120) then
+            race_winner = 1
+            state = "result"
+        elseif (blob2_x >= 120) then
+            race_winner = 2
+            state = "result"
+        end
     end
 end
 
