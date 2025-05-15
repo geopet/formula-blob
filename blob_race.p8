@@ -316,19 +316,18 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "result") then
-        print("the race is over!!", 20, 20, 7)
-        print("the winner is blob " .. race_winner, 20, 40, 7)
+        print("the race is over!!", 30, 20, 11)
+        print("the winner is blob " .. race_winner .. "!", 25, 30, 14)
 
         if (race_winner == selected_blob) then
-            print("you guessed the right blob!", 0, 60, 7)
-            print("congratulations!", 0, 70, 9)
-            print("you are always right!", 0, 80, 8)
+            print("you won!", 48, 50, 12)
+            print("congratulations!", 31, 60, 12)
         else
-            print("you guessed the wrong blob...", 0, 60, 14)
-            print("better luck next time!", 0, 70, 12)
+            print("you didn't win", 36, 50, 9)
+            print("better luck next time!", 22, 60, 9)
         end
 
-        print("press 🅾️ to play again", 20, 90, 6)
+        print("press 🅾️ or z to play again", 11, 90, 10)
 
         print_log_msg(log_msg)
     end
