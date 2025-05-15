@@ -236,7 +236,7 @@ function _draw()
 
     if (state == "start") then
         print("welcome to blob race!", 20, 20, 7)
-        print("verson 0.1.0", 20, 30, 12)
+        print("version 0.1.0", 20, 30, 12)
         print("press 🅾️ or z to start", 20, 90, 10)
 
         print_log_msg(log_msg)
