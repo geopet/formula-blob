@@ -264,16 +264,16 @@ function _draw()
         -- print log message
         print_log_msg(log_msg)
     elseif (state == "locked_in") then
-        print("your blob racer is ready!", 15, 20, 7)
+        print("your blob racer is ready!", 15, 20, 12)
 
         if (selected_blob == 1) then
-            sspr(blob1_sprite_frame * 8, 0, 8, 8, 52, 32 + blob_pulse, 24, 24, blob1_flip, false)
+            sspr(blob1_sprite_frame * 8, 0, 8, 8, 52, 42 + blob_pulse, 24, 24, blob1_flip, false)
         else
-            sspr(blob2_sprite_frame * 8, 0, 8, 8, 52, 32 + blob_pulse_2, 24, 24, blob2_flip, false)
+            sspr(blob2_sprite_frame * 8, 0, 8, 8, 52, 42 + blob_pulse_2, 24, 24, blob2_flip, false)
         end
 
-        print("press 🅾️ to start race!", 20, 60, 6)
-        print("press ❎ to boost!", 30, 70, 6)
+        print("press 🅾️ or z to start race!", 10, 90, 10)
+        print("press ❎ or x to boost!", 20, 100, 14)
 
         print_log_msg(log_msg)
     elseif (state == "countdown") then
