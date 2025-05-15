@@ -130,14 +130,7 @@ function _update()
         player_boost_check()
         opponent_boost_check()
         opponent_boost_cooldown_check()
-
-        if (selected_blob == 1) then
-            blob1_x += blob1_speed + player_boost.amount
-            blob2_x += blob2_speed + opponent_boost.amount
-        else
-            blob2_x += blob2_speed + player_boost.amount
-            blob1_x += blob1_speed + opponent_boost.amount
-        end
+        update_blobs_speed()
 
         -- race winner logic
         if race_winner == 0 then
@@ -386,6 +379,16 @@ function opponent_boost_cooldown_check()
     elseif (opponent_boost.active and opponent_boost.timer < 5) then
         opponent_boost.timer += 1
         opponent_boost.active = true
+    end
+end
+
+function update_blobs_speed()
+    if (selected_blob == 1) then
+        blob1_x += blob1_speed + player_boost.amount
+        blob2_x += blob2_speed + opponent_boost.amount
+    else
+        blob2_x += blob2_speed + player_boost.amount
+        blob1_x += blob1_speed + opponent_boost.amount
     end
 end
 
