@@ -241,27 +241,28 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "choose") then
-        print("choose your blob!", 20, 20, 7)
+        print("choose your blob!", 30, 20, 7)
 
         -- draw blobs
-        sspr(blob1_sprite_frame * 8, 0, 8, 8, 30-12, 60-12 + blob_pulse, 24, 24, blob1_flip, false)
-        sspr(blob2_sprite_frame * 8, 0, 8, 8, 90-12, 60-12 + blob_pulse_2, 24, 24, blob2_flip, false)
-
-        -- add labels
-        print ("1", 29, 77, 7)
-        print ("2", 89, 77, 7)
-
-        -- print log message
-        print_log_msg(log_msg)
+        sspr(blob1_sprite_frame * 8, 0, 8, 8, 30-12, 55-12 + blob_pulse, 24, 24, blob1_flip, false)
+        sspr(blob2_sprite_frame * 8, 0, 8, 8, 90-12, 55-12 + blob_pulse_2, 24, 24, blob2_flip, false)
 
         -- highlight selected blob
         if (selected_blob == 1) then
-            print("⬇️", 27 + wiggle_offset, 40 + bobbing_offset, 7)
+            print("⬇️", 27 + wiggle_offset, 35 + bobbing_offset, 7)
         elseif (selected_blob == 2) then
-            print("⬇️", 87 + wiggle_offset, 40 + bobbing_offset, 7)
+            print("⬇️", 87 + wiggle_offset, 35 + bobbing_offset, 7)
         end
 
-        print("press 🅾️ to lock in", 20, 90, 6)
+        -- add labels
+        print ("blob 01", 17, 72, 11)
+        print ("blob 02", 77, 72, 11)
+
+        print("use ⬅️ or ➡️ to choose", 20, 90, 9)
+        print("press 🅾️ or z to select!", 15, 100, 10)
+
+        -- print log message
+        print_log_msg(log_msg)
     elseif (state == "locked_in") then
         print("your blob racer is ready!", 15, 20, 7)
 
