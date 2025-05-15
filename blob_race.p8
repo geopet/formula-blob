@@ -127,24 +127,7 @@ function _update()
 
         update_player_overheat()
         update_opponent_overheat()
-
-        if (btn(5) and not player_boost.overheating) then -- press ❎ to boost
-            if (player_boost.meter > 0) then
-                player_boost.active = true
-                player_boost.meter -= 5
-                player_boost.amount = 1.5
-                -- log_msg = "player boost meter: " .. player_boost.meter
-                sfx(3)
-            else
-                player_boost.overheating = true
-                player_boost.overheating_timer = 0
-                player_boost.active = false
-                player_boost.meter = 0
-                sfx(2)
-            end
-        else
-            player_boost.active = false
-        end
+        player_boost_check()
 
         if (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown == 0) then
             opponent_boost_random = rnd(1)
@@ -378,6 +361,26 @@ function update_opponent_overheat()
     elseif (not opponent_boost.overheating) then
             opponent_boost.amount = 0
             -- log_msg = "racing..."
+    end
+end
+
+function player_boost_check()
+    if (btn(5) and not player_boost.overheating) then -- press ❎ to boost
+        if (player_boost.meter > 0) then
+            player_boost.active = true
+            player_boost.meter -= 5
+            player_boost.amount = 1.5
+            -- log_msg = "player boost meter: " .. player_boost.meter
+            sfx(3)
+        else
+            player_boost.overheating = true
+            player_boost.overheating_timer = 0
+            player_boost.active = false
+            player_boost.meter = 0
+            sfx(2)
+        end
+    else
+        player_boost.active = false
     end
 end
 
