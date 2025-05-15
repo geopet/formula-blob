@@ -129,31 +129,7 @@ function _update()
         update_opponent_overheat()
         player_boost_check()
         opponent_boost_check()
-
-        if (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown == 0) then
-            opponent_boost_random = rnd(1)
-
-            if (opponent_boost_random < 0.05) then
-                if (opponent_boost.timer <= 5) then
-                    if (opponent_boost.meter > 0) then
-                        opponent_boost.active = true -- boost away!
-                        sfx(5)
-                    end
-                end
-            else
-                opponent_boost.active = false -- didn't meet random chance
-            end
-        elseif (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown > 0) then
-            opponent_boost.cooldown -= 1
-            opponent_boost.active = false
-        elseif (opponent_boost.active and opponent_boost.timer >= 5) then
-            opponent_boost.active = false
-            opponent_boost.timer = 0
-            opponent_boost.cooldown = 30
-        elseif (opponent_boost.active and opponent_boost.timer < 5) then
-            opponent_boost.timer += 1
-            opponent_boost.active = true
-        end
+        opponent_boost_cooldown_check()
 
         if (selected_blob == 1) then
             blob1_x += blob1_speed + player_boost.amount
@@ -383,6 +359,33 @@ function opponent_boost_check()
         end
     else
         opponent_boost.active = false
+    end
+end
+
+function opponent_boost_cooldown_check()
+    if (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown == 0) then
+        opponent_boost_random = rnd(1)
+
+        if (opponent_boost_random < 0.05) then
+            if (opponent_boost.timer <= 5) then
+                if (opponent_boost.meter > 0) then
+                    opponent_boost.active = true -- boost away!
+                    sfx(5)
+                end
+            end
+        else
+            opponent_boost.active = false -- didn't meet random chance
+        end
+    elseif (not opponent_boost.active and not opponent_boost.overheating and opponent_boost.cooldown > 0) then
+        opponent_boost.cooldown -= 1
+        opponent_boost.active = false
+    elseif (opponent_boost.active and opponent_boost.timer >= 5) then
+        opponent_boost.active = false
+        opponent_boost.timer = 0
+        opponent_boost.cooldown = 30
+    elseif (opponent_boost.active and opponent_boost.timer < 5) then
+        opponent_boost.timer += 1
+        opponent_boost.active = true
     end
 end
 
