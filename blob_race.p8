@@ -30,6 +30,18 @@ function _init()
     blob2_speed = nil
     race_winner = nil
 
+    -- race odds
+    race_odds = {
+        start_line = 10,
+        finish_line = 120,
+        track_length = nil,
+        total_speed = nil,
+        blob1_expected_time = nil,
+        blob2_expected_time = nil,
+        blob1_odds = nil,
+        blob2_odds = nil
+    }
+
     -- player boost table
     player_boost = {
         meter = nil,
@@ -56,22 +68,34 @@ end
 
 function _update()
     if (state == "start") then
-        log_msg = "start state"
+        -- set blob speed
+        blob1_speed = (0.5 * rnd(1)) + 0.08
+        blob2_speed = (0.5 * rnd(1)) + 0.08
+
+        race_odds.total_speed = blob1_speed + blob2_speed
+
+        -- testing values
+        -- blob1_speed = 0.1
+        -- blob2_speed = 0.1
+
+        set_race_odds()
+
         if (btnp(4)) then -- 🅾️ button (z key)
             state = "choose"
         end
+        log_msg = "start state"
     elseif (state == "choose") then
         if (log_msg == "start state") then
-            log_msg = "choose state"
+            log_msg = "b1 t: " .. race_odds.blob1_expected_time .. " b2 t: " .. race_odds.blob2_expected_time
         end
         if (btnp(0)) then -- left blob (1)
             selected_blob = 1
             sfx(0)
-            log_msg = "blob 1 selected"
+            log_msg = "b1 o: " .. race_odds.blob1_odds .. "b1 t: " .. race_odds.blob1_expected_time
         elseif (btnp(1)) then -- right blob (2)
             selected_blob = 2
             sfx(0)
-            log_msg = "blob 2 selected"
+            log_msg = "b2 o: " .. race_odds.blob2_odds .. "b2 t: " .. race_odds.blob2_expected_time
         elseif (btnp(4)) then
             if selected_blob != 0 then
                 sfx(1)
@@ -91,12 +115,10 @@ function _update()
             state = "racing"
 
             -- blob setup
-            blob1_x = 20
-            blob2_x = 20
+            blob1_x = 10
+            blob2_x = 10
             blob1_y = 50
             blob2_y = 70
-            blob1_speed = (0.5 * rnd(1)) + 0.08
-            blob2_speed = (0.5 * rnd(1)) + 0.08
 
             -- player boost setup
             player_boost.meter = 100
@@ -114,10 +136,6 @@ function _update()
             opponent_boost.timer = 0
             opponent_boost.cooldown = 0
             opponent_boost.did_breakdown = false
-
-            -- testing values
-            -- blob1_speed = 0.1
-            -- blob2_speed = 0.1
 
             race_winner = 0
         end
@@ -179,11 +197,14 @@ function _draw()
         end
 
         -- add labels
-        print ("blob 01", 17, 72, 11)
-        print ("blob 02", 77, 72, 11)
+        print("blob 01", 17, 72, 11)
+        print("speed: " .. blob1_speed, 7, 82, 11)
 
-        print("use ⬅️ or ➡️ to choose", 20, 90, 9)
-        print("press 🅾️ or z to select!", 15, 100, 10)
+        print("blob 02", 77, 72, 12)
+        print("speed: " .. blob2_speed, 67, 82, 12)
+
+        print("use ⬅️ or ➡️ to choose", 20, 95, 9)
+        print("press 🅾️ or z to select!", 15, 105, 10)
 
         -- print log message
         print_log_msg(log_msg)
@@ -259,6 +280,14 @@ end
 
 -->8
 -- helper functions
+
+function set_race_odds()
+    race_odds.track_length = race_odds.finish_line - race_odds.start_line
+    race_odds.blob1_expected_time = (race_odds.track_length/blob1_speed)/30
+    race_odds.blob2_expected_time = (race_odds.track_length/blob2_speed)/30
+    race_odds.blob1_odds = blob1_speed/race_odds.total_speed
+    race_odds.blob2_odds = blob2_speed/race_odds.total_speed
+end
 
 function countdown_msg(announcer_opt, countdown_opt)
     print(announcer_opt.string, announcer_opt.x, announcer_opt.y, announcer_opt.color)
