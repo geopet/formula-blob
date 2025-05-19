@@ -12,7 +12,7 @@ function _init()
     log_msg = ""
 
     -- game state variable
-    state = "start"
+    state = "game-start"
     arrow_phase = rnd(1)
     lock_timer = 0
 
@@ -29,6 +29,17 @@ function _init()
     blob1_speed = nil
     blob2_speed = nil
     race_winner = nil
+    game_over = nil
+
+    -- scoring variables
+    score = {
+        player = nil,
+        opponent = nil,
+        player_wins = nil,
+        opponent_wins = nil,
+        player_losses = nil,
+        opponent_losses = nil
+    }
 
     -- race odds
     win_probability = {
@@ -67,7 +78,16 @@ end
 -->8
 
 function _update()
-    if (state == "start") then
+    if (state == "game-start") then
+        game_score_init()
+
+        if (btnp(4)) then -- 🅾️ button (z key)
+            state = "race-init"
+        end
+        log_msg = "start state"
+    elseif (state == "race-init") then
+        lock_timer = 0
+
         -- set blob speed
         blob1_speed = (0.5 * rnd(1)) + 0.08
         blob2_speed = (0.5 * rnd(1)) + 0.08
@@ -79,11 +99,7 @@ function _update()
         -- blob2_speed = 0.1
 
         set_win_probability()
-
-        if (btnp(4)) then -- 🅾️ button (z key)
-            state = "choose"
-        end
-        log_msg = "start state"
+        state = "choose"
     elseif (state == "choose") then
         if (log_msg == "start state") then
             log_msg = "b1 t: " .. win_probability.blob1_expected_time .. " b2 t: " .. win_probability.blob2_expected_time
@@ -152,8 +168,10 @@ function _update()
         win_condition_check()
 
     elseif (state == "result") then
-        if (btnp(4)) then
-            state = "start"
+        if (btnp(4) and game_over) then
+            state = "game-start"
+        elseif (btnp(4) and not game_over) then
+            state = "race-init"
         end
         log_msg = "result state"
     end
@@ -176,14 +194,20 @@ function _draw()
     local blob2_sprite_frame = blob2_sprite + flr(time() * 1.5) % 2
     local blob2_flip = flr(time()) % 2 == 1
 
-    if (state == "start") then
+    if (state == "game-start") then
         print("welcome to blob race!", 20, 20, 7)
         print("version 0.1.0", 20, 30, 12)
         print("press 🅾️ or z to start", 20, 90, 10)
 
         print_log_msg(log_msg)
+    elseif (state == "race-init") then
+        -- nothing to display right now
     elseif (state == "choose") then
-        print("choose your blob!", 30, 20, 7)
+        -- print score
+        print("your score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
+        print("comp score: " .. score.opponent .. " (" .. score.opponent_wins .. "-" .. score.opponent_losses .. ")", 0, 10, 7)
+
+        print("choose your blob!", 30, 25, 7)
 
         -- draw blobs
         sspr(blob1_sprite_frame * 8, 0, 8, 8, 30-12, 55-12 + blob_pulse, 24, 24, blob1_flip, false)
@@ -261,18 +285,34 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "result") then
-        print("the race is over!!", 30, 20, 11)
-        print("the winner is blob " .. race_winner .. "!", 25, 30, 14)
+        print("your score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
+        print("comp score: " .. score.opponent .. " (" .. score.opponent_wins .. "-" .. score.opponent_losses .. ")", 0, 10, 7)
 
-        if (race_winner == selected_blob) then
-            print("you won!", 48, 50, 12)
-            print("congratulations!", 31, 60, 12)
+        if (game_over) then
+            print("the match is over!", 30, 20, 11)
         else
-            print("you didn't win", 36, 50, 9)
-            print("better luck next time!", 22, 60, 9)
+            print("this race is over!!", 30, 20, 11)
         end
 
-        print("press 🅾️ or z to play again", 11, 90, 10)
+        print("the race winner is blob " .. race_winner .. "!", 15, 30, 14)
+
+        if (race_winner == selected_blob and game_over) then
+            print("you won the match!", 30, 50, 11)
+            print("congratulations!", 31, 60, 12)
+            print("press 🅾️ or z to play again", 11, 90, 10)
+        elseif (race_winner == selected_blob and not game_over) then
+            print("you won!", 48, 50, 12)
+            print("congratulations!", 31, 60, 12)
+            print("press 🅾️ or z to race again", 11, 90, 10)
+        elseif (race_winner != selected_blob and game_over) then
+            print("you lost the match!", 27, 50, 11)
+            print("better luck next time!", 22, 60, 9)
+            print("press 🅾️ or z to play again", 11, 90, 10)
+        elseif (race_winner != selected_blob and not game_over) then
+            print("you didn't win the race", 19, 50, 9)
+            print("better luck next time!", 22, 60, 9)
+            print("press 🅾️ or z to race again", 11, 90, 10)
+        end
 
         print_log_msg(log_msg)
     end
@@ -280,6 +320,16 @@ end
 
 -->8
 -- helper functions
+
+function game_score_init()
+    score.player = 500
+    score.opponent = 500
+    score.player_wins = 0
+    score.opponent_wins = 0
+    score.player_losses = 0
+    score.opponent_losses = 0
+    lock_timer = 0
+end
 
 function set_win_probability()
     win_probability.track_length = win_probability.finish_line - win_probability.start_line
@@ -418,10 +468,34 @@ function win_condition_check()
         if (blob1_x >= 120) then
             race_winner = 1
             state = "result"
+            update_scoring()
         elseif (blob2_x >= 120) then
             race_winner = 2
             state = "result"
+            update_scoring()
         end
+    end
+end
+
+function update_scoring()
+    if (race_winner == selected_blob) then
+        score.player += 100
+        score.opponent -= 100
+        score.player_wins += 1
+        score.opponent_losses += 1
+    else
+        score.player -= 100
+        score.opponent += 100
+        score.player_losses += 1
+        score.opponent_wins += 1
+    end
+
+    is_game_over()
+end
+
+function is_game_over()
+    if (score.player >= 1000 or score.opponent >= 1000) then
+        game_over = true
     end
 end
 
