@@ -12,7 +12,7 @@ function _init()
     log_msg = ""
 
     -- game state variable
-    state = "start"
+    state = "game-start"
     arrow_phase = rnd(1)
     lock_timer = 0
 
@@ -33,12 +33,12 @@ function _init()
 
     -- scoring variables
     score = {
-        player = 500,
-        opponent = 500,
-        player_wins = 0,
-        opponent_wins = 0,
-        player_losses = 0,
-        opponent_losses = 0
+        player = nil,
+        opponent = nil,
+        player_wins = nil,
+        opponent_wins = nil,
+        player_losses = nil,
+        opponent_losses = nil
     }
 
     -- race odds
@@ -78,7 +78,16 @@ end
 -->8
 
 function _update()
-    if (state == "start") then
+    if (state == "game-start") then
+        game_score_init()
+
+        if (btnp(4)) then -- 🅾️ button (z key)
+            state = "race-init"
+        end
+        log_msg = "start state"
+    elseif (state == "race-init") then
+        lock_timer = 0
+
         -- set blob speed
         blob1_speed = (0.5 * rnd(1)) + 0.08
         blob2_speed = (0.5 * rnd(1)) + 0.08
@@ -90,11 +99,7 @@ function _update()
         -- blob2_speed = 0.1
 
         set_win_probability()
-
-        if (btnp(4)) then -- 🅾️ button (z key)
-            state = "choose"
-        end
-        log_msg = "start state"
+        state = "choose"
     elseif (state == "choose") then
         if (log_msg == "start state") then
             log_msg = "b1 t: " .. win_probability.blob1_expected_time .. " b2 t: " .. win_probability.blob2_expected_time
@@ -164,11 +169,9 @@ function _update()
 
     elseif (state == "result") then
         if (btnp(4) and game_over) then
-            state = "start"
+            state = "game-start"
         elseif (btnp(4) and not game_over) then
-            -- need an init state maybe?
-            -- state = "choose"
-            state = "start"
+            state = "race-init"
         end
         log_msg = "result state"
     end
@@ -191,12 +194,14 @@ function _draw()
     local blob2_sprite_frame = blob2_sprite + flr(time() * 1.5) % 2
     local blob2_flip = flr(time()) % 2 == 1
 
-    if (state == "start") then
+    if (state == "game-start") then
         print("welcome to blob race!", 20, 20, 7)
         print("version 0.1.0", 20, 30, 12)
         print("press 🅾️ or z to start", 20, 90, 10)
 
         print_log_msg(log_msg)
+    elseif (state == "race-init") then
+        -- nothing to display right now
     elseif (state == "choose") then
         -- print score
         print("your score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
@@ -315,6 +320,16 @@ end
 
 -->8
 -- helper functions
+
+function game_score_init()
+    score.player = 500
+    score.opponent = 500
+    score.player_wins = 0
+    score.opponent_wins = 0
+    score.player_losses = 0
+    score.opponent_losses = 0
+    lock_timer = 0
+end
 
 function set_win_probability()
     win_probability.track_length = win_probability.finish_line - win_probability.start_line
