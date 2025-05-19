@@ -31,7 +31,7 @@ function _init()
     race_winner = nil
 
     -- race odds
-    race_odds = {
+    win_probability = {
         start_line = 10,
         finish_line = 120,
         track_length = nil,
@@ -72,13 +72,13 @@ function _update()
         blob1_speed = (0.5 * rnd(1)) + 0.08
         blob2_speed = (0.5 * rnd(1)) + 0.08
 
-        race_odds.total_speed = blob1_speed + blob2_speed
+        win_probability.total_speed = blob1_speed + blob2_speed
 
         -- testing values
         -- blob1_speed = 0.1
         -- blob2_speed = 0.1
 
-        set_race_odds()
+        set_win_probability()
 
         if (btnp(4)) then -- 🅾️ button (z key)
             state = "choose"
@@ -86,16 +86,16 @@ function _update()
         log_msg = "start state"
     elseif (state == "choose") then
         if (log_msg == "start state") then
-            log_msg = "b1 t: " .. race_odds.blob1_expected_time .. " b2 t: " .. race_odds.blob2_expected_time
+            log_msg = "b1 t: " .. win_probability.blob1_expected_time .. " b2 t: " .. win_probability.blob2_expected_time
         end
         if (btnp(0)) then -- left blob (1)
             selected_blob = 1
             sfx(0)
-            log_msg = "b1 o: " .. race_odds.blob1_odds .. "b1 t: " .. race_odds.blob1_expected_time
+            log_msg = "b1 o: " .. win_probability.blob1_odds .. "b1 t: " .. win_probability.blob1_expected_time
         elseif (btnp(1)) then -- right blob (2)
             selected_blob = 2
             sfx(0)
-            log_msg = "b2 o: " .. race_odds.blob2_odds .. "b2 t: " .. race_odds.blob2_expected_time
+            log_msg = "b2 o: " .. win_probability.blob2_odds .. "b2 t: " .. win_probability.blob2_expected_time
         elseif (btnp(4)) then
             if selected_blob != 0 then
                 sfx(1)
@@ -281,12 +281,12 @@ end
 -->8
 -- helper functions
 
-function set_race_odds()
-    race_odds.track_length = race_odds.finish_line - race_odds.start_line
-    race_odds.blob1_expected_time = (race_odds.track_length/blob1_speed)/30
-    race_odds.blob2_expected_time = (race_odds.track_length/blob2_speed)/30
-    race_odds.blob1_odds = blob1_speed/race_odds.total_speed
-    race_odds.blob2_odds = blob2_speed/race_odds.total_speed
+function set_win_probability()
+    win_probability.track_length = win_probability.finish_line - win_probability.start_line
+    win_probability.blob1_expected_time = (win_probability.track_length/blob1_speed)/30
+    win_probability.blob2_expected_time = (win_probability.track_length/blob2_speed)/30
+    win_probability.blob1_odds = blob1_speed/win_probability.total_speed
+    win_probability.blob2_odds = blob2_speed/win_probability.total_speed
 end
 
 function countdown_msg(announcer_opt, countdown_opt)
