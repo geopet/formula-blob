@@ -428,10 +428,26 @@ function win_condition_check()
         if (blob1_x >= 120) then
             race_winner = 1
             state = "result"
+            update_scoring()
         elseif (blob2_x >= 120) then
             race_winner = 2
             state = "result"
+            update_scoring()
         end
+    end
+end
+
+function update_scoring()
+    if (race_winner == selected_blob) then
+        score.player += 100
+        score.opponent -= 100
+        score.player_wins += 1
+        score.opponent_losses += 1
+    else
+        score.player -= 100
+        score.opponent += 100
+        score.player_losses += 1
+        score.opponent_wins += 1
     end
 end
 
