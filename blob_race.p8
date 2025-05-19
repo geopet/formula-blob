@@ -30,6 +30,16 @@ function _init()
     blob2_speed = nil
     race_winner = nil
 
+    -- scoring variables
+    score = {
+        player = 500,
+        opponent = 500,
+        player_wins = 0,
+        opponent_wins = 0,
+        player_losses = 0,
+        opponent_losses = 0
+    }
+
     -- race odds
     win_probability = {
         start_line = 10,
