@@ -29,6 +29,7 @@ function _init()
     blob1_speed = nil
     blob2_speed = nil
     race_winner = nil
+    game_over = nil
 
     -- scoring variables
     score = {
@@ -162,7 +163,11 @@ function _update()
         win_condition_check()
 
     elseif (state == "result") then
-        if (btnp(4)) then
+        if (btnp(4) and game_over) then
+            state = "start"
+        elseif (btnp(4) and not game_over) then
+            -- need an init state maybe?
+            -- state = "choose"
             state = "start"
         end
         log_msg = "result state"
@@ -448,6 +453,14 @@ function update_scoring()
         score.opponent += 100
         score.player_losses += 1
         score.opponent_wins += 1
+    end
+
+    is_game_over()
+end
+
+function is_game_over()
+    if (score.player >= 1000 or score.opponent >= 1000) then
+        game_over = true
     end
 end
 
