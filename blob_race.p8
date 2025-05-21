@@ -54,8 +54,9 @@ function _init()
     }
 
     boost_meter = {
-        player = 0,
-        opponent = 0
+        fastest_blob = nil,
+        player = nil,
+        opponent = nil
     }
 
     -- player boost table
@@ -102,7 +103,7 @@ function _update()
         -- testing values
         -- blob1_speed = 0.1
         -- blob2_speed = 0.1
-
+        set_fastest_blob(blob1_speed, blob2_speed)
         set_win_probability()
         state = "choose"
     elseif (state == "choose") then
@@ -346,6 +347,14 @@ function set_win_probability()
     win_probability.blob2_expected_time = (win_probability.track_length/blob2_speed)/30
     win_probability.blob1_odds = blob1_speed/win_probability.total_speed
     win_probability.blob2_odds = blob2_speed/win_probability.total_speed
+end
+
+function set_fastest_blob(blob1_speed, blob2_speed)
+    if (blob1_speed > blob2_speed) then
+        boost_meter.fastest_blob = 1
+    else
+        boost_meter.fastest_blob = 2
+    end
 end
 
 function boost_balance(blob1_speed, blob2_speed)
