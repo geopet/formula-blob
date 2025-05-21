@@ -359,10 +359,26 @@ function set_fastest_blob(blob1_speed, blob2_speed)
 end
 
 function boost_balance(blob1_speed, blob2_speed)
-    boost_base = 100
+    local boost_base = 100
+    local boost_bonus = 100
 
-    boost_meter.player = boost_base
-    boost_meter.opponent = boost_base
+    if (selected_blob == 1) then
+        if (boost_meter.fastest_blob == 1) then
+            boost_meter.player = boost_base
+            boost_meter.opponent = boost_base + boost_bonus
+        else
+            boost_meter.player = boost_base + boost_bonus
+            boost_meter.opponent = boost_base
+        end
+    elseif (selected_blob == 2) then
+        if (boost_meter.fastest_blob == 2) then
+            boost_meter.player = boost_base
+            boost_meter.opponent = boost_base + boost_bonus
+        else
+            boost_meter.player = boost_base + boost_bonus
+            boost_meter.opponent = boost_base
+        end
+    end
 end
 
 function countdown_msg(announcer_opt, countdown_opt)
