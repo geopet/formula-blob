@@ -85,6 +85,7 @@ end
 
 function _update()
     if (state == "game-start") then
+        lock_timer = 0
         game_score_init()
 
         if (btnp(4)) then -- 🅾️ button (z key)
@@ -166,7 +167,7 @@ function _update()
             state = "racing"
         end
 
-        log_msg = "countdown timer: " .. lock_timer
+        -- log_msg = "countdown timer: " .. lock_timer
     elseif (state == "racing") then
 
         update_player_overheat()
