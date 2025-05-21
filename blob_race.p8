@@ -337,7 +337,7 @@ function game_score_init()
     score.opponent_wins = 0
     score.player_losses = 0
     score.opponent_losses = 0
-    lock_timer = 0
+    game_over = false
 end
 
 function set_win_probability()
