@@ -53,6 +53,11 @@ function _init()
         blob2_odds = nil
     }
 
+    boost_meter = {
+        player = 0,
+        opponent = 0
+    }
+
     -- player boost table
     player_boost = {
         meter = nil,
@@ -127,8 +132,8 @@ function _update()
         end
     elseif (state == "countdown") then
         lock_timer += 1
+
         if (lock_timer > 119) then
-            state = "racing"
 
             -- blob setup
             blob1_x = 10
@@ -136,15 +141,17 @@ function _update()
             blob1_y = 50
             blob2_y = 70
 
+            boost_balance(blob1_speed, blob2_speed)
+
             -- player boost setup
-            player_boost.meter = 100
+            player_boost.meter = boost_meter.player
             player_boost.active = false
             player_boost.overheating = false
             player_boost.overheating_timer = 0
             player_boost.amount = 0
 
             -- opponent boost setup
-            opponent_boost.meter = 100
+            opponent_boost.meter = boost_meter.opponent
             opponent_boost.active = false
             opponent_boost.overheating = false
             opponent_boost.overheating_timer = 0
@@ -154,6 +161,8 @@ function _update()
             opponent_boost.did_breakdown = false
 
             race_winner = 0
+
+            state = "racing"
         end
 
         log_msg = "countdown timer: " .. lock_timer
@@ -337,6 +346,13 @@ function set_win_probability()
     win_probability.blob2_expected_time = (win_probability.track_length/blob2_speed)/30
     win_probability.blob1_odds = blob1_speed/win_probability.total_speed
     win_probability.blob2_odds = blob2_speed/win_probability.total_speed
+end
+
+function boost_balance(blob1_speed, blob2_speed)
+    boost_base = 100
+
+    boost_meter.player = boost_base
+    boost_meter.opponent = boost_base
 end
 
 function countdown_msg(announcer_opt, countdown_opt)
