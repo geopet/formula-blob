@@ -53,6 +53,11 @@ function _init()
         blob2_odds = nil
     }
 
+    boost_meter = {
+        fastest_blob = nil,
+        bonus = nil
+    }
+
     -- player boost table
     player_boost = {
         meter = nil,
@@ -79,6 +84,7 @@ end
 
 function _update()
     if (state == "game-start") then
+        lock_timer = 0
         game_score_init()
 
         if (btnp(4)) then -- 🅾️ button (z key)
@@ -98,6 +104,8 @@ function _update()
         -- blob1_speed = 0.1
         -- blob2_speed = 0.1
 
+        set_fastest_blob(blob1_speed, blob2_speed)
+        calculate_boost_bonus(blob1_speed, blob2_speed)
         set_win_probability()
         state = "choose"
     elseif (state == "choose") then
@@ -127,8 +135,8 @@ function _update()
         end
     elseif (state == "countdown") then
         lock_timer += 1
+
         if (lock_timer > 119) then
-            state = "racing"
 
             -- blob setup
             blob1_x = 10
@@ -136,15 +144,15 @@ function _update()
             blob1_y = 50
             blob2_y = 70
 
+            boost_balance(blob1_speed, blob2_speed)
+
             -- player boost setup
-            player_boost.meter = 100
             player_boost.active = false
             player_boost.overheating = false
             player_boost.overheating_timer = 0
             player_boost.amount = 0
 
             -- opponent boost setup
-            opponent_boost.meter = 100
             opponent_boost.active = false
             opponent_boost.overheating = false
             opponent_boost.overheating_timer = 0
@@ -154,9 +162,11 @@ function _update()
             opponent_boost.did_breakdown = false
 
             race_winner = 0
+
+            state = "racing"
         end
 
-        log_msg = "countdown timer: " .. lock_timer
+        -- log_msg = "countdown timer: " .. lock_timer
     elseif (state == "racing") then
 
         update_player_overheat()
@@ -166,6 +176,8 @@ function _update()
         opponent_boost_cooldown_check()
         update_blobs_speed()
         win_condition_check()
+
+        log_msg = "pb: " .. player_boost.meter .. " ob: " .. opponent_boost.meter
 
     elseif (state == "result") then
         if (btnp(4) and game_over) then
@@ -328,7 +340,7 @@ function game_score_init()
     score.opponent_wins = 0
     score.player_losses = 0
     score.opponent_losses = 0
-    lock_timer = 0
+    game_over = false
 end
 
 function set_win_probability()
@@ -337,6 +349,51 @@ function set_win_probability()
     win_probability.blob2_expected_time = (win_probability.track_length/blob2_speed)/30
     win_probability.blob1_odds = blob1_speed/win_probability.total_speed
     win_probability.blob2_odds = blob2_speed/win_probability.total_speed
+end
+
+function set_fastest_blob(blob1_speed, blob2_speed)
+    if (blob1_speed > blob2_speed) then
+        boost_meter.fastest_blob = 1
+    else
+        boost_meter.fastest_blob = 2
+    end
+end
+
+function calculate_boost_bonus(blob1_speed, blob2_speed)
+    local average
+    local gap
+    local percent_diff
+
+    average = (blob1_speed + blob2_speed) / 2
+    gap = abs(blob1_speed - blob2_speed)
+    percent_diff = gap / average
+
+    if (percent_diff > 0.75) then
+        boost_meter.bonus = (percent_diff * 100) + 50
+    else
+        boost_meter.bonus = percent_diff * 100
+    end
+end
+
+function boost_balance(blob1_speed, blob2_speed)
+    local boost_base = 100
+    if (selected_blob == 1) then
+        if (boost_meter.fastest_blob == 1) then
+            player_boost.meter = boost_base
+            opponent_boost.meter = boost_base + boost_meter.bonus
+        else
+            player_boost.meter = boost_base + boost_meter.bonus
+            opponent_boost.meter = boost_base
+        end
+    elseif (selected_blob == 2) then
+        if (boost_meter.fastest_blob == 2) then
+            player_boost.meter = boost_base
+            opponent_boost.meter = boost_base + boost_meter.bonus
+        else
+            player_boost.meter = boost_base + boost_meter.bonus
+            opponent_boost.meter = boost_base
+        end
+    end
 end
 
 function countdown_msg(announcer_opt, countdown_opt)
