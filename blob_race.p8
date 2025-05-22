@@ -371,7 +371,12 @@ function calculate_boost_bonus(blob1_speed, blob2_speed)
     average = (blob1_speed + blob2_speed) / 2
     gap = abs(blob1_speed - blob2_speed)
     percent_diff = gap / average
-    boost_meter.bonus = percent_diff * 100
+
+    if (percent_diff > 0.75) then
+        boost_meter.bonus = (percent_diff * 100) + 50
+    else
+        boost_meter.bonus = percent_diff * 100
+    end
 end
 
 function boost_balance(blob1_speed, blob2_speed)
