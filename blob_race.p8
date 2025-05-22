@@ -41,7 +41,7 @@ function _init()
         opponent_losses = nil
     }
 
-    -- race odds
+    -- race win probablity variables
     win_probability = {
         start_line = 10,
         finish_line = 120,
@@ -49,8 +49,8 @@ function _init()
         total_speed = nil,
         blob1_expected_time = nil,
         blob2_expected_time = nil,
-        blob1_odds = nil,
-        blob2_odds = nil
+        blob1 = nil,
+        blob2 = nil
     }
 
     boost_meter = {
@@ -115,11 +115,11 @@ function _update()
         if (btnp(0)) then -- left blob (1)
             selected_blob = 1
             sfx(0)
-            log_msg = "b1 o: " .. win_probability.blob1_odds .. "b1 t: " .. win_probability.blob1_expected_time
+            log_msg = "b1 wp: " .. win_probability.blob1 .. "b1 t: " .. win_probability.blob1_expected_time
         elseif (btnp(1)) then -- right blob (2)
             selected_blob = 2
             sfx(0)
-            log_msg = "b2 o: " .. win_probability.blob2_odds .. "b2 t: " .. win_probability.blob2_expected_time
+            log_msg = "b2 wp: " .. win_probability.blob2 .. "b2 t: " .. win_probability.blob2_expected_time
         elseif (btnp(4)) then
             if selected_blob != 0 then
                 sfx(1)
@@ -347,8 +347,8 @@ function set_win_probability()
     win_probability.track_length = win_probability.finish_line - win_probability.start_line
     win_probability.blob1_expected_time = (win_probability.track_length/blob1_speed)/30
     win_probability.blob2_expected_time = (win_probability.track_length/blob2_speed)/30
-    win_probability.blob1_odds = blob1_speed/win_probability.total_speed
-    win_probability.blob2_odds = blob2_speed/win_probability.total_speed
+    win_probability.blob1 = blob1_speed/win_probability.total_speed
+    win_probability.blob2 = blob2_speed/win_probability.total_speed
 end
 
 function set_fastest_blob(blob1_speed, blob2_speed)
