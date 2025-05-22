@@ -55,9 +55,7 @@ function _init()
 
     boost_meter = {
         fastest_blob = nil,
-        bonus = nil,
-        player = nil,
-        opponent = nil
+        bonus = nil
     }
 
     -- player boost table
@@ -149,14 +147,12 @@ function _update()
             boost_balance(blob1_speed, blob2_speed)
 
             -- player boost setup
-            player_boost.meter = boost_meter.player
             player_boost.active = false
             player_boost.overheating = false
             player_boost.overheating_timer = 0
             player_boost.amount = 0
 
             -- opponent boost setup
-            opponent_boost.meter = boost_meter.opponent
             opponent_boost.active = false
             opponent_boost.overheating = false
             opponent_boost.overheating_timer = 0
@@ -381,22 +377,21 @@ end
 
 function boost_balance(blob1_speed, blob2_speed)
     local boost_base = 100
-
     if (selected_blob == 1) then
         if (boost_meter.fastest_blob == 1) then
-            boost_meter.player = boost_base
-            boost_meter.opponent = boost_base + boost_meter.bonus
+            player_boost.meter = boost_base
+            opponent_boost.meter = boost_base + boost_meter.bonus
         else
-            boost_meter.player = boost_base + boost_meter.bonus
-            boost_meter.opponent = boost_base
+            player_boost.meter = boost_base + boost_meter.bonus
+            opponent_boost.meter = boost_base
         end
     elseif (selected_blob == 2) then
         if (boost_meter.fastest_blob == 2) then
-            boost_meter.player = boost_base
-            boost_meter.opponent = boost_base + boost_meter.bonus
+            player_boost.meter = boost_base
+            opponent_boost.meter = boost_base + boost_meter.bonus
         else
-            boost_meter.player = boost_base + boost_meter.bonus
-            boost_meter.opponent = boost_base
+            player_boost.meter = boost_base + boost_meter.bonus
+            opponent_boost.meter = boost_base
         end
     end
 end
