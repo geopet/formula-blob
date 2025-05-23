@@ -50,7 +50,9 @@ function _init()
         blob1_expected_time = nil,
         blob2_expected_time = nil,
         blob1 = nil,
-        blob2 = nil
+        blob2 = nil,
+        blob1_moneyline = nil,
+        blob2_moneyline = nil
     }
 
     boost_meter = {
@@ -107,6 +109,8 @@ function _update()
         set_fastest_blob(blob1_speed, blob2_speed)
         calculate_boost_bonus(blob1_speed, blob2_speed)
         set_win_probability()
+        set_racer_moneyline()
+
         state = "choose"
     elseif (state == "choose") then
         if (log_msg == "start state") then
@@ -116,12 +120,12 @@ function _update()
             selected_blob = 1
             sfx(0)
             -- log_msg = "b1 wp: " .. win_probability.blob1 .. "b1 t: " .. win_probability.blob1_expected_time
-            log_msg = "b1 wp: " .. win_probability.blob1 .. "b1 ml: " .. win_probability_to_moneyline(win_probability.blob1)
+            log_msg = "b1 wp: " .. win_probability.blob1 .. "b1 ml: " .. win_probability.blob1_moneyline
         elseif (btnp(1)) then -- right blob (2)
             selected_blob = 2
             sfx(0)
             -- log_msg = "b2 wp: " .. win_probability.blob2 .. "b2 t: " .. win_probability.blob2_expected_time
-            log_msg = "b2 wp: " .. win_probability.blob2 .. "b2 ml: " .. win_probability_to_moneyline(win_probability.blob2)
+            log_msg = "b2 wp: " .. win_probability.blob2 .. "b2 ml: " .. win_probability.blob2_moneyline
         elseif (btnp(4)) then
             if selected_blob != 0 then
                 sfx(1)
@@ -236,13 +240,25 @@ function _draw()
 
         -- add labels
         print("blob 01", 17, 72, 11)
-        print("speed: " .. blob1_speed, 7, 82, 11)
+        print("risk | reward", 8, 82, 11)
+
+        if (win_probability.blob1_moneyline < 0) then
+            print(abs(win_probability.blob1_moneyline) .. " | 100", 12, 92, 11)
+        else
+            print("100 | " .. abs(win_probability.blob1_moneyline), 12, 92, 11)
+        end
 
         print("blob 02", 77, 72, 12)
-        print("speed: " .. blob2_speed, 67, 82, 12)
+        print("risk | reward", 68, 82, 12)
 
-        print("use ⬅️ or ➡️ to choose", 20, 95, 9)
-        print("press 🅾️ or z to select!", 15, 105, 10)
+        if (win_probability.blob2_moneyline < 0) then
+            print(abs(win_probability.blob2_moneyline) .. " | 100", 72, 92, 12)
+        else
+            print("100 | " .. abs(win_probability.blob2_moneyline), 72, 92, 12)
+        end
+
+        print("use ⬅️ or ➡️ to choose", 20, 105, 9)
+        print("press 🅾️ or z to select!", 15, 115, 10)
 
         -- print log message
         print_log_msg(log_msg)
@@ -361,6 +377,11 @@ function win_probability_to_moneyline(wp)
         moneyline = ((1 - wp) / wp) * 100 + 0.5
     end
     return flr(moneyline)
+end
+
+function set_racer_moneyline()
+    win_probability.blob1_moneyline = win_probability_to_moneyline(win_probability.blob1)
+    win_probability.blob2_moneyline = win_probability_to_moneyline(win_probability.blob2)
 end
 
 function set_fastest_blob(blob1_speed, blob2_speed)
@@ -547,14 +568,34 @@ function win_condition_check()
 end
 
 function update_scoring()
+    -- Determine the player's chosen blob's moneyline
+    local player_moneyline = ((selected_blob == 1) and win_probability.blob1_moneyline) or win_probability.blob2_moneyline
+    local abs_moneyline = abs(player_moneyline)
+
     if (race_winner == selected_blob) then
-        score.player += 100
-        score.opponent -= 100
+        -- Player wins
+        if (player_moneyline > 0) then
+            -- Underdog: risk 100 to win moneyline
+            score.player += player_moneyline
+            score.opponent -= player_moneyline
+        else
+            -- Favorite: risk abs(moneyline) to win 100
+            score.player += 100
+            score.opponent -= 100
+        end
         score.player_wins += 1
         score.opponent_losses += 1
     else
-        score.player -= 100
-        score.opponent += 100
+        -- Player loses
+        if (player_moneyline > 0) then
+            -- Underdog: lose 100
+            score.player -= 100
+            score.opponent += 100
+        else
+            -- Favorite: lose abs(moneyline)
+            score.player -= abs_moneyline
+            score.opponent += abs_moneyline
+        end
         score.player_losses += 1
         score.opponent_wins += 1
     end
