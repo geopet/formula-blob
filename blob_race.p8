@@ -41,7 +41,7 @@ function _init()
         opponent_losses = nil
     }
 
-    -- race win probablity variables
+    -- race win probability variables
     win_probability = {
         start_line = 10,
         finish_line = 120,
@@ -120,12 +120,12 @@ function _update()
             selected_blob = 1
             sfx(0)
             -- log_msg = "b1 wp: " .. win_probability.blob1 .. "b1 t: " .. win_probability.blob1_expected_time
-            log_msg = "b1 wp: " .. win_probability.blob1 .. "b1 ml: " .. win_probability.blob1_moneyline
+            log_msg = "b1 wp: " .. win_probability.blob1 .. " b1 ml: " .. win_probability.blob1_moneyline
         elseif (btnp(1)) then -- right blob (2)
             selected_blob = 2
             sfx(0)
             -- log_msg = "b2 wp: " .. win_probability.blob2 .. "b2 t: " .. win_probability.blob2_expected_time
-            log_msg = "b2 wp: " .. win_probability.blob2 .. "b2 ml: " .. win_probability.blob2_moneyline
+            log_msg = "b2 wp: " .. win_probability.blob2 .. " b2 ml: " .. win_probability.blob2_moneyline
         elseif (btnp(4)) then
             if selected_blob != 0 then
                 sfx(1)
@@ -369,6 +369,12 @@ function set_win_probability()
     win_probability.blob2 = blob2_speed/win_probability.total_speed
 end
 
+-- Converts a win probability (wp) into a moneyline value, a common concept in sports betting.
+-- The formula differs based on whether wp is greater than or less than 0.5:
+--   - For wp >= 0.5, the moneyline is negative, indicating a favored outcome.
+--   - For wp < 0.5, the moneyline is positive, indicating an underdog outcome.
+-- The `+0.5` adjustment ensures proper rounding to the nearest integer when using the `flr` function.
+
 function win_probability_to_moneyline(wp)
     local moneyline = 0
     if (wp >= 0.5) then
@@ -569,8 +575,14 @@ end
 
 function update_scoring()
     -- Determine the player's chosen blob's moneyline
-    local player_moneyline = ((selected_blob == 1) and win_probability.blob1_moneyline) or win_probability.blob2_moneyline
+    local player_moneyline
     local abs_moneyline = abs(player_moneyline)
+
+    if (selected_blob == 1) then
+        player_moneyline = win_probability.blob1_moneyline
+    else
+        player_moneyline = win_probability.blob2_moneyline
+    end
 
     if (race_winner == selected_blob) then
         -- Player wins
