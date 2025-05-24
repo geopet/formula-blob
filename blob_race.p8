@@ -16,6 +16,30 @@ function _init()
     arrow_phase = rnd(1)
     lock_timer = 0
 
+    -- start screen parade variables
+    parade_blobs = {}
+    local sprite_index = {}
+    local blob_sprites = {16, 17, 18, 19, 20}
+    add(sprite_index, blob_sprites[flr(rnd(#blob_sprites)) + 1])
+
+    for i = 2, 30 do
+        local new_sprite
+        repeat
+            new_sprite = blob_sprites[flr(rnd(#blob_sprites)) + 1]
+        until (new_sprite != sprite_index[#sprite_index])
+        add(sprite_index, new_sprite)
+    end
+
+    for i = 1, #sprite_index do
+        local blob = {
+            sprite = sprite_index[i],
+            offset = i * 32,
+            flip_x = rnd(1) < 0.5,
+            flip_y = rnd(1) < 0.1
+        }
+        add(parade_blobs, blob)
+    end
+
     -- blob sprite variables
     selected_blob = 0
     blob1_sprite = 3
@@ -92,7 +116,7 @@ function _update()
         if (btnp(4)) then -- 🅾️ button (z key)
             state = "race-init"
         end
-        log_msg = "start state"
+        log_msg = ""
     elseif (state == "race-init") then
         lock_timer = 0
 
@@ -213,9 +237,28 @@ function _draw()
     local blob2_flip = flr(time()) % 2 == 1
 
     if (state == "game-start") then
-        print("welcome to blob race!", 20, 20, 7)
+        -- Pulsing welcome text
+        local t = sin(time() * 2)
+        local c = 7 + flr((t + 1) * 2)
+        print("welcome to blob race!", 20, 20, c)
         print("version 0.1.0", 20, 30, 12)
-        print("press 🅾️ or z to start", 20, 90, 10)
+
+        local base_y = 60
+        local scroll_x = (time() * 30)
+        local parade_length = #parade_blobs * 32
+
+        -- Draw blob parade (seamless loop)
+        for blob in all(parade_blobs) do
+            local x = blob.offset - scroll_x % parade_length
+            local y = base_y + sin(time() * 2 + blob.offset) * 2
+            draw_sprite(blob.sprite, x, y, 16, 16, blob.flip_x, blob.flip_y)
+            -- draw a second copy to the right for seamless looping
+            if x < 128 then
+                draw_sprite(blob.sprite, x + parade_length, y, 16, 16, blob.flip_x, blob.flip_y)
+            end
+        end
+
+        print("press 🅾️ or z to start", 20, 100, 10)
 
         print_log_msg(log_msg)
     elseif (state == "race-init") then
@@ -350,6 +393,12 @@ end
 
 -->8
 -- helper functions
+
+function draw_sprite(sprite_id, x, y, w, h, flip_x, flip_y)
+    local sx = (sprite_id % 16) * 8
+    local sy = flr(sprite_id / 16) * 8
+    sspr(sx, sy, 8, 8, x, y, w, h, flip_x or false, flip_y or false)
+end
 
 function game_score_init()
     score.player = 500
@@ -640,6 +689,13 @@ __gfx__
 0070070008c88c800bbbbbb00cccccc00cccacc00eee3ee00eee3ee0000000000000000000000000000000000000000000000000000000000000000000000000
 0000000008cccc800babbab000cccc0000cccc0000eeee0000e33e00000000000000000000000000000000000000000000000000000000000000000000000000
 000000000088880000bbbb0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0077770000bbbb00009999000088880000aaaa000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+077070700bbebeb009909090088989800aaeaea00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+077777700bbbbbb009999990088888800aaaaaa00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+077656700bba9ab0099c2c90088aca800aaebea00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+077777700bbbbbb009999990088888800aaaaaa00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0077770000bbbb00009999000088880000aaaa000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 __sfx__
 460100001035011350103501135010350113501035011350000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 370100002a7502b7502c7502d7502e7502f7502475025750267502775028750297503675000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
