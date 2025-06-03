@@ -627,13 +627,14 @@ end
 function update_scoring()
     -- Determine the player's chosen blob's moneyline
     local player_moneyline
-    local abs_moneyline = abs(player_moneyline)
 
     if (selected_blob == 1) then
         player_moneyline = win_probability.blob1_moneyline
     else
         player_moneyline = win_probability.blob2_moneyline
     end
+
+    local abs_moneyline = abs(player_moneyline)
 
     if (race_winner == selected_blob) then
         -- Player wins
