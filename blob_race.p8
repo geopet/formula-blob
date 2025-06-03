@@ -15,6 +15,7 @@ function _init()
     state = "game-start"
     arrow_phase = rnd(1)
     lock_timer = 0
+    current_music = -1
 
     -- start screen parade variables
     parade_blobs = {}
@@ -109,6 +110,7 @@ end
 -->8
 
 function _update()
+    music_player()
     if (state == "game-start") then
         lock_timer = 0
         game_score_init()
@@ -667,6 +669,26 @@ end
 function is_game_over()
     if (score.player >= 1000 or score.opponent >= 1000) then
         game_over = true
+    end
+end
+
+function music_player()
+    local desired_music = -1
+
+    if state == "game-start" then
+        desired_music = 0
+    elseif state == "choose" then
+        desired_music = 10
+    end
+
+    -- only change music if it’s different than current
+    if desired_music != current_music then
+        if desired_music == -1 then
+            music(-1) -- stop music
+        else
+            music(desired_music)
+        end
+        current_music = desired_music
     end
 end
 
