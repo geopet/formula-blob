@@ -8,7 +8,7 @@ function _init()
     -- initalize things here
 
     -- logging variables
-    logging = true
+    logging = false
     log_msg = ""
 
     -- game state variable
