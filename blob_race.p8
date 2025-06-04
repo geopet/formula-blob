@@ -173,8 +173,8 @@ function _update()
             -- blob setup
             blob1_x = 10
             blob2_x = 10
-            blob1_y = 50
-            blob2_y = 70
+            blob1_y = 66
+            blob2_y = 96
 
             boost_balance(blob1_speed, blob2_speed)
 
@@ -342,13 +342,15 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "racing") then
-        print("the race is on!", 35, 20, 11)
+        print("the race is on!", 35, 10, 11)
 
         if (player_boost.overheating) then
-            print("boost overheat!", 35, 30, 8)
+            print("boost overheat!", 35, 20, 8)
         else
-            print("press ❎ or x to boost!", 20, 30, 9)
+            print("press ❎ or x to boost!", 20, 20, 9)
         end
+
+        draw_track()
 
         sspr(blob1_sprite_frame * 8, 0, 8, 8, blob1_x - 12, blob1_y - 12, 24, 24, false, false)
         sspr(blob2_sprite_frame * 8, 0, 8, 8, blob2_x - 12, blob2_y - 12, 24, 24, false, false)
@@ -686,7 +688,7 @@ function music_player()
         desired_music = 10
     end
 
-    -- only change music if it’s different than current
+    -- only change music if it's different than current
     if desired_music != current_music then
         if desired_music == -1 then
             music(-1) -- stop music
