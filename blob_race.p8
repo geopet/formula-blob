@@ -491,6 +491,10 @@ function countdown_msg(announcer_opt, countdown_opt)
     print(countdown_opt.string, countdown_opt.x, countdown_opt.y, countdown_opt.color)
 end
 
+function draw_track()
+    map(0, 0, 0, 45, 16, 16)
+end
+
 function update_player_overheat()
     if (player_boost.overheating) then
         player_boost.overheating_timer += 1
