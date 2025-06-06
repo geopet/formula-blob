@@ -16,6 +16,7 @@ function _init()
     arrow_phase = rnd(1)
     lock_timer = 0
     current_music = -1
+    is_muted = false
 
     -- start screen parade variables
     parade_blobs = {}
@@ -110,6 +111,11 @@ end
 -->8
 
 function _update()
+
+    if (btnp(3)) then -- ⬇️ / down arrow to mute
+        is_muted = not is_muted
+    end
+
     music_player()
     if (state == "game-start") then
         lock_timer = 0
@@ -267,6 +273,7 @@ function _draw()
         end
 
         print("press 🅾️ or z to start", 20, 100, 10)
+        -- print("press ⬇️ down arrow to mute", 20, 110, 9)
 
         print_log_msg(log_msg)
     elseif (state == "race-init") then
@@ -377,10 +384,10 @@ function _draw()
         sspr(blob1_sprite_frame * 8, 0, 8, 8, blob1_x - 12, blob1_y - 12, 24, 24, false, false)
         sspr(blob2_sprite_frame * 8, 0, 8, 8, blob2_x - 12, blob2_y - 12, 24, 24, false, false)
 
-        if (logging) then
-            print("blob1_x: " .. blob1_x .. " speed: " .. blob1_speed, 0, 90, 6)
-            print("blob2_x: " .. blob2_x .. " speed: " .. blob2_speed, 0, 100, 6)
-        end
+        -- if (logging) then
+        --     print("blob1_x: " .. blob1_x .. " speed: " .. blob1_speed, 0, 90, 6)
+        --     print("blob2_x: " .. blob2_x .. " speed: " .. blob2_speed, 0, 100, 6)
+        -- end
 
         print_log_msg(log_msg)
     elseif (state == "result") then
@@ -711,7 +718,13 @@ function music_player()
     end
 
     -- only change music if it's different than current
-    if desired_music != current_music then
+
+    if (is_muted) then
+        if current_music != -1 then
+            music(-1) -- stop music if muted
+            current_music = -1 -- stop music if muted
+        end
+    elseif desired_music != current_music then
         if desired_music == -1 then
             music(-1) -- stop music
         else
