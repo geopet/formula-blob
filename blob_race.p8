@@ -330,6 +330,7 @@ function _draw()
         -- print log message
         print_log_msg(log_msg)
     elseif (state == "locked_in") then
+        print("current score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
         print("your blob racer is ready!", 15, 20, 12)
 
         if (selected_blob == 1) then
@@ -380,6 +381,8 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "racing") then
+        print("your score: " .. score.player .. " ", 0, 0, 7)
+        print("comp score: " .. score.opponent, 64, 0, 7)
         print("the race is on!", 35, 10, 11)
 
         if (player_boost.overheating) then
