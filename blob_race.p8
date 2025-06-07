@@ -83,7 +83,9 @@ function _init()
 
     boost_meter = {
         fastest_blob = nil,
-        bonus = nil
+        bonus = nil,
+        strength_base = 1.5,
+        strength_balance = nil
     }
 
     -- player boost table
@@ -92,7 +94,8 @@ function _init()
         active = false,
         overheating = false,
         overheating_timer = nil,
-        amount = nil
+        amount = nil,
+        amount_modified = nil
     }
 
     -- opponent boost table
@@ -102,6 +105,7 @@ function _init()
         overheating = false,
         overheating_timer = nil,
         amount = nil,
+        amount_modified = nil,
         timer = nil,
         cooldown = nil,
         did_breakdown = false
@@ -140,6 +144,7 @@ function _update()
 
         set_fastest_blob(blob1_speed, blob2_speed)
         calculate_boost_bonus(blob1_speed, blob2_speed)
+        calculate_boost_strength(blob1_speed, blob2_speed)
         set_win_probability()
         set_racer_moneyline()
 
@@ -480,20 +485,29 @@ function set_fastest_blob(blob1_speed, blob2_speed)
     end
 end
 
+function calculate_speed_gap_percent(blob1_speed, blob2_speed)
+    local average = (blob1_speed + blob2_speed) / 2
+    local gap = abs(blob1_speed - blob2_speed)
+    local percent_speed_gap_difference = gap / average
+
+    return percent_speed_gap_difference
+end
+
 function calculate_boost_bonus(blob1_speed, blob2_speed)
-    local average
-    local gap
-    local percent_diff
+    local speed_gap_percent = calculate_speed_gap_percent(blob1_speed, blob2_speed)
 
-    average = (blob1_speed + blob2_speed) / 2
-    gap = abs(blob1_speed - blob2_speed)
-    percent_diff = gap / average
-
-    if (percent_diff > 0.75) then
-        boost_meter.bonus = (percent_diff * 100) + 50
+    if (speed_gap_percent > 0.75) then
+        boost_meter.bonus = (speed_gap_percent * 100) + 50
     else
-        boost_meter.bonus = percent_diff * 100
+        boost_meter.bonus = speed_gap_percent * 100
     end
+end
+
+function calculate_boost_strength(blob1_speed, blob2_speed)
+    local speed_gap_percent = calculate_speed_gap_percent(blob1_speed, blob2_speed)
+    local scale = 1 + (speed_gap_percent * 0.5) -- Scale the strength based on speed gap
+
+    boost_meter.strength_balance = min((boost_meter.strength_base * scale), 1.75)
 end
 
 function boost_balance(blob1_speed, blob2_speed)
@@ -501,18 +515,30 @@ function boost_balance(blob1_speed, blob2_speed)
     if (selected_blob == 1) then
         if (boost_meter.fastest_blob == 1) then
             player_boost.meter = boost_base
+            player_boost.amount_modified = boost_meter.strength_base
+
             opponent_boost.meter = boost_base + boost_meter.bonus
+            opponent_boost.amount_modified = boost_meter.strength_balance
         else
             player_boost.meter = boost_base + boost_meter.bonus
+            player_boost.amount_modified = boost_meter.strength_balance
+
             opponent_boost.meter = boost_base
+            opponent_boost.amount_modified = boost_meter.strength_base
         end
     elseif (selected_blob == 2) then
         if (boost_meter.fastest_blob == 2) then
             player_boost.meter = boost_base
+            player_boost.amount_modified = boost_meter.strength_base
+
             opponent_boost.meter = boost_base + boost_meter.bonus
+            opponent_boost.amount_modified = boost_meter.strength_balance
         else
             player_boost.meter = boost_base + boost_meter.bonus
+            player_boost.amount_modified = boost_meter.strength_balance
+
             opponent_boost.meter = boost_base
+            opponent_boost.amount_modified = boost_meter.strength_base
         end
     end
 end
@@ -571,7 +597,7 @@ function player_boost_check()
         if (player_boost.meter > 0) then
             player_boost.active = true
             player_boost.meter -= 5
-            player_boost.amount = 1.5
+            player_boost.amount = player_boost.amount_modified
             -- log_msg = "player boost meter: " .. player_boost.meter
             sfx(3)
         else
@@ -590,7 +616,7 @@ function opponent_boost_check()
     if (opponent_boost.active and not opponent_boost.overheating) then
         if (opponent_boost.meter > 0) then
             opponent_boost.meter -= 5
-            opponent_boost.amount = 1.5
+            opponent_boost.amount = opponent_boost.amount_modified
             sfx(5)
             --log_msg = "opponent boost timer: " .. opponent_boost.timer
         else
