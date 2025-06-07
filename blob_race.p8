@@ -226,7 +226,11 @@ function _update()
         update_blobs_speed()
         win_condition_check()
 
-        log_msg = "pb: " .. player_boost.meter .. " ob: " .. opponent_boost.meter
+        -- log_msg = "pb: " .. player_boost.meter .. " ob: " .. opponent_boost.meter
+        -- log_msg = "pb: " .. player_boost.meter .. "pb_mod: " .. player_boost.amount_modified
+        -- log_msg = "ob: " .. opponent_boost.meter .. "ob_mod: " .. opponent_boost.amount_modified
+        -- log_msg = "pb_mod: " .. player_boost.amount_modified .. "ob_mod: " .. opponent_boost.amount_modified
+        log_msg = "pb: " .. player_boost.meter .. "/" .. player_boost.amount_modified .. " ob: " .. opponent_boost.meter .. "/" .. opponent_boost.amount_modified
 
     elseif (state == "result") then
         if (btnp(4) and game_over) then
@@ -763,7 +767,7 @@ end
 function print_log_msg()
     if logging then
         if (log_msg != "") then
-            print("log: " .. log_msg, 0, 120, 5)
+            print(log_msg, 0, 120, 5)
         else
             print("log: na", 0, 120, 5)
         end
