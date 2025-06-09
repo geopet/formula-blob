@@ -52,6 +52,11 @@ function _init()
     blob1_sprite = 3
     blob2_sprite = 5
 
+    false_start = {
+        blob1 = {target = 0, current = 0},
+        blob2 = {target = 0, current = 0}
+    }
+
     -- race variables
     blob1_x = nil
     blob1_y = nil
@@ -186,7 +191,35 @@ function _update()
             state = "countdown"
         end
     elseif (state == "countdown") then
+
+        -- trigger false starts randomly
+        if (rnd(1) < 0.02 and false_start.blob1.target == 0 and false_start.blob1.current == 0) then
+            false_start.blob1.target = flr(rnd(37)) + 4
+        end
+        if (rnd(1) < 0.02 and false_start.blob2.target == 0 and false_start.blob2.current == 0) then
+            false_start.blob2.target = flr(rnd(37)) + 4
+        end
+
+        -- update blob false start positions
+        for blob in all({"blob1", "blob2"}) do
+            local fs = false_start[blob]
+
+            if fs.target > 0 then
+                -- moving forward to target
+                if fs.current < fs.target then
+                    fs.current += 3
+                else
+                    -- reached target, start going back
+                    fs.target = 0
+                end
+            elseif fs.current > 0 then
+                -- moving back to 0
+                fs.current -= 3
+            end
+        end
+
         lock_timer += 1
+
         if (lock_timer == 30) then
             sfx(16)
         elseif (lock_timer == 60) then
@@ -352,34 +385,50 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "countdown") then
+
+        local pre_race_x = 10
+        local blob1_y_countdown = 66
+        local blob2_y_countdown = 96
+
+        -- run animation and bobbing
+        local run_anim_1 = blob1_sprite + flr(time() * 4) % 2
+        local run_anim_2 = blob2_sprite + flr(time() * 3.5) % 2
+        local bob = sin(time() * 6) * 1.5
+
+        draw_track()
+
+        -- draw with both bobbing and false start offset
+        sspr(run_anim_1 * 8, 0, 8, 8, pre_race_x - 12 + false_start.blob1.current, blob1_y_countdown - 12 + bob, 24, 24, false, false)
+        sspr(run_anim_2 * 8, 0, 8, 8, pre_race_x - 12 + false_start.blob2.current, blob2_y_countdown - 12 + bob, 24, 24, false, false)
+
         if (lock_timer < 30) then
-            announcer_opt = {string = "racers on the ready...", x = 22, y = 30, color = 14}
-            spr(48, 43, 40) -- red light
-            spr(51, 51, 40)
-            spr(51, 59, 40)
-            spr(51, 67, 40)
-            countdown_opt = {string = "3", x = 58, y = 52, color = 7}
+            announcer_opt = {string = "racers on the ready...", x = 22, y = 10, color = 14}
+            spr(48, 43, 20) -- red light
+            spr(51, 51, 20)
+            spr(51, 59, 20)
+            spr(51, 67, 20)
+            countdown_opt = {string = "3", x = 58, y = 32, color = 7}
         elseif (lock_timer < 60) then
-            announcer_opt = {string = "on your marks...", x = 33, y = 30, color = 13}
-            spr(48, 43, 40) -- red light
-            spr(48, 51, 40)
-            spr(51, 59, 40)
-            spr(51, 67, 40)
-            countdown_opt = {string = "2", x = 58, y = 52, color = 10}
+            announcer_opt = {string = "on your marks...", x = 33, y = 10, color = 13}
+            spr(48, 43, 20) -- red light
+            spr(48, 51, 20)
+            spr(51, 59, 20)
+            spr(51, 67, 20)
+            countdown_opt = {string = "2", x = 58, y = 32, color = 10}
         elseif (lock_timer < 90) then
-            announcer_opt = {string = "get set...", x = 45, y = 30, color = 12}
-            spr(48, 43, 40)
-            spr(48, 51, 40)
-            spr(49, 59, 40) -- orange light
-            spr(51, 67, 40)
-            countdown_opt = {string = "1", x = 58, y = 52, color = 9}
+            announcer_opt = {string = "get set...", x = 45, y = 10, color = 12}
+            spr(48, 43, 20)
+            spr(48, 51, 20)
+            spr(49, 59, 20) -- orange light
+            spr(51, 67, 20)
+            countdown_opt = {string = "1", x = 58, y = 32, color = 9}
         elseif (lock_timer < 120) then
-            announcer_opt = {string = "and they're off!", x = 30, y = 30, color = 11}
-            spr(48, 43, 40)
-            spr(48, 51, 40)
-            spr(49, 59, 40)
-            spr(50, 67, 40) -- green light!
-            countdown_opt = {string = "go!", x = 55, y = 52, color = 8}
+            announcer_opt = {string = "and they're off!", x = 30, y = 10, color = 11}
+            spr(48, 43, 20)
+            spr(48, 51, 20)
+            spr(49, 59, 20)
+            spr(50, 67, 20) -- green light!
+            countdown_opt = {string = "go!", x = 55, y = 32, color = 8}
         else
             announcer_opt = {string = "there's a problem on the track!", x = 20, y = 30, color = 14}
             countdown_opt = {string = "false start!", x = 60, y = 50, color = 14}
