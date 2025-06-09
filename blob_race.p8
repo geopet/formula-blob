@@ -358,28 +358,28 @@ function _draw()
             spr(51, 51, 40)
             spr(51, 59, 40)
             spr(51, 67, 40)
-            countdown_opt = {string = "3", x = 58, y = 50, color = 7}
+            countdown_opt = {string = "3", x = 58, y = 52, color = 7}
         elseif (lock_timer < 60) then
             announcer_opt = {string = "on your marks...", x = 33, y = 30, color = 13}
             spr(48, 43, 40) -- red light
             spr(48, 51, 40)
             spr(51, 59, 40)
             spr(51, 67, 40)
-            countdown_opt = {string = "2", x = 58, y = 50, color = 10}
+            countdown_opt = {string = "2", x = 58, y = 52, color = 10}
         elseif (lock_timer < 90) then
             announcer_opt = {string = "get set...", x = 45, y = 30, color = 12}
             spr(48, 43, 40)
             spr(48, 51, 40)
             spr(49, 59, 40) -- orange light
             spr(51, 67, 40)
-            countdown_opt = {string = "1", x = 58, y = 50, color = 9}
+            countdown_opt = {string = "1", x = 58, y = 52, color = 9}
         elseif (lock_timer < 120) then
             announcer_opt = {string = "and they're off!", x = 30, y = 30, color = 11}
             spr(48, 43, 40)
             spr(48, 51, 40)
             spr(49, 59, 40)
             spr(50, 67, 40) -- green light!
-            countdown_opt = {string = "go!", x = 55, y = 50, color = 8}
+            countdown_opt = {string = "go!", x = 55, y = 52, color = 8}
         else
             announcer_opt = {string = "there's a problem on the track!", x = 20, y = 30, color = 14}
             countdown_opt = {string = "false start!", x = 60, y = 50, color = 14}
