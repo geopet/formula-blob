@@ -142,11 +142,11 @@ function _update()
         blob1_speed = (0.5 * rnd(1)) + 0.08
         blob2_speed = (0.5 * rnd(1)) + 0.08
 
-        win_probability.total_speed = blob1_speed + blob2_speed
-
         -- testing values
         -- blob1_speed = 0.1
         -- blob2_speed = 0.1
+
+        win_probability.total_speed = blob1_speed + blob2_speed
 
         set_fastest_blob(blob1_speed, blob2_speed)
         calculate_boost_bonus(blob1_speed, blob2_speed)
@@ -511,18 +511,17 @@ end
 function calculate_boost_bonus(blob1_speed, blob2_speed)
     local speed_gap_percent = calculate_speed_gap_percent(blob1_speed, blob2_speed)
 
-    if (speed_gap_percent > 0.75) then
-        boost_meter.bonus = (speed_gap_percent * 100) + 50
-    else
-        boost_meter.bonus = speed_gap_percent * 100
-    end
+    boost_meter.bonus = speed_gap_percent * 70
+    quick_log.boost_bonus = boost_meter.bonus
 end
 
 function calculate_boost_strength(blob1_speed, blob2_speed)
     local speed_gap_percent = calculate_speed_gap_percent(blob1_speed, blob2_speed)
     local scale = 1 + (speed_gap_percent * 0.5) -- Scale the strength based on speed gap
 
-    boost_meter.strength_balance = min((boost_meter.strength_base * scale), 1.75)
+    quick_log.scale = scale
+
+    boost_meter.strength_balance = boost_meter.strength_base * scale
 end
 
 function boost_balance(blob1_speed, blob2_speed)
