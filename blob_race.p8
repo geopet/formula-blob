@@ -11,6 +11,11 @@ function _init()
     logging = false
     log_msg = ""
 
+    quick_log = {
+        scale = nil,
+        boost_bonus = nil
+    }
+
     -- game state variable
     state = "game-start"
     arrow_phase = rnd(1)
@@ -121,6 +126,7 @@ function _update()
     end
 
     music_player()
+
     if (state == "game-start") then
         lock_timer = 0
         game_score_init()
@@ -157,12 +163,14 @@ function _update()
             selected_blob = 1
             sfx(0)
             -- log_msg = "b1 wp: " .. win_probability.blob1 .. "b1 t: " .. win_probability.blob1_expected_time
-            log_msg = "b1 wp: " .. win_probability.blob1 .. " b1 ml: " .. win_probability.blob1_moneyline
+            -- log_msg = "b1 wp: " .. win_probability.blob1 .. " b1 ml: " .. win_probability.blob1_moneyline
+            log_msg = quick_log.scale .. " " .. quick_log.boost_bonus .. " " .. (1.5 * quick_log.scale)
         elseif (btnp(1)) then -- right blob (2)
             selected_blob = 2
             sfx(0)
             -- log_msg = "b2 wp: " .. win_probability.blob2 .. "b2 t: " .. win_probability.blob2_expected_time
-            log_msg = "b2 wp: " .. win_probability.blob2 .. " b2 ml: " .. win_probability.blob2_moneyline
+            -- log_msg = "b2 wp: " .. win_probability.blob2 .. " b2 ml: " .. win_probability.blob2_moneyline
+            log_msg = quick_log.scale .. " " .. quick_log.boost_bonus .. " " .. (1.5 * quick_log.scale)
         elseif (btnp(4)) then
             if selected_blob != 0 then
                 sfx(1)
