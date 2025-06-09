@@ -11,11 +11,17 @@ function _init()
     logging = false
     log_msg = ""
 
+    quick_log = {
+        scale = nil,
+        boost_bonus = nil
+    }
+
     -- game state variable
     state = "game-start"
     arrow_phase = rnd(1)
     lock_timer = 0
     current_music = -1
+    is_muted = false
 
     -- start screen parade variables
     parade_blobs = {}
@@ -82,7 +88,9 @@ function _init()
 
     boost_meter = {
         fastest_blob = nil,
-        bonus = nil
+        bonus = nil,
+        strength_base = 1.5,
+        strength_balance = nil
     }
 
     -- player boost table
@@ -91,7 +99,8 @@ function _init()
         active = false,
         overheating = false,
         overheating_timer = nil,
-        amount = nil
+        amount = nil,
+        amount_modified = nil
     }
 
     -- opponent boost table
@@ -101,6 +110,7 @@ function _init()
         overheating = false,
         overheating_timer = nil,
         amount = nil,
+        amount_modified = nil,
         timer = nil,
         cooldown = nil,
         did_breakdown = false
@@ -110,7 +120,13 @@ end
 -->8
 
 function _update()
+
+    if (btnp(3)) then -- ⬇️ / down arrow to mute
+        is_muted = not is_muted
+    end
+
     music_player()
+
     if (state == "game-start") then
         lock_timer = 0
         game_score_init()
@@ -126,14 +142,15 @@ function _update()
         blob1_speed = (0.5 * rnd(1)) + 0.08
         blob2_speed = (0.5 * rnd(1)) + 0.08
 
-        win_probability.total_speed = blob1_speed + blob2_speed
-
         -- testing values
         -- blob1_speed = 0.1
         -- blob2_speed = 0.1
 
+        win_probability.total_speed = blob1_speed + blob2_speed
+
         set_fastest_blob(blob1_speed, blob2_speed)
         calculate_boost_bonus(blob1_speed, blob2_speed)
+        calculate_boost_strength(blob1_speed, blob2_speed)
         set_win_probability()
         set_racer_moneyline()
 
@@ -146,12 +163,14 @@ function _update()
             selected_blob = 1
             sfx(0)
             -- log_msg = "b1 wp: " .. win_probability.blob1 .. "b1 t: " .. win_probability.blob1_expected_time
-            log_msg = "b1 wp: " .. win_probability.blob1 .. " b1 ml: " .. win_probability.blob1_moneyline
+            -- log_msg = "b1 wp: " .. win_probability.blob1 .. " b1 ml: " .. win_probability.blob1_moneyline
+            log_msg = quick_log.scale .. " " .. quick_log.boost_bonus .. " " .. (1.5 * quick_log.scale)
         elseif (btnp(1)) then -- right blob (2)
             selected_blob = 2
             sfx(0)
             -- log_msg = "b2 wp: " .. win_probability.blob2 .. "b2 t: " .. win_probability.blob2_expected_time
-            log_msg = "b2 wp: " .. win_probability.blob2 .. " b2 ml: " .. win_probability.blob2_moneyline
+            -- log_msg = "b2 wp: " .. win_probability.blob2 .. " b2 ml: " .. win_probability.blob2_moneyline
+            log_msg = quick_log.scale .. " " .. quick_log.boost_bonus .. " " .. (1.5 * quick_log.scale)
         elseif (btnp(4)) then
             if selected_blob != 0 then
                 sfx(1)
@@ -215,7 +234,11 @@ function _update()
         update_blobs_speed()
         win_condition_check()
 
-        log_msg = "pb: " .. player_boost.meter .. " ob: " .. opponent_boost.meter
+        -- log_msg = "pb: " .. player_boost.meter .. " ob: " .. opponent_boost.meter
+        -- log_msg = "pb: " .. player_boost.meter .. "pb_mod: " .. player_boost.amount_modified
+        -- log_msg = "ob: " .. opponent_boost.meter .. "ob_mod: " .. opponent_boost.amount_modified
+        -- log_msg = "pb_mod: " .. player_boost.amount_modified .. "ob_mod: " .. opponent_boost.amount_modified
+        log_msg = "pb: " .. player_boost.meter .. "/" .. player_boost.amount_modified .. " ob: " .. opponent_boost.meter .. "/" .. opponent_boost.amount_modified
 
     elseif (state == "result") then
         if (btnp(4) and game_over) then
@@ -267,6 +290,7 @@ function _draw()
         end
 
         print("press 🅾️ or z to start", 20, 100, 10)
+        -- print("press ⬇️ down arrow to mute", 20, 110, 9)
 
         print_log_msg(log_msg)
     elseif (state == "race-init") then
@@ -314,6 +338,7 @@ function _draw()
         -- print log message
         print_log_msg(log_msg)
     elseif (state == "locked_in") then
+        print("current score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
         print("your blob racer is ready!", 15, 20, 12)
 
         if (selected_blob == 1) then
@@ -333,28 +358,28 @@ function _draw()
             spr(51, 51, 40)
             spr(51, 59, 40)
             spr(51, 67, 40)
-            countdown_opt = {string = "3", x = 58, y = 50, color = 7}
+            countdown_opt = {string = "3", x = 58, y = 52, color = 7}
         elseif (lock_timer < 60) then
             announcer_opt = {string = "on your marks...", x = 33, y = 30, color = 13}
             spr(48, 43, 40) -- red light
             spr(48, 51, 40)
             spr(51, 59, 40)
             spr(51, 67, 40)
-            countdown_opt = {string = "2", x = 58, y = 50, color = 10}
+            countdown_opt = {string = "2", x = 58, y = 52, color = 10}
         elseif (lock_timer < 90) then
             announcer_opt = {string = "get set...", x = 45, y = 30, color = 12}
             spr(48, 43, 40)
             spr(48, 51, 40)
             spr(49, 59, 40) -- orange light
             spr(51, 67, 40)
-            countdown_opt = {string = "1", x = 58, y = 50, color = 9}
+            countdown_opt = {string = "1", x = 58, y = 52, color = 9}
         elseif (lock_timer < 120) then
             announcer_opt = {string = "and they're off!", x = 30, y = 30, color = 11}
             spr(48, 43, 40)
             spr(48, 51, 40)
             spr(49, 59, 40)
             spr(50, 67, 40) -- green light!
-            countdown_opt = {string = "go!", x = 55, y = 50, color = 8}
+            countdown_opt = {string = "go!", x = 55, y = 52, color = 8}
         else
             announcer_opt = {string = "there's a problem on the track!", x = 20, y = 30, color = 14}
             countdown_opt = {string = "false start!", x = 60, y = 50, color = 14}
@@ -364,6 +389,8 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "racing") then
+        print("your score: " .. score.player .. " ", 0, 0, 7)
+        print("comp score: " .. score.opponent, 64, 0, 7)
         print("the race is on!", 35, 10, 11)
 
         if (player_boost.overheating) then
@@ -377,10 +404,10 @@ function _draw()
         sspr(blob1_sprite_frame * 8, 0, 8, 8, blob1_x - 12, blob1_y - 12, 24, 24, false, false)
         sspr(blob2_sprite_frame * 8, 0, 8, 8, blob2_x - 12, blob2_y - 12, 24, 24, false, false)
 
-        if (logging) then
-            print("blob1_x: " .. blob1_x .. " speed: " .. blob1_speed, 0, 90, 6)
-            print("blob2_x: " .. blob2_x .. " speed: " .. blob2_speed, 0, 100, 6)
-        end
+        -- if (logging) then
+        --     print("blob1_x: " .. blob1_x .. " speed: " .. blob1_speed, 0, 90, 6)
+        --     print("blob2_x: " .. blob2_x .. " speed: " .. blob2_speed, 0, 100, 6)
+        -- end
 
         print_log_msg(log_msg)
     elseif (state == "result") then
@@ -473,20 +500,28 @@ function set_fastest_blob(blob1_speed, blob2_speed)
     end
 end
 
+function calculate_speed_gap_percent(blob1_speed, blob2_speed)
+    local average = (blob1_speed + blob2_speed) / 2
+    local gap = abs(blob1_speed - blob2_speed)
+    local percent_speed_gap_difference = gap / average
+
+    return percent_speed_gap_difference
+end
+
 function calculate_boost_bonus(blob1_speed, blob2_speed)
-    local average
-    local gap
-    local percent_diff
+    local speed_gap_percent = calculate_speed_gap_percent(blob1_speed, blob2_speed)
 
-    average = (blob1_speed + blob2_speed) / 2
-    gap = abs(blob1_speed - blob2_speed)
-    percent_diff = gap / average
+    boost_meter.bonus = speed_gap_percent * 70
+    quick_log.boost_bonus = boost_meter.bonus
+end
 
-    if (percent_diff > 0.75) then
-        boost_meter.bonus = (percent_diff * 100) + 50
-    else
-        boost_meter.bonus = percent_diff * 100
-    end
+function calculate_boost_strength(blob1_speed, blob2_speed)
+    local speed_gap_percent = calculate_speed_gap_percent(blob1_speed, blob2_speed)
+    local scale = 1 + (speed_gap_percent * 0.5) -- Scale the strength based on speed gap
+
+    quick_log.scale = scale
+
+    boost_meter.strength_balance = boost_meter.strength_base * scale
 end
 
 function boost_balance(blob1_speed, blob2_speed)
@@ -494,18 +529,30 @@ function boost_balance(blob1_speed, blob2_speed)
     if (selected_blob == 1) then
         if (boost_meter.fastest_blob == 1) then
             player_boost.meter = boost_base
+            player_boost.amount_modified = boost_meter.strength_base
+
             opponent_boost.meter = boost_base + boost_meter.bonus
+            opponent_boost.amount_modified = boost_meter.strength_balance
         else
             player_boost.meter = boost_base + boost_meter.bonus
+            player_boost.amount_modified = boost_meter.strength_balance
+
             opponent_boost.meter = boost_base
+            opponent_boost.amount_modified = boost_meter.strength_base
         end
     elseif (selected_blob == 2) then
         if (boost_meter.fastest_blob == 2) then
             player_boost.meter = boost_base
+            player_boost.amount_modified = boost_meter.strength_base
+
             opponent_boost.meter = boost_base + boost_meter.bonus
+            opponent_boost.amount_modified = boost_meter.strength_balance
         else
             player_boost.meter = boost_base + boost_meter.bonus
+            player_boost.amount_modified = boost_meter.strength_balance
+
             opponent_boost.meter = boost_base
+            opponent_boost.amount_modified = boost_meter.strength_base
         end
     end
 end
@@ -564,7 +611,7 @@ function player_boost_check()
         if (player_boost.meter > 0) then
             player_boost.active = true
             player_boost.meter -= 5
-            player_boost.amount = 1.5
+            player_boost.amount = player_boost.amount_modified
             -- log_msg = "player boost meter: " .. player_boost.meter
             sfx(3)
         else
@@ -583,7 +630,7 @@ function opponent_boost_check()
     if (opponent_boost.active and not opponent_boost.overheating) then
         if (opponent_boost.meter > 0) then
             opponent_boost.meter -= 5
-            opponent_boost.amount = 1.5
+            opponent_boost.amount = opponent_boost.amount_modified
             sfx(5)
             --log_msg = "opponent boost timer: " .. opponent_boost.timer
         else
@@ -711,7 +758,13 @@ function music_player()
     end
 
     -- only change music if it's different than current
-    if desired_music != current_music then
+
+    if (is_muted) then
+        if current_music != -1 then
+            music(-1) -- stop music if muted
+            current_music = -1 -- stop music if muted
+        end
+    elseif desired_music != current_music then
         if desired_music == -1 then
             music(-1) -- stop music
         else
@@ -724,7 +777,7 @@ end
 function print_log_msg()
     if logging then
         if (log_msg != "") then
-            print("log: " .. log_msg, 0, 120, 5)
+            print(log_msg, 0, 120, 5)
         else
             print("log: na", 0, 120, 5)
         end
