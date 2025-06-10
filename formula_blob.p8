@@ -1,7 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 42
 __lua__
--- blob race 0.1.0
+-- formula blob 0.1.0
 -- by @geopet
 
 function _init()
@@ -306,7 +306,7 @@ function _draw()
         -- Pulsing welcome text
         local t = sin(time() * 2)
         local c = 7 + flr((t + 1) * 2)
-        print("welcome to blob race!", 20, 20, c)
+        print("welcome to formula blob!", 20, 20, c)
         print("version 0.1.0", 20, 30, 12)
 
         local base_y = 60
