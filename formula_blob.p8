@@ -468,28 +468,17 @@ function _draw()
 
         draw_track()
 
-        if (selected_blob == 1) then -- if player is blob 1
-            if (player_boost.active) then
-                sspr(blob1_sprite_boost_frame * 8, blob1_sprite_boost.y, 8, 8, blob1_x - 12, blob1_y - 12 + blob_pulse, 24, 24, false, false)
-            else
-                sspr(blob1_sprite_frame * 8, blob1_sprite.y, 8, 8, blob1_x - 12, blob1_y - 12 + blob_pulse, 24, 24, false, false)
-            end
-            if (opponent_boost.active) then
-                sspr(blob2_sprite_boost_frame * 8, blob2_sprite_boost.y, 8, 8, blob2_x - 12, blob2_y - 12 + blob_pulse_2, 24, 24, false, false)
-            else
-                sspr(blob2_sprite_frame * 8, blob2_sprite.y, 8, 8, blob2_x - 12, blob2_y - 12 + blob_pulse_2, 24, 24, false, false)
-            end
-        else -- if player is blob 2
-            if (player_boost.active) then
-                sspr(blob2_sprite_boost_frame * 8, blob2_sprite_boost.y, 8, 8, blob2_x - 12, blob2_y - 12 + blob_pulse_2, 24, 24, false, false)
-            else
-                sspr(blob2_sprite_frame * 8, blob2_sprite.y, 8, 8, blob2_x - 12, blob2_y - 12 + blob_pulse_2, 24, 24, false, false)
-            end
-            if (opponent_boost.active) then
-                sspr(blob1_sprite_boost_frame * 8, blob1_sprite_boost.y, 8, 8, blob1_x - 12, blob1_y - 12 + blob_pulse, 24, 24, false, false)
-            else
-                sspr(blob1_sprite_frame * 8, blob1_sprite.y, 8, 8, blob1_x - 12, blob1_y - 12 + blob_pulse, 24, 24, false, false)
-            end
+        if selected_blob == 1 then
+            draw_racer(blob1_x, blob1_y, player_boost.active, blob1_sprite_frame, blob1_sprite_boost_frame, blob1_sprite.y, blob1_sprite_boost.y, 0)
+            draw_racer(blob2_x, blob2_y, opponent_boost.active, blob2_sprite_frame, blob2_sprite_boost_frame, blob2_sprite.y, blob2_sprite_boost.y, 0)
+        else
+            draw_racer(blob2_x, blob2_y, player_boost.active, blob2_sprite_frame, blob2_sprite_boost_frame, blob2_sprite.y, blob2_sprite_boost.y, 0)
+            draw_racer(blob1_x, blob1_y, opponent_boost.active, blob1_sprite_frame, blob1_sprite_boost_frame, blob1_sprite.y, blob1_sprite_boost.y, 0)
+        end
+
+        if (logging) then
+            print("blob1_x: " .. blob1_x .. " speed: " .. blob1_speed, 0, 90, 6)
+            print("blob2_x: " .. blob2_x .. " speed: " .. blob2_speed, 0, 100, 6)
         end
 
         print_log_msg(log_msg)
@@ -667,6 +656,12 @@ function update_player_overheat()
             player_boost.amount = 0
             -- log_msg = "racing..."
     end
+end
+
+function draw_racer(x, y, is_boosting, frame, boost_frame, base_y, boost_y, pulse)
+    local spr_frame = is_boosting and boost_frame or frame
+    local spr_y = is_boosting and boost_y or base_y
+    sspr(spr_frame * 8, spr_y, 8, 8, x - 12, y - 12 + pulse, 24, 24, false, false)
 end
 
 function update_opponent_overheat()
