@@ -493,6 +493,14 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "result") then
+
+        local winner_x, winner_y = 30, 50
+        local winner_size = 32
+        local dance_x = sin(time() * 4) * 2
+        local winner_flip_x = flr(time() * 2 ) % 2 == 0
+        local loser_flip_x = not winner_flip_x
+        local flip_y = flr(time()) % 8 == 0
+
         print("your score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
         print("comp score: " .. score.opponent .. " (" .. score.opponent_wins .. "-" .. score.opponent_losses .. ")", 0, 10, 7)
 
@@ -508,27 +516,27 @@ function _draw()
         sspr(
             race_results.winner.base_sprite.x * 8, race_results.winner.base_sprite.y,
             8, 8,
-            30, 50,  -- position on screen
-            32, 32,  -- size (scale 4x)
-            false, false
+            winner_x + dance_x, winner_y,  -- position on screen
+            winner_size, winner_size,  -- size (scale 4x)
+            winner_flip_x, flip_y
         )
 
         -- crown sprite
         sspr(
             32 % 16 * 8, flr(32 / 16) * 8,
             8, 8,
-            30, 42,  -- position on screen
+            winner_x + dance_x, winner_y - 8,  -- position on screen
             32, 32, -- size (scale 4x)
-            false, false
+            winner_flip_x, false
         )
 
         -- loser small
         sspr(
             race_results.loser.base_sprite.x * 8, race_results.loser.base_sprite.y,
             8, 8,
-            80, 72,  -- position on screen
+            80, 72 + dance_x,  -- position on screen
             8, 8,    -- size (normal)
-            false, false
+            loser_flip_x, false
         )
 
         if (race_results.winner_id == selected_blob and game_over) then
