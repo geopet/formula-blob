@@ -470,6 +470,9 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "result") then
+        local winner_blob
+        local loser_blob
+
         print("your score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
         print("comp score: " .. score.opponent .. " (" .. score.opponent_wins .. "-" .. score.opponent_losses .. ")", 0, 10, 7)
 
@@ -481,21 +484,47 @@ function _draw()
 
         print("the race winner is blob " .. race_winner .. "!", 15, 40, 14)
 
+        if (race_winner == 1) then
+            winner_blob = blobs.blob1
+            loser_blob = blobs.blob2
+        else
+            winner_blob = blobs.blob2
+            loser_blob = blobs.blob1
+        end
+
+        -- winner large
+        sspr(
+            winner_blob.base_sprite.x * 8, winner_blob.base_sprite.y,
+            8, 8,
+            30, 50,  -- position on screen
+            32, 32,  -- size (scale 4x)
+            false, false
+        )
+
+        -- loser small
+        sspr(
+            loser_blob.base_sprite.x * 8, loser_blob.base_sprite.y,
+            8, 8,
+            80, 72,  -- position on screen
+            8, 8,    -- size (normal)
+            false, false
+        )
+
         if (race_winner == selected_blob and game_over) then
-            print("you won the match!", 30, 60, 11)
-            print("congratulations!", 31, 70, 12)
+            -- print("you won the match!", 30, 60, 11)
+            -- print("congratulations!", 31, 70, 12)
             print("press 🅾️ or z to play again", 11, 90, 10)
         elseif (race_winner == selected_blob and not game_over) then
-            print("you won!", 48, 60, 12)
-            print("congratulations!", 31, 70, 12)
+            -- print("you won!", 48, 60, 12)
+            -- print("congratulations!", 31, 70, 12)
             print("press 🅾️ or z to race again", 11, 90, 10)
         elseif (race_winner != selected_blob and game_over) then
-            print("you lost the match!", 27, 60, 11)
-            print("better luck next time!", 22, 70, 9)
+            -- print("you lost the match!", 27, 60, 11)
+            -- print("better luck next time!", 22, 70, 9)
             print("press 🅾️ or z to play again", 11, 90, 10)
         elseif (race_winner != selected_blob and not game_over) then
-            print("you didn't win the race", 19, 60, 9)
-            print("better luck next time!", 22, 70, 9)
+            -- print("you didn't win the race", 19, 60, 9)
+            -- print("better luck next time!", 22, 70, 9)
             print("press 🅾️ or z to race again", 11, 90, 10)
         end
 
