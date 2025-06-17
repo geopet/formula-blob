@@ -71,7 +71,13 @@ function _init()
     selected_blob = 0
 
     -- race variables
-    race_winner = nil
+    race_results = {
+        winner = nil,
+        loser = nil,
+        winner_id = nil,
+        loser_id = nil
+    }
+
     game_over = nil
 
     -- scoring variables
@@ -254,7 +260,7 @@ function _update()
             opponent_boost.cooldown = 0
             opponent_boost.did_breakdown = false
 
-            race_winner = 0
+            race_results.winner_id = 0
 
             state = "racing"
         end
@@ -470,9 +476,6 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "result") then
-        local winner_blob
-        local loser_blob
-
         print("your score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
         print("comp score: " .. score.opponent .. " (" .. score.opponent_wins .. "-" .. score.opponent_losses .. ")", 0, 10, 7)
 
@@ -482,19 +485,11 @@ function _draw()
             print("this race is over!!", 30, 30, 11)
         end
 
-        print("the race winner is blob " .. race_winner .. "!", 15, 40, 14)
-
-        if (race_winner == 1) then
-            winner_blob = blobs.blob1
-            loser_blob = blobs.blob2
-        else
-            winner_blob = blobs.blob2
-            loser_blob = blobs.blob1
-        end
+        print("the race winner is blob " .. race_results.winner_id .. "!", 15, 40, 14)
 
         -- winner large
         sspr(
-            winner_blob.base_sprite.x * 8, winner_blob.base_sprite.y,
+            race_results.winner.base_sprite.x * 8, race_results.winner.base_sprite.y,
             8, 8,
             30, 50,  -- position on screen
             32, 32,  -- size (scale 4x)
@@ -503,26 +498,26 @@ function _draw()
 
         -- loser small
         sspr(
-            loser_blob.base_sprite.x * 8, loser_blob.base_sprite.y,
+            race_results.loser.base_sprite.x * 8, race_results.loser.base_sprite.y,
             8, 8,
             80, 72,  -- position on screen
             8, 8,    -- size (normal)
             false, false
         )
 
-        if (race_winner == selected_blob and game_over) then
+        if (race_results.winner_id == selected_blob and game_over) then
             -- print("you won the match!", 30, 60, 11)
             -- print("congratulations!", 31, 70, 12)
             print("press 🅾️ or z to play again", 11, 90, 10)
-        elseif (race_winner == selected_blob and not game_over) then
+        elseif (race_results.winner_id == selected_blob and not game_over) then
             -- print("you won!", 48, 60, 12)
             -- print("congratulations!", 31, 70, 12)
             print("press 🅾️ or z to race again", 11, 90, 10)
-        elseif (race_winner != selected_blob and game_over) then
+        elseif (race_results.winner_id != selected_blob and game_over) then
             -- print("you lost the match!", 27, 60, 11)
             -- print("better luck next time!", 22, 70, 9)
             print("press 🅾️ or z to play again", 11, 90, 10)
-        elseif (race_winner != selected_blob and not game_over) then
+        elseif (race_results.winner_id != selected_blob and not game_over) then
             -- print("you didn't win the race", 19, 60, 9)
             -- print("better luck next time!", 22, 70, 9)
             print("press 🅾️ or z to race again", 11, 90, 10)
@@ -780,13 +775,17 @@ function update_blobs_speed()
 end
 
 function win_condition_check()
-    if race_winner == 0 then
+    if race_results.winner_id == 0 then
         if (blobs.blob1.position.x >= 120) then
-            race_winner = 1
+            race_results.winner_id = 1
+            race_results.winner = blobs.blob1
+            race_results.loser = blobs.blob2
             state = "result"
             update_scoring()
         elseif (blobs.blob2.position.x >= 120) then
-            race_winner = 2
+            race_results.winner_id = 2
+            race_results.winner = blobs.blob2
+            race_results.loser = blobs.blob1
             state = "result"
             update_scoring()
         end
@@ -805,7 +804,7 @@ function update_scoring()
 
     local abs_moneyline = abs(player_moneyline)
 
-    if (race_winner == selected_blob) then
+    if (race_results.winner_id == selected_blob) then
         -- Player wins
         if (player_moneyline > 0) then
             -- Underdog: risk 100 to win moneyline
