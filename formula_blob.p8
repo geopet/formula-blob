@@ -56,6 +56,7 @@ function _init()
             boost_sprite = { x = 5, y = 8 },
             position = { x = nil, y = nil },
             speed = nil,
+            name = nil,
             false_start = { target = 0, current = 0 },
             win_probability = { expected_time = nil, ratio = nil, moneyline = nil }
         },
@@ -64,6 +65,7 @@ function _init()
             boost_sprite = { x = 1, y = 0 },
             position = { x = nil, y = nil },
             speed = nil,
+            name = nil,
             false_start = { target = 0, current = 0 },
             win_probability = { expected_time = nil, ratio = nil, moneyline = nil }
         }
@@ -167,6 +169,7 @@ function _update()
         calculate_boost_strength()
         set_win_probability()
         set_racer_moneyline()
+        set_blob_names()
 
         state = "choose"
     elseif (state == "choose") then
@@ -897,6 +900,27 @@ function spawn_fireworks()
             color = 8 + flr(rnd(7)) -- random color from 8 on (bright)
         }
         add(fireworks, f)
+    end
+end
+
+function assign_name()
+    local names = {
+        "blobzilla", "blast", "skids", "mcblobface", "bouncy", "slimer", "wiggly", "blash",
+        "mcblobberson", "blobster", "blobinator", "blobtastic", "blobby", "bloob",
+        "max verblobben", "blobo norris", "charles leblob", "blewis hamiblob", "blobo perez", "fenando balobso",
+        "blance bloll", "blierre basly", "blobos sainz", "baltteri blobas", "jeff"
+    }
+
+    return names[flr(rnd(#names)) + 1] -- pick a random name from the list
+end
+
+function set_blob_names()
+    blobs.blob1.name = assign_name()
+    blobs.blob2.name = assign_name()
+
+    -- Ensure names are unique
+    while (blobs.blob1.name == blobs.blob2.name) do
+        blobs.blob2.name = assign_name()
     end
 end
 
