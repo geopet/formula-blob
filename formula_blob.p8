@@ -21,6 +21,7 @@ function _init()
     arrow_phase = rnd(1)
     lock_timer = 0
     current_music = -1
+    race_victory_sfx = false
     is_muted = false
 
     -- start screen parade variables
@@ -71,8 +72,15 @@ function _init()
     selected_blob = 0
 
     -- race variables
-    race_winner = nil
+    race_results = {
+        winner = nil,
+        loser = nil,
+        winner_id = 0,
+        loser_id = 0
+    }
+
     game_over = nil
+    fireworks = {}
 
     -- scoring variables
     score = {
@@ -254,7 +262,7 @@ function _update()
             opponent_boost.cooldown = 0
             opponent_boost.did_breakdown = false
 
-            race_winner = 0
+            race_results.winner_id = 0
 
             state = "racing"
         end
@@ -277,9 +285,36 @@ function _update()
         log_msg = "pb: " .. player_boost.meter .. "/" .. player_boost.amount_modified .. " ob: " .. opponent_boost.meter .. "/" .. opponent_boost.amount_modified
 
     elseif (state == "result") then
+
+        for f in all(fireworks) do
+            f.x += f.vx
+            f.y += f.vy
+            f.life -= 1
+            if f.life <= 0 then
+                del(fireworks, f)
+            end
+        end
+
+        if (#fireworks == 0) then
+            spawn_fireworks()
+        end
+
+        -- play victory sound effect
+        if (not race_victory_sfx) then
+            if (race_results.winner_id == selected_blob) then
+                sfx(21)
+            else
+                sfx(22)
+            end
+            race_victory_sfx = true
+            spawn_fireworks()
+        end
+
         if (btnp(4) and game_over) then
+            race_victory_sfx = false
             state = "game-start"
         elseif (btnp(4) and not game_over) then
+            race_victory_sfx = false
             state = "race-init"
         end
         log_msg = "result state"
@@ -470,32 +505,66 @@ function _draw()
 
         print_log_msg(log_msg)
     elseif (state == "result") then
+
+        local winner_x, winner_y = 30, 50
+        local winner_size = 32
+        local dance_x = sin(time() * 4) * 2
+        local winner_flip_x = flr(time() * 2 ) % 2 == 0
+        local loser_flip_x = not winner_flip_x
+        local flip_y = flr(time()) % 8 == 0
+
         print("your score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
         print("comp score: " .. score.opponent .. " (" .. score.opponent_wins .. "-" .. score.opponent_losses .. ")", 0, 10, 7)
 
         if (game_over) then
-            print("the match is over!", 30, 30, 11)
+            print("the match is over!", 30, 20, 11)
         else
-            print("this race is over!!", 30, 30, 11)
+            print("this race is over!!", 30, 20, 11)
         end
 
-        print("the race winner is blob " .. race_winner .. "!", 15, 40, 14)
+        -- winner large
+        sspr(
+            race_results.winner.base_sprite.x * 8, race_results.winner.base_sprite.y,
+            8, 8,
+            winner_x + dance_x, winner_y,  -- position on screen
+            winner_size, winner_size,  -- size (scale 4x)
+            winner_flip_x, flip_y
+        )
 
-        if (race_winner == selected_blob and game_over) then
-            print("you won the match!", 30, 60, 11)
-            print("congratulations!", 31, 70, 12)
+        if (race_results.winner_id == selected_blob) then
+            -- crown sprite
+            sspr(
+                32 % 16 * 8, flr(32 / 16) * 8,
+                8, 8,
+                winner_x + dance_x, winner_y - 5,  -- position on screen
+                32, 32, -- size (scale 4x)
+                winner_flip_x, false
+            )
+            if (game_over) then
+        -- launch fireworks
+                for f in all(fireworks) do
+                    pset(f.x, f.y, f.color)
+                end
+                print("the match winner is you!", 15, 30, 14)
+            else
+                print("the race winner is you!", 15, 30, 14)
+            end
+        else
+            print("you did not win the race :(", 15, 30, 14)
+        end
+
+        -- loser small
+        sspr(
+            race_results.loser.base_sprite.x * 8, race_results.loser.base_sprite.y,
+            8, 8,
+            80, 72 + dance_x,  -- position on screen
+            8, 8,    -- size (normal)
+            loser_flip_x, false
+        )
+
+        if (game_over) then
             print("press 🅾️ or z to play again", 11, 90, 10)
-        elseif (race_winner == selected_blob and not game_over) then
-            print("you won!", 48, 60, 12)
-            print("congratulations!", 31, 70, 12)
-            print("press 🅾️ or z to race again", 11, 90, 10)
-        elseif (race_winner != selected_blob and game_over) then
-            print("you lost the match!", 27, 60, 11)
-            print("better luck next time!", 22, 70, 9)
-            print("press 🅾️ or z to play again", 11, 90, 10)
-        elseif (race_winner != selected_blob and not game_over) then
-            print("you didn't win the race", 19, 60, 9)
-            print("better luck next time!", 22, 70, 9)
+        elseif (not game_over) then
             print("press 🅾️ or z to race again", 11, 90, 10)
         end
 
@@ -751,13 +820,17 @@ function update_blobs_speed()
 end
 
 function win_condition_check()
-    if race_winner == 0 then
+    if race_results.winner_id == 0 then
         if (blobs.blob1.position.x >= 120) then
-            race_winner = 1
+            race_results.winner_id = 1
+            race_results.winner = blobs.blob1
+            race_results.loser = blobs.blob2
             state = "result"
             update_scoring()
         elseif (blobs.blob2.position.x >= 120) then
-            race_winner = 2
+            race_results.winner_id = 2
+            race_results.winner = blobs.blob2
+            race_results.loser = blobs.blob1
             state = "result"
             update_scoring()
         end
@@ -776,7 +849,7 @@ function update_scoring()
 
     local abs_moneyline = abs(player_moneyline)
 
-    if (race_winner == selected_blob) then
+    if (race_results.winner_id == selected_blob) then
         -- Player wins
         if (player_moneyline > 0) then
             -- Underdog: risk 100 to win moneyline
@@ -810,6 +883,20 @@ end
 function is_game_over()
     if (score.player >= 1000 or score.opponent >= 1000) then
         game_over = true
+    end
+end
+
+function spawn_fireworks()
+    for i = 1, 20 do
+        local f = {
+            x = 64 + rnd(40) - 20,
+            y = 32 + rnd(40) - 20,
+            vx = rnd(2) - 1,
+            vy = rnd(2) - 1,
+            life = 30 + flr(rnd(20)),
+            color = 8 + flr(rnd(7)) -- random color from 8 on (bright)
+        }
+        add(fireworks, f)
     end
 end
 
@@ -868,12 +955,12 @@ __gfx__
 077777700bbbbbb009999990088888800aaaaaa00caaaac00cababc00000000000000000a6a6a6a60707070787878787a7a7a7a7000000000000000000220000
 0077770000bbbb00009999000088880000aaaa0009cccc0099cccc00000000000000000033333333707070707878787833333333000000000000000000020000
 00000000000000000000000000000000000000000000000000000000000000000000000033333333070707078787878733333333000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+03900920000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+26299363000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+93999929000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+99000099000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+90000009000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+90000009000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 66666666666666666666666666666666000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
@@ -916,6 +1003,8 @@ bf100000131500010013150001001715000100171500010015150001001515000100181500010011
 c10200002a2372823726237242372e2372b6370063728637006372363721637006371e6571c6071b607196071760717607166071360712607106070f6070f6070060700607006070060700607006070060700607
 8f0900000961309613096130d6130d6132b6132b6132f613216132161321613256132561307613076130b6130961309613096130d6130d61307613076130b61321613216132d6130d6130d61307613076130b613
 bd0900000961009610096100d6100d61007610076100b6100961009610096100d6100d61007610076100b610216102161021610196100d61007610076100b6100961009610096100d6100d6101f6101f61023610
+551000000c352183520c3521835218302183520030224352003020030200302003020030200302003020030200302003020030200302003020030200302003020030200302003020030200302003020030200302
+0d100000210521f0521d0521c0521a052000021a052000020e0520000200002000020000200002000020000200002000020000200002000020000200002000020000200002000020000200002000020000200002
 __music__
 01 06404109
 00 06070809
