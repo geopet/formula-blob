@@ -532,11 +532,11 @@ function _draw()
         print("your score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
         print("comp score: " .. score.opponent .. " (" .. score.opponent_wins .. "-" .. score.opponent_losses .. ")", 0, 10, 7)
 
-        if (game_over) then
-            print("the match is over!", 30, 20, 11)
-        else
-            print("this race is over!!", 30, 20, 11)
-        end
+        -- headline
+        local headline = game_over and "the match is over!" or "this race is over!!"
+        local headline_w = #headline * 4
+        local headline_x = 64 - headline_w / 2
+        print(headline, headline_x, 20, 11)
 
         -- winner large
         sspr(
@@ -557,16 +557,25 @@ function _draw()
                 winner_flip_x, false
             )
             if (game_over) then
-        -- launch fireworks
+                -- launch fireworks
                 for f in all(fireworks) do
                     pset(f.x, f.y, f.color)
                 end
-                print("the match winner is you!", 15, 30, 14)
+                local msg = "the match winner is you!"
+                local msg_w = #msg * 4
+                local msg_x = 64 - msg_w / 2
+                print(msg, msg_x, 30, 14)
             else
-                print("the race winner is you!", 15, 30, 14)
+                local msg = "the race winner is you!"
+                local msg_w = #msg * 4
+                local msg_x = 64 - msg_w / 2
+                print(msg, msg_x, 30, 14)
             end
         else
-            print("you did not win the race :(", 15, 30, 14)
+            local msg = "you did not win the race :("
+            local msg_w = #msg * 4
+            local msg_x = 64 - msg_w / 2
+            print(msg, msg_x, 30, 14)
         end
 
         -- loser small
@@ -578,11 +587,10 @@ function _draw()
             loser_flip_x, false
         )
 
-        if (game_over) then
-            print("press 🅾️ or z to play again", 11, 90, 10)
-        elseif (not game_over) then
-            print("press 🅾️ or z to race again", 11, 90, 10)
-        end
+        local prompt = game_over and "press 🅾️ or z to play again" or "press 🅾️ or z to race again"
+        local prompt_w = #prompt * 4
+        local prompt_x = 64 - prompt_w / 2
+        print(prompt, prompt_x, 90, 10)
 
         print_log_msg(log_msg)
     end
