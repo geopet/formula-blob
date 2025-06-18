@@ -347,8 +347,10 @@ function _draw()
         -- Pulsing welcome text
         local t = sin(time() * 2)
         local c = 7 + flr((t + 1) * 2)
-        print("welcome to formula blob!", 20, 20, c)
-        print("version 0.1.0", 20, 30, 12)
+
+        print_centered("welcome to formula blob!", 20, c)
+        print_centered("version 0.1.0", 30, 12)
+        print_centered("a fun time by @geopet", 40, 11)
 
         local base_y = 60
         local scroll_x = (time() * 30)
@@ -365,8 +367,8 @@ function _draw()
             end
         end
 
-        print("press 🅾️ or z to start", 20, 100, 10)
-        -- print("press ⬇️ down arrow to mute", 20, 110, 9)
+        print_centered("press 🅾️ or z to start", 100, 10)
+        -- print_centered("press ⬇️ down arrow to mute", 110, 9)
 
         print_log_msg(log_msg)
     elseif (state == "race-init") then
@@ -383,7 +385,7 @@ function _draw()
         print("your score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
         print("comp score: " .. score.opponent .. " (" .. score.opponent_wins .. "-" .. score.opponent_losses .. ")", 0, 10, 7)
 
-        print("choose your blob!", 30, 25, 7)
+        print_centered("choose your blob!", 25, 7)
 
         -- draw blobs
         sspr(blob1_sprite_frame * 8, blobs.blob1.base_sprite.y, 8, 8, 30-12, 55-12 + blob_pulse, 24, 24, blob1_flip, false)
@@ -415,8 +417,8 @@ function _draw()
             print("100 | " .. abs(blobs.blob2.win_probability.moneyline), 72, 92, 12)
         end
 
-        print("use ⬅️ or ➡️ to choose", 20, 105, 9)
-        print("press 🅾️ or z to select!", 15, 115, 10)
+        print_centered("use ⬅️ or ➡️ to choose", 105, 9)
+        print_centered("press 🅾️ or z to select!", 115, 10)
 
         -- print log message
         print_log_msg(log_msg)
@@ -426,9 +428,7 @@ function _draw()
         -- prepare "is ready!" line
         local blob_name = (selected_blob == 1) and blobs.blob1.name or blobs.blob2.name
         local ready_text = blob_name .. " is ready!"
-        local ready_w = #ready_text * 4
-        local ready_x = 64 - ready_w / 2  -- center on 128-wide screen
-        print(ready_text, ready_x, 20, 12)
+        print_centered(ready_text, 20, 12)
 
         if (selected_blob == 1) then
             sspr(blob1_sprite_frame * 8, blobs.blob1.base_sprite.y, 8, 8, 52, 42 + blob_pulse, 24, 24, blob1_flip, false)
@@ -436,8 +436,8 @@ function _draw()
             sspr(blob2_sprite_frame * 8, blobs.blob2.base_sprite.y, 8, 8, 52, 42 + blob_pulse_2, 24, 24, blob2_flip, false)
         end
 
-        print("press 🅾️ or z to start race!", 10, 90, 10)
-        print("press ❎ or x to boost!", 20, 100, 14)
+        print_centered("press 🅾️ or z to start race!", 90, 10)
+        print_centered("press ❎ or x to boost!", 100, 14)
 
         print_log_msg(log_msg)
     elseif (state == "countdown") then
@@ -496,12 +496,12 @@ function _draw()
     elseif (state == "racing") then
         print("your score: " .. score.player .. " ", 0, 0, 7)
         print("comp score: " .. score.opponent, 64, 0, 7)
-        print("the race is on!", 35, 10, 11)
+        print_centered("the race is on!", 10, 11)
 
         if (player_boost.overheating) then
-            print("boost overheat!", 35, 20, 8)
+            print_centered("boost overheat!", 20, 8)
         else
-            print("press ❎ or x to boost!", 20, 20, 9)
+            print_centered("press ❎ or x to boost!", 20, 9)
         end
 
         draw_track()
@@ -534,9 +534,7 @@ function _draw()
 
         -- headline
         local headline = game_over and "the match is over!" or "this race is over!!"
-        local headline_w = #headline * 4
-        local headline_x = 64 - headline_w / 2
-        print(headline, headline_x, 20, 11)
+        print_centered(headline, 20, 11)
 
         -- winner large
         sspr(
@@ -561,21 +559,12 @@ function _draw()
                 for f in all(fireworks) do
                     pset(f.x, f.y, f.color)
                 end
-                local msg = "the match winner is you!"
-                local msg_w = #msg * 4
-                local msg_x = 64 - msg_w / 2
-                print(msg, msg_x, 30, 14)
+                print_centered("you are the match winner!", 30, 14)
             else
-                local msg = "the race winner is you!"
-                local msg_w = #msg * 4
-                local msg_x = 64 - msg_w / 2
-                print(msg, msg_x, 30, 14)
+                print_centered("you are the race winner!", 30, 14)
             end
         else
-            local msg = "you did not win the race :("
-            local msg_w = #msg * 4
-            local msg_x = 64 - msg_w / 2
-            print(msg, msg_x, 30, 14)
+            print_centered("you did not win the race :(", 30, 14)
         end
 
         -- loser small
@@ -588,9 +577,7 @@ function _draw()
         )
 
         local prompt = game_over and "press 🅾️ or z to play again" or "press 🅾️ or z to race again"
-        local prompt_w = #prompt * 4
-        local prompt_x = 64 - prompt_w / 2
-        print(prompt, prompt_x, 90, 10)
+        print_centered(prompt, 90, 10)
 
         print_log_msg(log_msg)
     end
@@ -943,6 +930,12 @@ function set_blob_names()
     while (blobs.blob1.name == blobs.blob2.name) do
         blobs.blob2.name = assign_name()
     end
+end
+
+function print_centered(text, y, color)
+    local text_width = #text * 4
+    local x = 64 - text_width / 2
+    print(text, x, y, color)
 end
 
 function music_player()
