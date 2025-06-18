@@ -80,6 +80,7 @@ function _init()
     }
 
     game_over = nil
+    fireworks = {}
 
     -- scoring variables
     score = {
@@ -285,6 +286,19 @@ function _update()
 
     elseif (state == "result") then
 
+        for f in all(fireworks) do
+            f.x += f.vx
+            f.y += f.vy
+            f.life -= 1
+            if f.life <= 0 then
+                del(fireworks, f)
+            end
+        end
+
+        if (#fireworks == 0) then
+            spawn_fireworks()
+        end
+
         -- play victory sound effect
         if (not race_victory_sfx) then
             if (race_results.winner_id == selected_blob) then
@@ -292,8 +306,8 @@ function _update()
             else
                 sfx(22)
             end
-
             race_victory_sfx = true
+            spawn_fireworks()
         end
 
         if (btnp(4) and game_over) then
@@ -518,9 +532,6 @@ function _draw()
         )
 
         if (race_results.winner_id == selected_blob) then
-
-            print("the race winner is you!", 15, 30, 14)
-
             -- crown sprite
             sspr(
                 32 % 16 * 8, flr(32 / 16) * 8,
@@ -529,6 +540,15 @@ function _draw()
                 32, 32, -- size (scale 4x)
                 winner_flip_x, false
             )
+            if (game_over) then
+        -- launch fireworks
+                for f in all(fireworks) do
+                    pset(f.x, f.y, f.color)
+                end
+                print("the match winner is you!", 15, 30, 14)
+            else
+                print("the race winner is you!", 15, 30, 14)
+            end
         else
             print("you did not win the race :(", 15, 30, 14)
         end
@@ -542,9 +562,9 @@ function _draw()
             loser_flip_x, false
         )
 
-        if (race_results.winner_id == selected_blob and game_over) then
+        if (game_over) then
             print("press 🅾️ or z to play again", 11, 90, 10)
-        elseif (race_results.winner_id == selected_blob and not game_over) then
+        elseif (not game_over) then
             print("press 🅾️ or z to race again", 11, 90, 10)
         end
 
@@ -863,6 +883,20 @@ end
 function is_game_over()
     if (score.player >= 1000 or score.opponent >= 1000) then
         game_over = true
+    end
+end
+
+function spawn_fireworks()
+    for i = 1, 20 do
+        local f = {
+            x = 64 + rnd(40) - 20,
+            y = 32 + rnd(40) - 20,
+            vx = rnd(2) - 1,
+            vy = rnd(2) - 1,
+            life = 30 + flr(rnd(20)),
+            color = 8 + flr(rnd(7)) -- random color from 8 on (bright)
+        }
+        add(fireworks, f)
     end
 end
 
