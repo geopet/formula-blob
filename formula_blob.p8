@@ -372,6 +372,13 @@ function _draw()
     elseif (state == "race-init") then
         -- nothing to display right now
     elseif (state == "choose") then
+        -- calculate name layout
+        local blob1_name_width = #blobs.blob1.name * 4
+        local blob1_name_x = 30 - blob1_name_width / 2
+
+        local blob2_name_width = #blobs.blob2.name * 4
+        local blob2_name_x = 90 - blob2_name_width / 2
+
         -- print score
         print("your score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
         print("comp score: " .. score.opponent .. " (" .. score.opponent_wins .. "-" .. score.opponent_losses .. ")", 0, 10, 7)
@@ -390,7 +397,7 @@ function _draw()
         end
 
         -- add labels
-        print("blob 01", 17, 72, 11)
+        print(blobs.blob1.name, blob1_name_x, 72, 11)
         print("risk | reward", 8, 82, 11)
 
         if (blobs.blob1.win_probability.moneyline < 0) then
@@ -399,7 +406,7 @@ function _draw()
             print("100 | " .. abs(blobs.blob1.win_probability.moneyline), 12, 92, 11)
         end
 
-        print("blob 02", 77, 72, 12)
+        print(blobs.blob2.name, blob2_name_x, 72, 12)
         print("risk | reward", 68, 82, 12)
 
         if (blobs.blob2.win_probability.moneyline < 0) then
@@ -415,7 +422,13 @@ function _draw()
         print_log_msg(log_msg)
     elseif (state == "locked_in") then
         print("current score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
-        print("your blob racer is ready!", 15, 20, 12)
+
+        -- prepare "is ready!" line
+        local blob_name = (selected_blob == 1) and blobs.blob1.name or blobs.blob2.name
+        local ready_text = blob_name .. " is ready!"
+        local ready_w = #ready_text * 4
+        local ready_x = 64 - ready_w / 2  -- center on 128-wide screen
+        print(ready_text, ready_x, 20, 12)
 
         if (selected_blob == 1) then
             sspr(blob1_sprite_frame * 8, blobs.blob1.base_sprite.y, 8, 8, 52, 42 + blob_pulse, 24, 24, blob1_flip, false)
