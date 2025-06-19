@@ -56,6 +56,7 @@ function _init()
             boost_sprite = { x = 5, y = 8 },
             position = { x = nil, y = nil },
             speed = nil,
+            name = nil,
             false_start = { target = 0, current = 0 },
             win_probability = { expected_time = nil, ratio = nil, moneyline = nil }
         },
@@ -64,6 +65,7 @@ function _init()
             boost_sprite = { x = 1, y = 0 },
             position = { x = nil, y = nil },
             speed = nil,
+            name = nil,
             false_start = { target = 0, current = 0 },
             win_probability = { expected_time = nil, ratio = nil, moneyline = nil }
         }
@@ -167,6 +169,7 @@ function _update()
         calculate_boost_strength()
         set_win_probability()
         set_racer_moneyline()
+        set_blob_names()
 
         state = "choose"
     elseif (state == "choose") then
@@ -344,8 +347,10 @@ function _draw()
         -- Pulsing welcome text
         local t = sin(time() * 2)
         local c = 7 + flr((t + 1) * 2)
-        print("welcome to formula blob!", 20, 20, c)
-        print("version 0.1.0", 20, 30, 12)
+
+        print_centered("welcome to formula blob!", 20, c)
+        print_centered("version 0.1.0", 30, 12)
+        print_centered("a fun time by @geopet", 40, 11)
 
         local base_y = 60
         local scroll_x = (time() * 30)
@@ -362,18 +367,25 @@ function _draw()
             end
         end
 
-        print("press 🅾️ or z to start", 20, 100, 10)
-        -- print("press ⬇️ down arrow to mute", 20, 110, 9)
+        print_centered("press 🅾️ or z to start", 100, 10)
+        -- print_centered("press ⬇️ down arrow to mute", 110, 9)
 
         print_log_msg(log_msg)
     elseif (state == "race-init") then
         -- nothing to display right now
     elseif (state == "choose") then
+        -- calculate name layout
+        local blob1_name_width = #blobs.blob1.name * 4
+        local blob1_name_x = 30 - blob1_name_width / 2
+
+        local blob2_name_width = #blobs.blob2.name * 4
+        local blob2_name_x = 90 - blob2_name_width / 2
+
         -- print score
         print("your score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
         print("comp score: " .. score.opponent .. " (" .. score.opponent_wins .. "-" .. score.opponent_losses .. ")", 0, 10, 7)
 
-        print("choose your blob!", 30, 25, 7)
+        print_centered("choose your blob!", 25, 7)
 
         -- draw blobs
         sspr(blob1_sprite_frame * 8, blobs.blob1.base_sprite.y, 8, 8, 30-12, 55-12 + blob_pulse, 24, 24, blob1_flip, false)
@@ -387,7 +399,7 @@ function _draw()
         end
 
         -- add labels
-        print("blob 01", 17, 72, 11)
+        print(blobs.blob1.name, blob1_name_x, 72, 11)
         print("risk | reward", 8, 82, 11)
 
         if (blobs.blob1.win_probability.moneyline < 0) then
@@ -396,7 +408,7 @@ function _draw()
             print("100 | " .. abs(blobs.blob1.win_probability.moneyline), 12, 92, 11)
         end
 
-        print("blob 02", 77, 72, 12)
+        print(blobs.blob2.name, blob2_name_x, 72, 12)
         print("risk | reward", 68, 82, 12)
 
         if (blobs.blob2.win_probability.moneyline < 0) then
@@ -405,14 +417,18 @@ function _draw()
             print("100 | " .. abs(blobs.blob2.win_probability.moneyline), 72, 92, 12)
         end
 
-        print("use ⬅️ or ➡️ to choose", 20, 105, 9)
-        print("press 🅾️ or z to select!", 15, 115, 10)
+        print_centered("use ⬅️ or ➡️ to choose", 105, 9)
+        print_centered("press 🅾️ or z to select!", 115, 10)
 
         -- print log message
         print_log_msg(log_msg)
     elseif (state == "locked_in") then
         print("current score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
-        print("your blob racer is ready!", 15, 20, 12)
+
+        -- prepare "is ready!" line
+        local blob_name = (selected_blob == 1) and blobs.blob1.name or blobs.blob2.name
+        local ready_text = blob_name .. " is ready!"
+        print_centered(ready_text, 20, 12)
 
         if (selected_blob == 1) then
             sspr(blob1_sprite_frame * 8, blobs.blob1.base_sprite.y, 8, 8, 52, 42 + blob_pulse, 24, 24, blob1_flip, false)
@@ -420,8 +436,8 @@ function _draw()
             sspr(blob2_sprite_frame * 8, blobs.blob2.base_sprite.y, 8, 8, 52, 42 + blob_pulse_2, 24, 24, blob2_flip, false)
         end
 
-        print("press 🅾️ or z to start race!", 10, 90, 10)
-        print("press ❎ or x to boost!", 20, 100, 14)
+        print_centered("press 🅾️ or z to start race!", 90, 10)
+        print_centered("press ❎ or x to boost!", 100, 14)
 
         print_log_msg(log_msg)
     elseif (state == "countdown") then
@@ -480,12 +496,12 @@ function _draw()
     elseif (state == "racing") then
         print("your score: " .. score.player .. " ", 0, 0, 7)
         print("comp score: " .. score.opponent, 64, 0, 7)
-        print("the race is on!", 35, 10, 11)
+        print_centered("the race is on!", 10, 11)
 
         if (player_boost.overheating) then
-            print("boost overheat!", 35, 20, 8)
+            print_centered("boost overheat!", 20, 8)
         else
-            print("press ❎ or x to boost!", 20, 20, 9)
+            print_centered("press ❎ or x to boost!", 20, 9)
         end
 
         draw_track()
@@ -516,11 +532,9 @@ function _draw()
         print("your score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
         print("comp score: " .. score.opponent .. " (" .. score.opponent_wins .. "-" .. score.opponent_losses .. ")", 0, 10, 7)
 
-        if (game_over) then
-            print("the match is over!", 30, 20, 11)
-        else
-            print("this race is over!!", 30, 20, 11)
-        end
+        -- headline
+        local headline = game_over and "the match is over!" or "this race is over!!"
+        print_centered(headline, 20, 11)
 
         -- winner large
         sspr(
@@ -541,16 +555,16 @@ function _draw()
                 winner_flip_x, false
             )
             if (game_over) then
-        -- launch fireworks
+                -- launch fireworks
                 for f in all(fireworks) do
                     pset(f.x, f.y, f.color)
                 end
-                print("the match winner is you!", 15, 30, 14)
+                print_centered("you are the match winner!", 30, 14)
             else
-                print("the race winner is you!", 15, 30, 14)
+                print_centered("you are the race winner!", 30, 14)
             end
         else
-            print("you did not win the race :(", 15, 30, 14)
+            print_centered("you did not win the race :(", 30, 14)
         end
 
         -- loser small
@@ -562,11 +576,8 @@ function _draw()
             loser_flip_x, false
         )
 
-        if (game_over) then
-            print("press 🅾️ or z to play again", 11, 90, 10)
-        elseif (not game_over) then
-            print("press 🅾️ or z to race again", 11, 90, 10)
-        end
+        local prompt = game_over and "press 🅾️ or z to play again" or "press 🅾️ or z to race again"
+        print_centered(prompt, 90, 10)
 
         print_log_msg(log_msg)
     end
@@ -898,6 +909,33 @@ function spawn_fireworks()
         }
         add(fireworks, f)
     end
+end
+
+function assign_name()
+    local names = {
+        "blobzilla", "blast", "skids", "mcblobface", "bouncy", "slimer", "wiggly", "blash",
+        "mcblobberson", "blobster", "blobinator", "blobtastic", "blobby", "bloob",
+        "max verblobben", "blobo norris", "charles leblob", "blewis hamiblob", "blobo perez", "fenando balobso",
+        "blance bloll", "blierre basly", "blobos sainz", "baltteri blobas", "jeff"
+    }
+
+    return names[flr(rnd(#names)) + 1] -- pick a random name from the list
+end
+
+function set_blob_names()
+    blobs.blob1.name = assign_name()
+    blobs.blob2.name = assign_name()
+
+    -- Ensure names are unique
+    while (blobs.blob1.name == blobs.blob2.name) do
+        blobs.blob2.name = assign_name()
+    end
+end
+
+function print_centered(text, y, color)
+    local text_width = #text * 4
+    local x = 64 - text_width / 2
+    print(text, x, y, color)
 end
 
 function music_player()
