@@ -3,6 +3,7 @@ version 42
 __lua__
 -- formula blob 1.0.0
 -- by @geopet
+-- https://github.com/geopet/formula_blob
 
 function _init()
     -- initalize things here
