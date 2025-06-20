@@ -46,10 +46,10 @@ There are three ways to play *Formula Blob*.
 3. Download the .p8 file from this repo following these instructions:
 
 ### Installation
-1. Download the `formula_blob.p8` cartridge file.
+1. Download the `formula-blob.p8` cartridge file.
 2. Open PICO-8 and load the cartridge:
    ```
-   load formula_blob.p8
+   load formula-blob.p8
    ```
 3. Run the game:
    ```
