@@ -1,8 +1,9 @@
 pico-8 cartridge // http://www.pico-8.com
 version 42
 __lua__
--- formula blob 0.1.0
+-- formula blob 1.0.0
 -- by @geopet
+-- https://github.com/geopet/formula_blob
 
 function _init()
     -- initalize things here
@@ -351,7 +352,7 @@ function _draw()
         local c = 7 + flr((t + 1) * 2)
 
         print_centered("welcome to formula blob!", 20, c)
-        print_centered("version 0.1.0", 30, 12)
+        print_centered("version 1.0.0", 30, 12)
         print_centered("a fun time by @geopet", 40, 11)
 
         local base_y = 60
