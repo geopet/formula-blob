@@ -32,6 +32,19 @@ Formula Blob is a fast-paced, dynamic racing game built for the PICO-8 fantasy c
 ### Requirements
 - [PICO-8](https://www.lexaloffle.com/pico-8.php): The fantasy console required to run the game.
 
+There are three ways to play *Formula Blob*.
+
+1. Download the cartridge png file and load it into PICO-8:  
+
+<p align="center">
+  <img src="images/formula-blob.p8.png" alt="Formula Blob Cart Image" width="410">
+</p>
+
+2. Play the browser version
+- Coming soon!
+
+3. Download the .p8 file from this repo following these instructions:
+
 ### Installation
 1. Download the `formula_blob.p8` cartridge file.
 2. Open PICO-8 and load the cartridge:
