@@ -4,7 +4,7 @@ title: "Formula Blob Gets a Naming Makeover and UI Polish!"
 date: 2025-06-18
 ---
 
-### June 18, 2025: Formula Blob Gets a Naming Makeover and UI Polish!
+# June 18, 2025: Formula Blob Gets a Naming Makeover and UI Polish!
 
 The Formula Blob team has been busy refining the game, and we're excited to share the latest updates that bring more personality and polish to your blob-racing experience. Here's what's new:
 
