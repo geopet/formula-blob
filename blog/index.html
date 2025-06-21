@@ -1,66 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formula Blob Dev Blog</title>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(to bottom, #000000, #1a1a1a, #333333);
-            color: #01b2b2;
-            font-family: 'Lora', serif;
-            line-height: 1.8;
-            font-size: 18px;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        a {
-            color: #00ff00;
-            text-decoration: underline;
-            font-size: 1.5em;
-        }
-        a:hover {
-            text-decoration: none;
-        }
-        .blog-section {
-            text-align: left;
-            margin: 0 auto;
-            max-width: 800px;
-        }
-        .blog-section h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 24px;
-            text-align: center;
-            color: #ff4500;
-        }
-        .blog-section ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .blog-section li {
-            margin-bottom: 1.5em;
-        }
-    </style>
-</head>
-<body>
-    <div class="blog-section">
-        <h1>Formula Blob Dev Blog</h1>
-        <ul>
-          {% for post in site.posts %}
-            <li>
-              <a href="{{ post.url }}">{{ post.title }}</a>
-              <p>{{ post.date | date: "%B %d, %Y" }}</p>
-              <div>{{ post.excerpt }}</div>
-            </li>
-          {% endfor %}
-        </ul>
-    </div>
-</body>
-</html>
+---
+layout: blog
+title: Formula Blob Dev Blog
+---
+<div class="blog-section">
+    <ul>
+        {% for post in site.posts %}
+        <li>
+            <p>
+                {{ post.date | date: "%B %d, %Y" }} <br/>
+                <a href="{{ post.url | relative_url}}">{{ post.title }}</a>
+            </p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
