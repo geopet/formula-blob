@@ -1,1 +1,24 @@
+# Ruby/Bundler artifacts
+blog/vendor/
+blog/.bundle/
+blog/Gemfile.lock
+blog/Gemfile
+
+# Jekyll build output if you don't want to commit it
+# (OR, remove this if you *do* want to commit your static output for GitHub Pages)
+blog/static/
+
+# Sass cache
+.sass-cache/
+*.sass-cache/
+
+# OS junk
 .DS_Store
+
+# Editor/IDE junk
+*.swp
+*.swo
+*.bak
+*~
+.idea/
+.vscode/
