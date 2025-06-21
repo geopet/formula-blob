@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Match Scoring and Game Over Logic"
+date: 2025-05-19
+---
+
 # May 19, 2025: Match Scoring and Game Over Logic
 
 Today's development brought a new competitive edge to Blob Race with the introduction of match scoring and a proper game over system.

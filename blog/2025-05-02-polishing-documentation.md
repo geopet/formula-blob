@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Polishing Documentation"
+date: 2025-05-02
+---
+
 # May 2, 2025: Polishing and Documentation
 
 Today was all about refining the game and setting up tools to ensure a smooth development process moving forward.

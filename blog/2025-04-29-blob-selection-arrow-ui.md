@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Blob Selection and Arrow UI"
+date: 2025-04-29
+---
+
 # April 29, 2025: Blob Selection and Arrow UI
 
 Today was all about adding personality and interactivity to Blob Race. We focused on blob selection and enhancing the arrow UI to make the game more engaging.

@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "The Beginning of Blob Race"
+date: 2025-04-28
+---
+
 # April 28, 2025: The Beginning of Blob Race
 
 Today marks the start of Blob Race! We laid the foundation for the game by setting up the core mechanics and creating the first visual elements.

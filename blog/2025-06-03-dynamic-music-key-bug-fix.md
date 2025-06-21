@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Dynamic Music and a Key Bug Fix"
+date: 2025-06-03
+---
+
 # June 3, 2025: Dynamic Music and a Key Bug Fix
 
 Today’s development session was a blast, bringing fresh energy and polish to Blob Race! With a brand new dynamic music system and a crucial scoring bug fix, the game now feels more alive and fair than ever. These changes not only enhance the atmosphere but also ensure every race is as thrilling and rewarding as it should be.

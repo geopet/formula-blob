@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Moneyline Scoring and UI Improvements"
+date: 2025-05-23
+---
+
 # May 23, 2025: Moneyline Scoring and UI Improvements
 
 Today’s development session brought a major update to Blob Race’s scoring system and user interface, making the game’s risk/reward mechanics more transparent and engaging for players.

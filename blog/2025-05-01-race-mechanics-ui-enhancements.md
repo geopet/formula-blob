@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Race Mechanics and UI Enhancements"
+date: 2025-05-01
+---
+
 # May 1, 2025: Race Mechanics and UI Enhancements
 
 Today was a big day for Blob Race as we focused on the core race mechanics and improving the user interface.

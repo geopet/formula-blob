@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Audio Enhancements and Overheat Improvements"
+date: 2025-05-06
+---
+
 # May 6, 2025: Audio Enhancements and Overheat Improvements
 
 Today was all about making Blob Race more immersive and engaging. We focused on audio enhancements and refining the overheat mechanics to add depth to the gameplay.

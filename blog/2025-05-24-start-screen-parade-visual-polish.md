@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Start Screen Parade and Visual Polish"
+date: 2025-05-24
+---
+
 # May 24, 2025: Start Screen Parade and Visual Polish
 
 Today’s update brings a burst of personality to Blob Race with a brand new animated start screen parade, along with several visual and code quality improvements.

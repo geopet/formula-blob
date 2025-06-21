@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Race Odds and UI Transparency"
+date: 2025-05-16
+---
+
 # May 16, 2025: Race Odds and UI Transparency
 
 Today’s development focused on making Blob Race more transparent and engaging for players by surfacing the underlying race mechanics and odds.

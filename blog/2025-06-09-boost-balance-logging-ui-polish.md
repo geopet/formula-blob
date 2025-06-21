@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Boost Balance, Logging, and UI Polish"
+date: 2025-06-09
+---
+
 # June 9, 2025: Boost Balance, Logging, and UI Polish
 
 The past week has been all about refining the core mechanics and player experience in Blob Race. With a focus on boost balance, improved logging, and UI clarity, the game now feels more responsive, fair, and fun to play.
