@@ -50,14 +50,37 @@
             text-align: center;
             font-family: 'Press Start 2P', cursive;
         }
+
+        .wrapped-image-right {
+            float: right;
+            margin: 0 0 15px 15px;
+            max-width: 150px;
+        }
+
+        .wrapped-image-left {
+            float: left;
+            margin: 0 15px 15px 0;
+            max-width: 150px;
+        }
+
+        .blob-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .blob-image {
+            max-width: 100px;
+        }
     </style>
 </head>
 
 <body>
     <h1>Welcome to Formula Blob</h1>
 
-    <p>
-        <a href="web/formula-blob.html">Play Formula Blob</a>
+    <p style="font-size: 1.5em; text-align: center;">
+        🕹️ <a href="web/formula-blob.html" style="font-size: inherit;">Play Formula Blob</a> 🕹️
     </p>
 
     <p>
@@ -68,6 +91,7 @@
         <h2>The Story</h2>
 
         <p>
+            <img src="images/pink-blob.gif" alt="Pink Blob" class="wrapped-image-right">
             It's the year 3025. As a result of the 3022 uprising, our avian overlords (commonly referred to as the <em>Cloaca Collective</em>) have outlawed the use of soylent-powered machinery for our racing sports. We have been forced to blob-only racing.
         </p>
 
@@ -88,6 +112,7 @@
         </p>
 
         <p>
+             <img src="images/blue-blob.gif" alt="Blue Blob" class="wrapped-image-left">
             Each blob has a certain amount of boost. Unfortunately, due to our lack of blob racing for the past two hundred years, we have lost the feel for boost. This means we never know when we'll run out and cause us to collapse mid-race.
         </p>
 
@@ -104,6 +129,7 @@
         </p>
 
         <p>
+            <img src="images/blob-rotate.gif" alt="Rotating Blob" class="wrapped-image-right">
             <em>(Hey, Geoff here, creator of Formula Blob. I find that it is pretty fun to race with the slower racer and try to win the match as fast as I can in terms of number of races. But if you're finding the challenge more than you bargained for, definitely race with a faster blob… just watch out for all the extra boost the slower racers have!)</em>
         </p>
 
@@ -116,10 +142,16 @@
         </p>
     </div>
 
-    <p>
-        <a href="web/formula-blob.html">Play Formula Blob</a>
+    <p style="font-size: 1.5em; text-align: center;">
+        🕹️ <a href="web/formula-blob.html" style="font-size: inherit;">Play Formula Blob</a> 🕹️
     </p>
 
+    <div class="blob-row">
+        <img src="images/blob-bounce.gif" alt="Blob Bounce" class="blob-image">
+        <img src="images/blob-bounce-03.gif" alt="Blob Bounce" class="blob-image">
+        <img src="images/blob-bounce.gif" alt="Blob Bounce" class="blob-image">
+        <img src="images/blob-bounce-03.gif" alt="Blob Bounce" class="blob-image">
+    </div>
 
 </body>
 </html>
