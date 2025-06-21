@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Music and a Key Bug Fix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #000000, #1a1a1a, #333333);
+            color: #01b2b2;
+            font-family: 'Lora', serif;
+            line-height: 1.8;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+        }
+        a {
+            color: #00ff00;
+            text-decoration: underline;
+            font-size: 20px;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav a {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        .formula-blob-title {
+            font-size: 36px;
+            background: linear-gradient(to right, #ff4500, #00bfff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: none;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+        }
+        article {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        article h1 {
+            font-size: 24px;
+            text-align: center;
+            color: #ff4500;
+        }
+        .story-section {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+        .story-section p {
+            margin-bottom: 1em;
+            max-width: 600px;
+        }
+       .blog-section {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        .blog-section h1 {
+            font-family: 'Lora', serif;
+            font-size: 30px;
+            text-align: center;
+            color: #00ff08;
+        }
+        .blog-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .blog-section li {
+            margin-bottom: 1.5em;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class= 'formula-blob-title'>Formula Blob Dev Blog</h1>
+        <p><em>Updates and insights from the development of Formula Blob.</em></p>
+    </header>
+    <main>
+        <article>
+            <div class = "story-section">
+                <div>
+                    <h1 id="june-3-2025-dynamic-music-and-a-key-bug-fix">June 3, 2025: Dynamic Music and a Key Bug Fix</h1>
+
+<p>Today’s development session was a blast, bringing fresh energy and polish to Blob Race! With a brand new dynamic music system and a crucial scoring bug fix, the game now feels more alive and fair than ever. These changes not only enhance the atmosphere but also ensure every race is as thrilling and rewarding as it should be.</p>
+
+<h2 id="dynamic-music-system">Dynamic Music System</h2>
+<p>A major highlight is the new dynamic music system. Blob Race now changes background music based on the current game state: a welcoming tune plays on the start screen, while a different track sets the mood during blob selection. This is managed by the new <code class="language-plaintext highlighter-rouge">music_player</code> function, which ensures smooth transitions and prevents unnecessary restarts. The result is a more immersive and responsive audio experience that matches the game’s pacing and excitement.</p>
+
+<h2 id="bug-fix-scoring-consistency">Bug Fix: Scoring Consistency</h2>
+<p>During this session, a subtle bug in the scoring logic was also addressed. The calculation of the absolute value for the moneyline in the <code class="language-plaintext highlighter-rouge">update_scoring</code> function is now performed after the player’s moneyline is determined, ensuring the correct value is always used for both underdog and favorite scenarios. This fix guarantees that the risk/reward system works as intended, providing fair and accurate results for every race outcome.</p>
+
+<h2 id="code-quality-and-maintenance">Code Quality and Maintenance</h2>
+<p>Alongside these features, the codebase saw minor cleanups and improved organization, especially around initialization and state management. These changes lay the groundwork for future enhancements and make the project easier to maintain.</p>
+
+<p>With these updates and fixes, Blob Race continues to grow in personality and polish, offering players a more engaging and delightful experience from the very first screen.</p>
+
+                </div>
+            </div>
+        </article>
+        <div class = "nav">
+            <p><a href="/formula-blob/blog/">Dev Blog Home</a> | <a href="https://geopet.github.io/formula-blob/">Formula Blob Home</a></p>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; Formula Blob Dev Blog 2025</p>
+    </footer>
+</body>
+</html>

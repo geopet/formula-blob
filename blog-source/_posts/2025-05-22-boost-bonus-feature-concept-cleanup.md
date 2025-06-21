@@ -1,10 +1,10 @@
 ---
 layout: blog
-title: "Boost Bonus Feature \\u2014 From Concept to Cleanup"
+title: "Boost Bonus Feature - From Concept to Cleanup"
 date: 2025-05-22
 ---
 
-# May 22, 2025: Boost Bonus Feature \\u2014 From Concept to Cleanup
+# May 22, 2025: Boost Bonus Feature - From Concept to Cleanup
 
 The journey of the boost bonus feature has been a multi-step process, evolving from a simple idea into a polished and integral part of Blob Race’s gameplay. Here’s a look back at the work that went into designing, implementing, and refining this system:
 

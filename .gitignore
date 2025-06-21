@@ -1,1 +1,21 @@
+# Ruby/Bundler artifacts
+blog-source/vendor/
+blog-source/.bundle/
+blog-source/Gemfile.lock
+blog-source/Gemfile
+blog-source/.jekyll-cache/
+
+# Sass cache
+.sass-cache/
+*.sass-cache/
+
+# OS junk
 .DS_Store
+
+# Editor/IDE junk
+*.swp
+*.swo
+*.bak
+*~
+.idea/
+.vscode/

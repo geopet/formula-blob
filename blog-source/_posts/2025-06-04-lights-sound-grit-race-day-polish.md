@@ -1,6 +1,6 @@
 ---
 layout: blog
-title: "Lights, Sound, and Grit \\u2013 Race Day Polish!"
+title: "Lights, Sound, and Grit - Race Day Polish!"
 date: 2025-06-04
 ---
 

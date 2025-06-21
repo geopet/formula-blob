@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #000000, #1a1a1a, #333333);
+            color: #01b2b2;
+            font-family: 'Lora', serif;
+            line-height: 1.8;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+        }
+        a {
+            color: #00ff00;
+            text-decoration: underline;
+            font-size: 20px;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav a {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        .formula-blob-title {
+            font-size: 36px;
+            background: linear-gradient(to right, #ff4500, #00bfff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: none;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+        }
+        article {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        article h1 {
+            font-size: 24px;
+            text-align: center;
+            color: #ff4500;
+        }
+        .story-section {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+        .story-section p {
+            margin-bottom: 1em;
+            max-width: 600px;
+        }
+       .blog-section {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        .blog-section h1 {
+            font-family: 'Lora', serif;
+            font-size: 30px;
+            text-align: center;
+            color: #00ff08;
+        }
+        .blog-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .blog-section li {
+            margin-bottom: 1.5em;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class= 'formula-blob-title'>{{ site.title }}</h1>
+        <p><em>{{ site.description }}</em></p>
+    </header>
+    <main>
+        <article>
+            <div class = "story-section">
+                <div>
+                    {{ content }}
+                </div>
+            </div>
+        </article>
+        <div class = "nav">
+            <p><a href="{{ "/" | relative_url }}">Dev Blog Home</a> | <a href="https://geopet.github.io/formula-blob/">Formula Blob Home</a></p>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; {{ site.title }} {{ site.time | date: "%Y" }}</p>
+    </footer>
+</body>
+</html>
