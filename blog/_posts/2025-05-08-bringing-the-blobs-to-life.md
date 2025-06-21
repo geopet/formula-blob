@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Bringing the Blobs to Life"
+date: 2025-05-08
+---
+
 # May 8, 2025: Bringing the Blobs to Life
 
 Today was a monumental day for Blob Race! We focused on enhancing the visual and auditory experience of the game, making it more immersive and exciting for players.

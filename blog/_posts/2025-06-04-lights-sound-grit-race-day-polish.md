@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Lights, Sound, and Grit \\u2013 Race Day Polish!"
+date: 2025-06-04
+---
+
 # June 4, 2025: Lights, Sound, and Grit – Race Day Polish!
 
 Today’s update is all about bringing the thrill of race day to life in Blob Race! From the moment the countdown begins to the final dash across the finish line, the game now crackles with new sights, sounds, and a gritty sense of competition.

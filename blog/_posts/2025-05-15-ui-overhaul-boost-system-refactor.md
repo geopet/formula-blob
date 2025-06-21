@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "UI Overhaul and Boost System Refactor"
+date: 2025-05-15
+---
+
 # May 15, 2025: UI Overhaul and Boost System Refactor
 
 Today was a transformative day for Blob Race, marked by a sweeping overhaul of the user interface and a major refactor of the boost system. The game now feels more polished, intuitive, and dynamic than ever before.

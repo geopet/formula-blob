@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Boost Mechanics and Bug Fixes"
+date: 2025-05-05
+---
+
 # May 5, 2025: Boost Mechanics and Bug Fixes
 
 Today was a productive day as we introduced the boost mechanics and tackled several bugs to improve the overall gameplay experience.

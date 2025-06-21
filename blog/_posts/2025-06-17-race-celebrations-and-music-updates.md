@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Race Celebrations and Music Updates"
+date: 2025-06-17
+---
+
 # June 17, 2025: Race Celebrations and Music Updates
 
 The latest updates to Formula Blob bring a dazzling burst of excitement to the finish line and beyond. With electrifying celebratory features and a soundtrack that hits all the right notes, the game now feels more alive and immersive than ever before.

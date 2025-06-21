@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Refining the Gameplay"
+date: 2025-05-03
+---
+
 # May 3, 2025: Refining the Gameplay
 
 Today, we focused on refining the gameplay mechanics to ensure a smooth and enjoyable experience for players.

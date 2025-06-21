@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Refinements and Boost Enhancements"
+date: 2025-05-09
+---
+
 # May 9, 2025: Refinements and Boost Enhancements
 
 Today was a productive day for Blob Race, as we focused on refining the codebase and enhancing the boost mechanics for both players and opponents. The gameplay has become more dynamic and engaging, thanks to these updates.

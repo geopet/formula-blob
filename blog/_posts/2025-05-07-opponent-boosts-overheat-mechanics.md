@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Opponent Boosts and Overheat Mechanics"
+date: 2025-05-07
+---
+
 # May 7, 2025: Opponent Boosts and Overheat Mechanics
 
 Today, we tackled some of the most exciting and challenging aspects of Blob Race: opponent boosts and overheat mechanics. These features add a new layer of strategy and unpredictability to the game.

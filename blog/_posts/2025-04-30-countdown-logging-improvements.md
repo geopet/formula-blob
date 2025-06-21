@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Countdown and Logging Improvements"
+date: 2025-04-30
+---
+
 # April 30, 2025: Countdown and Logging Improvements
 
 Today, we focused on refining the countdown mechanics and improving the logging system to make Blob Race more polished and developer-friendly.

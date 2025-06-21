@@ -1,3 +1,9 @@
+---
+layout: blog
+title: "Naming Update, Countdown Enhancements, Boost Animation, and More"
+date: 2025-06-10
+---
+
 # June 10, 2025: Naming Update, Countdown Enhancements, Boost Animation, and More
 
 The latest updates to Blob Race, now officially renamed to **Formula Blob**, bring a host of improvements, focusing on gameplay polish and visual excitement. Here's a breakdown of what's new:
