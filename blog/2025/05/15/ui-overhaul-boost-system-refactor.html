@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Overhaul and Boost System Refactor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #000000, #1a1a1a, #333333);
+            color: #01b2b2;
+            font-family: 'Lora', serif;
+            line-height: 1.8;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+        }
+        a {
+            color: #00ff00;
+            text-decoration: underline;
+            font-size: 20px;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav a {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        .formula-blob-title {
+            font-size: 36px;
+            background: linear-gradient(to right, #ff4500, #00bfff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: none;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+        }
+        article {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        article h1 {
+            font-size: 24px;
+            text-align: center;
+            color: #ff4500;
+        }
+        .story-section {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+        .story-section p {
+            margin-bottom: 1em;
+            max-width: 600px;
+        }
+       .blog-section {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        .blog-section h1 {
+            font-family: 'Lora', serif;
+            font-size: 30px;
+            text-align: center;
+            color: #00ff08;
+        }
+        .blog-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .blog-section li {
+            margin-bottom: 1.5em;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class= 'formula-blob-title'>Formula Blob Dev Blog</h1>
+        <p><em>Updates and insights from the development of Formula Blob.</em></p>
+    </header>
+    <main>
+        <article>
+            <div class = "story-section">
+                <div>
+                    <h1 id="may-15-2025-ui-overhaul-and-boost-system-refactor">May 15, 2025: UI Overhaul and Boost System Refactor</h1>
+
+<p>Today was a transformative day for Blob Race, marked by a sweeping overhaul of the user interface and a major refactor of the boost system. The game now feels more polished, intuitive, and dynamic than ever before.</p>
+
+<p>The day began with a series of improvements to the UI. The start menu now features a clear version display and more inviting prompts, making it easier for new players to jump in. The blob selection screen was enhanced with better labels and visual feedback, while the “locked in” state now delivers a more exciting sense of anticipation before the race begins. The countdown sequence and racing state both received visual upgrades, making the action more engaging and easier to follow. Finally, the results screen was revamped to provide clear, celebratory feedback for winners and encouragement for those who didn’t win.</p>
+
+<p>On the technical side, the boost system underwent a significant refactor. The logic for player and opponent boosts was extracted into dedicated helper functions, making the codebase cleaner and easier to maintain. The opponent’s boost behavior is now more dynamic, with randomized boost lengths and a smarter cooldown system, adding unpredictability and excitement to every race. Helper functions were also introduced for updating blob speeds and checking win conditions, further streamlining the game loop.</p>
+
+<p>Throughout the day, small but important fixes were made, including correcting version typos and ensuring local variables were properly scoped. The culmination of these changes was a successful merge of the refactor and UI improvement branches, bringing all enhancements together into the main codebase.</p>
+
+<p>Blob Race is now more fun, readable, and maintainable than ever. With these foundations in place, the game is ready for even more features and polish in the days ahead!</p>
+
+                </div>
+            </div>
+        </article>
+        <div class = "nav">
+            <p><a href="/formula-blob/blog/">Dev Blog Home</a> | <a href="https://geopet.github.io/formula-blob/">Formula Blob Home</a></p>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; Formula Blob Dev Blog 2025</p>
+    </footer>
+</body>
+</html>

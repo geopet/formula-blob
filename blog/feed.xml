@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/formula-blob/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/formula-blob/blog/" rel="alternate" type="text/html" /><updated>2025-06-21T17:47:14-06:00</updated><id>http://localhost:4000/formula-blob/blog/feed.xml</id><title type="html">Formula Blob Dev Blog</title><subtitle>Updates and insights from the development of Formula Blob.</subtitle><entry><title type="html">Formula Blob Gets a Naming Makeover and UI Polish!</title><link href="http://localhost:4000/formula-blob/blog/2025/06/18/naming-and-ui-polish.html" rel="alternate" type="text/html" title="Formula Blob Gets a Naming Makeover and UI Polish!" /><published>2025-06-18T00:00:00-06:00</published><updated>2025-06-18T00:00:00-06:00</updated><id>http://localhost:4000/formula-blob/blog/2025/06/18/naming-and-ui-polish</id><content type="html" xml:base="http://localhost:4000/formula-blob/blog/2025/06/18/naming-and-ui-polish.html"><![CDATA[<h1 id="june-18-2025-formula-blob-gets-a-naming-makeover-and-ui-polish">June 18, 2025: Formula Blob Gets a Naming Makeover and UI Polish!</h1>
+
+<p>The Formula Blob team has been busy refining the game, and we’re excited to share the latest updates that bring more personality and polish to your blob-racing experience. Here’s what’s new:</p>
+
+<h4 id="blob-names-meet-your-racers"><strong>Blob Names: Meet Your Racers!</strong></h4>
+<p>Blobs now have unique, randomly generated names like “Blobzilla,” “Max Verblobben,” and “Blobo Norris.” This feature adds a fun layer of personality to your racers, making each race feel more dynamic and engaging. No more generic “Blob 01” and “Blob 02”—your blobs now have character!</p>
+
+<h4 id="ui-enhancements-centered-and-clean"><strong>UI Enhancements: Centered and Clean</strong></h4>
+<p>We’ve revamped the text layout across the game to improve readability and aesthetics. A new <code class="language-plaintext highlighter-rouge">print_centered</code> helper function ensures all text is perfectly aligned, from the welcome screen to the blob selection phase. Key updates include:</p>
+<ul>
+  <li>Centered welcome messages and instructions.</li>
+  <li>Cleaner name layouts for blobs during the selection phase.</li>
+</ul>
+
+<h4 id="code-refactors-dry-and-efficient"><strong>Code Refactors: DRY and Efficient</strong></h4>
+<p>To keep the codebase clean and maintainable, we’ve introduced:</p>
+<ul>
+  <li>The <code class="language-plaintext highlighter-rouge">print_centered</code> function to eliminate repetitive text-centering logic.</li>
+  <li>A <code class="language-plaintext highlighter-rouge">set_blob_names</code> function to handle unique name assignments for blobs.</li>
+</ul>
+
+<h4 id="whats-next"><strong>What’s Next?</strong></h4>
+<p>With these updates, Formula Blob is more polished and fun than ever. We’re already brainstorming the next set of features to make your blob-racing experience even better. Stay tuned for more updates, and as always, happy racing!</p>]]></content><author><name></name></author><summary type="html"><![CDATA[June 18, 2025: Formula Blob Gets a Naming Makeover and UI Polish!]]></summary></entry><entry><title type="html">Race Celebrations and Music Updates</title><link href="http://localhost:4000/formula-blob/blog/2025/06/17/race-celebrations-and-music-updates.html" rel="alternate" type="text/html" title="Race Celebrations and Music Updates" /><published>2025-06-17T00:00:00-06:00</published><updated>2025-06-17T00:00:00-06:00</updated><id>http://localhost:4000/formula-blob/blog/2025/06/17/race-celebrations-and-music-updates</id><content type="html" xml:base="http://localhost:4000/formula-blob/blog/2025/06/17/race-celebrations-and-music-updates.html"><![CDATA[<h1 id="june-17-2025-race-celebrations-and-music-updates">June 17, 2025: Race Celebrations and Music Updates</h1>
+
+<p>The latest updates to Formula Blob bring a dazzling burst of excitement to the finish line and beyond. With electrifying celebratory features and a soundtrack that hits all the right notes, the game now feels more alive and immersive than ever before.</p>
+
+<h2 id="race-results-and-fireworks">Race Results and Fireworks</h2>
+
+<p>Winning a race has never been this thrilling! The new <code class="language-plaintext highlighter-rouge">race_results</code> system not only tracks the winner and loser of each race but also sets the stage for unforgettable post-race celebrations. As the crowd roars, the screen lights up with a vibrant fireworks display, turning every victory into a spectacle of color and joy.</p>
+
+<h2 id="victory-sound-effects">Victory Sound Effects</h2>
+
+<p>Sound is the heartbeat of any great game, and Formula Blob delivers with style. Distinct sound effects now celebrate race victories, with triumphant audio cues for both player and opponent wins. These sounds amplify the drama, making every triumph feel monumental and every defeat sting just a little more.</p>
+
+<h2 id="enhanced-result-screen">Enhanced Result Screen</h2>
+
+<p>The result screen has been transformed into a true celebration of victory. The winning blob takes center stage, dancing with uncontainable joy and donning a majestic crown if the player wins. Meanwhile, the losing blob humbly bows out in a smaller, subdued animation, ensuring the spotlight stays firmly on the champion.</p>
+
+<h2 id="fireworks-system">Fireworks System</h2>
+
+<p>What’s a celebration without fireworks? The new <code class="language-plaintext highlighter-rouge">spawn_fireworks</code> function brings the party to life, filling the screen with dazzling bursts of color. These animated fireworks create a festive atmosphere that players will remember long after the race is over.</p>
+
+<h2 id="music-updates">Music Updates</h2>
+
+<p>No celebration is complete without the perfect soundtrack. The game’s audio has been fine-tuned to match its vibrant energy, with an updated theme song and other tracks that perfectly complement the action. The music now pulses with the excitement of the race, keeping players engaged and energized.</p>
+
+<hr />
+
+<p>These updates don’t just enhance the gameplay—they elevate it to a whole new level. Formula Blob is racing into the future with style, and we can’t wait to share what’s next. Stay tuned for more thrilling updates as the adventure continues!</p>]]></content><author><name></name></author><summary type="html"><![CDATA[June 17, 2025: Race Celebrations and Music Updates]]></summary></entry><entry><title type="html">Naming Update, Countdown Enhancements, Boost Animation, and More</title><link href="http://localhost:4000/formula-blob/blog/2025/06/10/refactoring-countdown-enhancements.html" rel="alternate" type="text/html" title="Naming Update, Countdown Enhancements, Boost Animation, and More" /><published>2025-06-10T00:00:00-06:00</published><updated>2025-06-10T00:00:00-06:00</updated><id>http://localhost:4000/formula-blob/blog/2025/06/10/refactoring-countdown-enhancements</id><content type="html" xml:base="http://localhost:4000/formula-blob/blog/2025/06/10/refactoring-countdown-enhancements.html"><![CDATA[<h1 id="june-10-2025-naming-update-countdown-enhancements-boost-animation-and-more">June 10, 2025: Naming Update, Countdown Enhancements, Boost Animation, and More</h1>
+
+<p>The latest updates to Blob Race, now officially renamed to <strong>Formula Blob</strong>, bring a host of improvements, focusing on gameplay polish and visual excitement. Here’s a breakdown of what’s new:</p>
+
+<h2 id="countdown-enhancements">Countdown Enhancements</h2>
+
+<p>The countdown phase has been transformed into a more dynamic and engaging experience. Players will now encounter randomized false starts, adding an element of surprise and keeping them on their toes. To complement this, a new animation has been introduced, bringing visual excitement to the countdown sequence and setting the stage for the race ahead.</p>
+
+<h2 id="boost-animation-and-refactor">Boost Animation and Refactor</h2>
+
+<p>The boost animation system has undergone a significant overhaul, enhancing both its visual clarity and maintainability. A brand-new boost animation injects energy into the racing experience, making every boost feel impactful. Behind the scenes, the code has been refactored to include a <code class="language-plaintext highlighter-rouge">draw_racer</code> helper function, streamlining the process of rendering racers. Additionally, per-blob state has been centralized into a single table, improving organization and paving the way for future enhancements.</p>
+
+<h2 id="audio-enhancements">Audio Enhancements</h2>
+
+<p>The audio experience has also received attention, with new features designed to immerse players further into the world of Formula Blob. The addition of crowd and engine noise brings the racing environment to life, while the sharp squeal of tires during false starts provides immediate and satisfying feedback. These audio updates work in harmony with the visual improvements to create a more cohesive and engaging game.</p>
+
+<hr />
+
+<p>These updates not only improve the gameplay experience but also lay the groundwork for future enhancements. Stay tuned for more exciting developments in Formula Blob!</p>]]></content><author><name></name></author><summary type="html"><![CDATA[June 10, 2025: Naming Update, Countdown Enhancements, Boost Animation, and More]]></summary></entry><entry><title type="html">Boost Balance, Logging, and UI Polish</title><link href="http://localhost:4000/formula-blob/blog/2025/06/09/boost-balance-logging-ui-polish.html" rel="alternate" type="text/html" title="Boost Balance, Logging, and UI Polish" /><published>2025-06-09T00:00:00-06:00</published><updated>2025-06-09T00:00:00-06:00</updated><id>http://localhost:4000/formula-blob/blog/2025/06/09/boost-balance-logging-ui-polish</id><content type="html" xml:base="http://localhost:4000/formula-blob/blog/2025/06/09/boost-balance-logging-ui-polish.html"><![CDATA[<h1 id="june-9-2025-boost-balance-logging-and-ui-polish">June 9, 2025: Boost Balance, Logging, and UI Polish</h1>
+
+<p>The past week has been all about refining the core mechanics and player experience in Blob Race. With a focus on boost balance, improved logging, and UI clarity, the game now feels more responsive, fair, and fun to play.</p>
+
+<h2 id="boost-balance-overhaul">Boost Balance Overhaul</h2>
+
+<p>A major highlight is the complete overhaul of the boost bonus and strength calculation logic. The boost system is now simpler and more transparent: the bonus is always set as a direct function of the speed gap, and the strength calculation is streamlined for consistency. This not only makes the code easier to maintain but also ensures that races feel balanced and competitive, regardless of which blob you choose.</p>
+
+<h2 id="debug-logging-improvements">Debug Logging Improvements</h2>
+
+<p>To aid in development and future tuning, a new <code class="language-plaintext highlighter-rouge">quick_log</code> table was introduced. This allows for easy, targeted debug output of key boost variables like scale and bonus. The logging system itself has been refactored for clarity, and logging is now off by default for a cleaner player experience.</p>
+
+<h2 id="ui-and-scoring-display">UI and Scoring Display</h2>
+
+<p>The race countdown and scoring UI have both received polish. The countdown sequence is now more visually engaging, and the scoring display during blob selection and after races is clearer, helping players understand the risk and reward of their choices at a glance.</p>
+
+<h2 id="audio-and-quality-of-life">Audio and Quality of Life</h2>
+
+<p>A new audio mute feature lets players toggle music on and off with a single button press, making the game more accessible in different play environments.</p>
+
+<h2 id="under-the-hood">Under the Hood</h2>
+
+<p>Much of the recent work has focused on code quality: refactoring boost logic, consolidating logging, and improving the structure of player and opponent boost tables. These changes make the codebase more robust and ready for future features.</p>
+
+<hr />
+
+<p>With these updates, Blob Race continues to evolve into a more polished, strategic, and enjoyable experience. The boost system is fairer, the UI is clearer, and the code is cleaner—setting the stage for even more exciting features to come!</p>]]></content><author><name></name></author><summary type="html"><![CDATA[June 9, 2025: Boost Balance, Logging, and UI Polish]]></summary></entry><entry><title type="html">Lights, Sound, and Grit - Race Day Polish!</title><link href="http://localhost:4000/formula-blob/blog/2025/06/04/lights-sound-grit-race-day-polish.html" rel="alternate" type="text/html" title="Lights, Sound, and Grit - Race Day Polish!" /><published>2025-06-04T00:00:00-06:00</published><updated>2025-06-04T00:00:00-06:00</updated><id>http://localhost:4000/formula-blob/blog/2025/06/04/lights-sound-grit-race-day-polish</id><content type="html" xml:base="http://localhost:4000/formula-blob/blog/2025/06/04/lights-sound-grit-race-day-polish.html"><![CDATA[<h1 id="june-4-2025-lights-sound-and-grit--race-day-polish">June 4, 2025: Lights, Sound, and Grit – Race Day Polish!</h1>
+
+<p>Today’s update is all about bringing the thrill of race day to life in Blob Race! From the moment the countdown begins to the final dash across the finish line, the game now crackles with new sights, sounds, and a gritty sense of competition.</p>
+
+<h2 id="starting-lights-and-countdown-sfx">Starting Lights and Countdown SFX</h2>
+<p>The race start is now a true spectacle! A set of classic starting lights has been added to the countdown sequence, with each light illuminating in sync with the timer. As the tension builds, new sound effects punctuate each stage of the countdown, culminating in a satisfying “go!” that launches the blobs into action. These changes make every race start feel dramatic and authentic.</p>
+
+<h2 id="track-visuals-and-grit">Track Visuals and Grit</h2>
+<p>The racing action now unfolds on a proper track, complete with new map assets and a helper function to draw the course. The track isn’t just a static background—it’s packed with visual grit and detail, making every race feel grounded and intense. The addition of track grit and improved finish screen UI further immerse players in the world of Blob Race.</p>
+
+<h2 id="ui-and-finish-screen-enhancements">UI and Finish Screen Enhancements</h2>
+<p>The race finish screen has been revamped for clarity and excitement, with improved messaging and layout. Whether you win or lose, the results now feel more impactful and celebratory.</p>
+
+<h2 id="code-quality-and-logging">Code Quality and Logging</h2>
+<p>Behind the scenes, logging has been turned off by default for a cleaner player experience, and the codebase has been refactored for better organization and maintainability.</p>
+
+<p>With these updates, Blob Race delivers a more cinematic, competitive, and visually rich experience. The starting line has never felt so real—get ready, get set, and race on!</p>]]></content><author><name></name></author><summary type="html"><![CDATA[June 4, 2025: Lights, Sound, and Grit – Race Day Polish!]]></summary></entry><entry><title type="html">Dynamic Music and a Key Bug Fix</title><link href="http://localhost:4000/formula-blob/blog/2025/06/03/dynamic-music-key-bug-fix.html" rel="alternate" type="text/html" title="Dynamic Music and a Key Bug Fix" /><published>2025-06-03T00:00:00-06:00</published><updated>2025-06-03T00:00:00-06:00</updated><id>http://localhost:4000/formula-blob/blog/2025/06/03/dynamic-music-key-bug-fix</id><content type="html" xml:base="http://localhost:4000/formula-blob/blog/2025/06/03/dynamic-music-key-bug-fix.html"><![CDATA[<h1 id="june-3-2025-dynamic-music-and-a-key-bug-fix">June 3, 2025: Dynamic Music and a Key Bug Fix</h1>
+
+<p>Today’s development session was a blast, bringing fresh energy and polish to Blob Race! With a brand new dynamic music system and a crucial scoring bug fix, the game now feels more alive and fair than ever. These changes not only enhance the atmosphere but also ensure every race is as thrilling and rewarding as it should be.</p>
+
+<h2 id="dynamic-music-system">Dynamic Music System</h2>
+<p>A major highlight is the new dynamic music system. Blob Race now changes background music based on the current game state: a welcoming tune plays on the start screen, while a different track sets the mood during blob selection. This is managed by the new <code class="language-plaintext highlighter-rouge">music_player</code> function, which ensures smooth transitions and prevents unnecessary restarts. The result is a more immersive and responsive audio experience that matches the game’s pacing and excitement.</p>
+
+<h2 id="bug-fix-scoring-consistency">Bug Fix: Scoring Consistency</h2>
+<p>During this session, a subtle bug in the scoring logic was also addressed. The calculation of the absolute value for the moneyline in the <code class="language-plaintext highlighter-rouge">update_scoring</code> function is now performed after the player’s moneyline is determined, ensuring the correct value is always used for both underdog and favorite scenarios. This fix guarantees that the risk/reward system works as intended, providing fair and accurate results for every race outcome.</p>
+
+<h2 id="code-quality-and-maintenance">Code Quality and Maintenance</h2>
+<p>Alongside these features, the codebase saw minor cleanups and improved organization, especially around initialization and state management. These changes lay the groundwork for future enhancements and make the project easier to maintain.</p>
+
+<p>With these updates and fixes, Blob Race continues to grow in personality and polish, offering players a more engaging and delightful experience from the very first screen.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[June 3, 2025: Dynamic Music and a Key Bug Fix]]></summary></entry><entry><title type="html">Start Screen Parade and Visual Polish</title><link href="http://localhost:4000/formula-blob/blog/2025/05/24/start-screen-parade-visual-polish.html" rel="alternate" type="text/html" title="Start Screen Parade and Visual Polish" /><published>2025-05-24T00:00:00-06:00</published><updated>2025-05-24T00:00:00-06:00</updated><id>http://localhost:4000/formula-blob/blog/2025/05/24/start-screen-parade-visual-polish</id><content type="html" xml:base="http://localhost:4000/formula-blob/blog/2025/05/24/start-screen-parade-visual-polish.html"><![CDATA[<h1 id="may-24-2025-start-screen-parade-and-visual-polish">May 24, 2025: Start Screen Parade and Visual Polish</h1>
+
+<p>Today’s update brings a burst of personality to Blob Race with a brand new animated start screen parade, along with several visual and code quality improvements.</p>
+
+<h2 id="animated-blob-parade">Animated Blob Parade</h2>
+<p>The most eye-catching addition is the animated blob parade on the start screen. Now, when you launch the game, a colorful procession of blobs marches endlessly across the screen, each with its own sprite, flip, and subtle vertical bob. To make the parade feel lively and unique every time, the code ensures that no two consecutive blobs share the same sprite, and each blob gets a random flip for extra variety.</p>
+
+<p>The parade is implemented as a seamless loop: as blobs scroll off the left edge, they reappear on the right, creating a continuous, never-ending march. This was achieved by calculating the total parade length and drawing each blob a second time, offset by the full parade width, whenever it leaves the visible area. The result is a smooth, polished animation that sets the tone for the game.</p>
+
+<h2 id="cleaner-initialization-logic">Cleaner Initialization Logic</h2>
+<p>To support the new parade, the initialization code was refactored. Blob sprites are now chosen with care to avoid repetition, and the parade’s data structure is more robust. This not only improves the visual experience but also makes the code easier to extend for future features.</p>
+
+<h2 id="visual-flare-and-polish">Visual Flare and Polish</h2>
+<p>Alongside the parade, the start screen received additional visual tweaks, including improved color cycling and sprite handling. These changes make the game’s first impression more engaging and professional.</p>
+
+<h2 id="looking-ahead">Looking Ahead</h2>
+<p>With the start screen parade in place, Blob Race feels more alive and inviting. The groundwork is now set for further polish and new features that will continue to enhance the game’s charm and playability.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[May 24, 2025: Start Screen Parade and Visual Polish]]></summary></entry><entry><title type="html">Moneyline Scoring and UI Improvements</title><link href="http://localhost:4000/formula-blob/blog/2025/05/23/moneyline-scoring-ui-improvements.html" rel="alternate" type="text/html" title="Moneyline Scoring and UI Improvements" /><published>2025-05-23T00:00:00-06:00</published><updated>2025-05-23T00:00:00-06:00</updated><id>http://localhost:4000/formula-blob/blog/2025/05/23/moneyline-scoring-ui-improvements</id><content type="html" xml:base="http://localhost:4000/formula-blob/blog/2025/05/23/moneyline-scoring-ui-improvements.html"><![CDATA[<h1 id="may-23-2025-moneyline-scoring-and-ui-improvements">May 23, 2025: Moneyline Scoring and UI Improvements</h1>
+
+<p>Today’s development session brought a major update to Blob Race’s scoring system and user interface, making the game’s risk/reward mechanics more transparent and engaging for players.</p>
+
+<h2 id="moneyline-style-scoring">Moneyline-Style Scoring</h2>
+<p>The biggest change was the implementation of a true moneyline-style scoring system, inspired by sports betting. Now, when you choose your blob, the game calculates a moneyline based on each blob’s probability of winning. If you pick the underdog (positive moneyline), you risk 100 points for a chance to win the moneyline value. If you pick the favorite (negative moneyline), you risk the absolute value of the moneyline for a chance to win 100 points. This change rewards bold choices and makes every race feel more strategic.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">update_scoring</code> function was refactored to handle these scenarios, ensuring that both wins and losses are scored according to the selected blob’s moneyline. The logic is now much closer to real-world betting, and the code is easier to follow and maintain.</p>
+
+<h2 id="ui-enhancements-clearer-risk-and-reward">UI Enhancements: Clearer Risk and Reward</h2>
+<p>To help players make informed decisions, the UI in the blob selection screen now displays the exact risk and reward for each blob. The labels under each blob show the amount you risk and the potential reward, updating dynamically based on the calculated moneylines. This makes the game’s strategy more accessible and helps players understand the consequences of their choices.</p>
+
+<h2 id="code-quality-and-documentation">Code Quality and Documentation</h2>
+<p>Alongside these gameplay and UI changes, I added comments to key functions like <code class="language-plaintext highlighter-rouge">win_probability_to_moneyline</code> to clarify the math behind the moneyline calculation. This should make future tweaks and maintenance much easier.</p>
+
+<p>With these updates, Blob Race now offers a deeper, more transparent, and more rewarding experience for players who enjoy a bit of risk and strategy. Next up: more polish and maybe some new surprises for the racers!</p>]]></content><author><name></name></author><summary type="html"><![CDATA[May 23, 2025: Moneyline Scoring and UI Improvements]]></summary></entry><entry><title type="html">Boost Bonus Feature - From Concept to Cleanup</title><link href="http://localhost:4000/formula-blob/blog/2025/05/22/boost-bonus-feature-concept-cleanup.html" rel="alternate" type="text/html" title="Boost Bonus Feature - From Concept to Cleanup" /><published>2025-05-22T00:00:00-06:00</published><updated>2025-05-22T00:00:00-06:00</updated><id>http://localhost:4000/formula-blob/blog/2025/05/22/boost-bonus-feature-concept-cleanup</id><content type="html" xml:base="http://localhost:4000/formula-blob/blog/2025/05/22/boost-bonus-feature-concept-cleanup.html"><![CDATA[<h1 id="may-22-2025-boost-bonus-feature---from-concept-to-cleanup">May 22, 2025: Boost Bonus Feature - From Concept to Cleanup</h1>
+
+<p>The journey of the boost bonus feature has been a multi-step process, evolving from a simple idea into a polished and integral part of Blob Race’s gameplay. Here’s a look back at the work that went into designing, implementing, and refining this system:</p>
+
+<h2 id="initial-concept-and-implementation">Initial Concept and Implementation</h2>
+<p>The boost bonus was introduced to add a layer of strategy and excitement to each race. The idea: the slower blob should get a compensatory boost, making races more competitive and less predictable. Early on, I created the <code class="language-plaintext highlighter-rouge">boost_meter</code> table to track which blob was fastest and to store a bonus value based on the speed gap between the two blobs. The <code class="language-plaintext highlighter-rouge">calculate_boost_bonus</code> function was written to compute this bonus, using the percentage difference between blob speeds to determine how much extra boost the underdog would receive.</p>
+
+<h2 id="integrating-with-player-and-opponent">Integrating With Player and Opponent</h2>
+<p>To make the system work in-game, I added <code class="language-plaintext highlighter-rouge">player_boost</code> and <code class="language-plaintext highlighter-rouge">opponent_boost</code> tables, each with their own <code class="language-plaintext highlighter-rouge">meter</code> fields. The <code class="language-plaintext highlighter-rouge">boost_balance</code> function was responsible for distributing the base boost and any bonus to the correct racer, depending on which blob the player selected and which was fastest. This logic ensured that the underdog always started with a little extra in the tank.</p>
+
+<h2 id="redundancy-and-refactoring">Redundancy and Refactoring</h2>
+<p>As the feature grew, I noticed redundancy between <code class="language-plaintext highlighter-rouge">boost_meter.player</code>/<code class="language-plaintext highlighter-rouge">opponent</code> and <code class="language-plaintext highlighter-rouge">player_boost.meter</code>/<code class="language-plaintext highlighter-rouge">opponent_boost.meter</code>. This overlap made the code harder to follow and maintain. Today, I refactored the code to remove the redundant fields, updating all logic to use only <code class="language-plaintext highlighter-rouge">player_boost.meter</code> and <code class="language-plaintext highlighter-rouge">opponent_boost.meter</code>. The <code class="language-plaintext highlighter-rouge">boost_balance</code> function was streamlined, and initialization logic was cleaned up to ensure a consistent and bug-free start to every race.</p>
+
+<h2 id="the-result">The Result</h2>
+<p>The boost bonus system now works seamlessly, making every race feel dynamic and fair. The codebase is cleaner, easier to maintain, and ready for future enhancements. This feature has added a new layer of depth to Blob Race, and I’m excited to see how it shapes player strategies going forward!</p>]]></content><author><name></name></author><summary type="html"><![CDATA[May 22, 2025: Boost Bonus Feature - From Concept to Cleanup]]></summary></entry><entry><title type="html">Match Scoring and Game Over Logic</title><link href="http://localhost:4000/formula-blob/blog/2025/05/19/match-scoring-game-over-logic.html" rel="alternate" type="text/html" title="Match Scoring and Game Over Logic" /><published>2025-05-19T00:00:00-06:00</published><updated>2025-05-19T00:00:00-06:00</updated><id>http://localhost:4000/formula-blob/blog/2025/05/19/match-scoring-game-over-logic</id><content type="html" xml:base="http://localhost:4000/formula-blob/blog/2025/05/19/match-scoring-game-over-logic.html"><![CDATA[<h1 id="may-19-2025-match-scoring-and-game-over-logic">May 19, 2025: Match Scoring and Game Over Logic</h1>
+
+<p>Today’s development brought a new competitive edge to Blob Race with the introduction of match scoring and a proper game over system.</p>
+
+<p>The most significant update is the addition of a scoring system that tracks both the player’s and the computer opponent’s progress across multiple races. Now, each win or loss adjusts the scores, and the game keeps a tally of wins and losses for both sides. The UI has been updated to display these scores and match results, making each race feel more meaningful and giving players a clear sense of progression.</p>
+
+<p>A new game over condition has also been implemented: when either the player or the opponent reaches 1000 points, the match ends, and the game provides a clear message about the outcome. Players can now see if they’ve won or lost the match, not just individual races, and are prompted to play again or continue racing as appropriate.</p>
+
+<p>Supporting these features, the codebase now includes helper functions for updating scores, checking for game over, and initializing match state. These changes make the game loop more robust and the gameplay experience more rewarding.</p>
+
+<p>With these improvements, Blob Race now offers a true sense of competition and accomplishment. Stay tuned for more features and polish as the game continues to evolve!</p>]]></content><author><name></name></author><summary type="html"><![CDATA[May 19, 2025: Match Scoring and Game Over Logic]]></summary></entry></feed>

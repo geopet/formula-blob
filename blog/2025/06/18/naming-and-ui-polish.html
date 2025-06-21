@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula Blob Gets a Naming Makeover and UI Polish!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #000000, #1a1a1a, #333333);
+            color: #01b2b2;
+            font-family: 'Lora', serif;
+            line-height: 1.8;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+        }
+        a {
+            color: #00ff00;
+            text-decoration: underline;
+            font-size: 20px;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav a {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        .formula-blob-title {
+            font-size: 36px;
+            background: linear-gradient(to right, #ff4500, #00bfff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: none;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+        }
+        article {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        article h1 {
+            font-size: 24px;
+            text-align: center;
+            color: #ff4500;
+        }
+        .story-section {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+        .story-section p {
+            margin-bottom: 1em;
+            max-width: 600px;
+        }
+       .blog-section {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        .blog-section h1 {
+            font-family: 'Lora', serif;
+            font-size: 30px;
+            text-align: center;
+            color: #00ff08;
+        }
+        .blog-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .blog-section li {
+            margin-bottom: 1.5em;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class= 'formula-blob-title'>Formula Blob Dev Blog</h1>
+        <p><em>Updates and insights from the development of Formula Blob.</em></p>
+    </header>
+    <main>
+        <article>
+            <div class = "story-section">
+                <div>
+                    <h1 id="june-18-2025-formula-blob-gets-a-naming-makeover-and-ui-polish">June 18, 2025: Formula Blob Gets a Naming Makeover and UI Polish!</h1>
+
+<p>The Formula Blob team has been busy refining the game, and we’re excited to share the latest updates that bring more personality and polish to your blob-racing experience. Here’s what’s new:</p>
+
+<h4 id="blob-names-meet-your-racers"><strong>Blob Names: Meet Your Racers!</strong></h4>
+<p>Blobs now have unique, randomly generated names like “Blobzilla,” “Max Verblobben,” and “Blobo Norris.” This feature adds a fun layer of personality to your racers, making each race feel more dynamic and engaging. No more generic “Blob 01” and “Blob 02”—your blobs now have character!</p>
+
+<h4 id="ui-enhancements-centered-and-clean"><strong>UI Enhancements: Centered and Clean</strong></h4>
+<p>We’ve revamped the text layout across the game to improve readability and aesthetics. A new <code class="language-plaintext highlighter-rouge">print_centered</code> helper function ensures all text is perfectly aligned, from the welcome screen to the blob selection phase. Key updates include:</p>
+<ul>
+  <li>Centered welcome messages and instructions.</li>
+  <li>Cleaner name layouts for blobs during the selection phase.</li>
+</ul>
+
+<h4 id="code-refactors-dry-and-efficient"><strong>Code Refactors: DRY and Efficient</strong></h4>
+<p>To keep the codebase clean and maintainable, we’ve introduced:</p>
+<ul>
+  <li>The <code class="language-plaintext highlighter-rouge">print_centered</code> function to eliminate repetitive text-centering logic.</li>
+  <li>A <code class="language-plaintext highlighter-rouge">set_blob_names</code> function to handle unique name assignments for blobs.</li>
+</ul>
+
+<h4 id="whats-next"><strong>What’s Next?</strong></h4>
+<p>With these updates, Formula Blob is more polished and fun than ever. We’re already brainstorming the next set of features to make your blob-racing experience even better. Stay tuned for more updates, and as always, happy racing!</p>
+
+                </div>
+            </div>
+        </article>
+        <div class = "nav">
+            <p><a href="/formula-blob/blog/">Dev Blog Home</a> | <a href="https://geopet.github.io/formula-blob/">Formula Blob Home</a></p>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; Formula Blob Dev Blog 2025</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boost Balance, Logging, and UI Polish</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #000000, #1a1a1a, #333333);
+            color: #01b2b2;
+            font-family: 'Lora', serif;
+            line-height: 1.8;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+        }
+        a {
+            color: #00ff00;
+            text-decoration: underline;
+            font-size: 20px;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .nav a {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        .formula-blob-title {
+            font-size: 36px;
+            background: linear-gradient(to right, #ff4500, #00bfff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: none;
+            text-align: center;
+            font-family: 'Press Start 2P', cursive;
+        }
+        article {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        article h1 {
+            font-size: 24px;
+            text-align: center;
+            color: #ff4500;
+        }
+        .story-section {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+        .story-section p {
+            margin-bottom: 1em;
+            max-width: 600px;
+        }
+       .blog-section {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+        .blog-section h1 {
+            font-family: 'Lora', serif;
+            font-size: 30px;
+            text-align: center;
+            color: #00ff08;
+        }
+        .blog-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .blog-section li {
+            margin-bottom: 1.5em;
+        }
+        footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class= 'formula-blob-title'>Formula Blob Dev Blog</h1>
+        <p><em>Updates and insights from the development of Formula Blob.</em></p>
+    </header>
+    <main>
+        <article>
+            <div class = "story-section">
+                <div>
+                    <h1 id="june-9-2025-boost-balance-logging-and-ui-polish">June 9, 2025: Boost Balance, Logging, and UI Polish</h1>
+
+<p>The past week has been all about refining the core mechanics and player experience in Blob Race. With a focus on boost balance, improved logging, and UI clarity, the game now feels more responsive, fair, and fun to play.</p>
+
+<h2 id="boost-balance-overhaul">Boost Balance Overhaul</h2>
+
+<p>A major highlight is the complete overhaul of the boost bonus and strength calculation logic. The boost system is now simpler and more transparent: the bonus is always set as a direct function of the speed gap, and the strength calculation is streamlined for consistency. This not only makes the code easier to maintain but also ensures that races feel balanced and competitive, regardless of which blob you choose.</p>
+
+<h2 id="debug-logging-improvements">Debug Logging Improvements</h2>
+
+<p>To aid in development and future tuning, a new <code class="language-plaintext highlighter-rouge">quick_log</code> table was introduced. This allows for easy, targeted debug output of key boost variables like scale and bonus. The logging system itself has been refactored for clarity, and logging is now off by default for a cleaner player experience.</p>
+
+<h2 id="ui-and-scoring-display">UI and Scoring Display</h2>
+
+<p>The race countdown and scoring UI have both received polish. The countdown sequence is now more visually engaging, and the scoring display during blob selection and after races is clearer, helping players understand the risk and reward of their choices at a glance.</p>
+
+<h2 id="audio-and-quality-of-life">Audio and Quality of Life</h2>
+
+<p>A new audio mute feature lets players toggle music on and off with a single button press, making the game more accessible in different play environments.</p>
+
+<h2 id="under-the-hood">Under the Hood</h2>
+
+<p>Much of the recent work has focused on code quality: refactoring boost logic, consolidating logging, and improving the structure of player and opponent boost tables. These changes make the codebase more robust and ready for future features.</p>
+
+<hr />
+
+<p>With these updates, Blob Race continues to evolve into a more polished, strategic, and enjoyable experience. The boost system is fairer, the UI is clearer, and the code is cleaner—setting the stage for even more exciting features to come!</p>
+
+                </div>
+            </div>
+        </article>
+        <div class = "nav">
+            <p><a href="/formula-blob/blog/">Dev Blog Home</a> | <a href="https://geopet.github.io/formula-blob/">Formula Blob Home</a></p>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; Formula Blob Dev Blog 2025</p>
+    </footer>
+</body>
+</html>

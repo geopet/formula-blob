@@ -1,0 +1,16 @@
+---
+layout: blog-index
+title: Formula Blob Dev Blog
+---
+<div class="blog-section">
+    <ul>
+        {% for post in site.posts %}
+        <li>
+            <p>
+                {{ post.date | date: "%B %d, %Y" }} <br/>
+                <a href="{{ post.url | relative_url}}">{{ post.title }}</a>
+            </p>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

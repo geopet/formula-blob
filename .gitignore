@@ -1,12 +1,9 @@
 # Ruby/Bundler artifacts
-blog/vendor/
-blog/.bundle/
-blog/Gemfile.lock
-blog/Gemfile
-
-# Jekyll build output if you don't want to commit it
-# (OR, remove this if you *do* want to commit your static output for GitHub Pages)
-blog/static/
+blog-source/vendor/
+blog-source/.bundle/
+blog-source/Gemfile.lock
+blog-source/Gemfile
+blog-source/.jekyll-cache/
 
 # Sass cache
 .sass-cache/
