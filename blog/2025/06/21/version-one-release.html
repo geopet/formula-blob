@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="{{ '/assets/images/formula-blob-icon.ico' | relative_url }}">
-    <title>{{ page.title }}</title>
+    <link rel="icon" type="image/x-icon" href="/formula-blob/blog/assets/images/formula-blob-icon.ico">
+    <title>Announcing Formula Blob Version 1.0.0!!</title>
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
@@ -89,39 +89,6 @@
         .blog-section li {
             margin-bottom: 1.5em;
         }
-        .blog-nav {
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-        flex-wrap: wrap;
-        padding: 10px 20px;
-        background: linear-gradient(to right, #ff4500, #00bfff);
-        border-radius: 8px;
-        margin: 20px auto;
-        max-width: 800px;
-        }
-        .blog-nav a {
-        font-family: 'Press Start 2P', cursive;
-        font-size: 14px;
-        color: #000000;
-        background: #00ff00;
-        padding: 6px 12px;
-        border-radius: 4px;
-        text-decoration: none;
-        transition: all 0.2s ease-in-out;
-        }
-        .blog-nav a:hover {
-        background: #ff4500;
-        color: #ffffff;
-        transform: scale(1.1);
-        }
-        .site-desc-img {
-        max-width: 32px;
-        height: auto;
-        vertical-align: middle;
-        margin-right: 8px;
-        border-radius: 4px;
-        }
         footer {
             margin-top: 20px;
             text-align: center;
@@ -130,33 +97,44 @@
 </head>
 <body>
     <header>
-        <h1 class= 'formula-blob-title'>{{ site.title }}</h1>
-        <p>
-            <img src="{{ '/assets/images/blue-blob.gif' | relative_url }}" alt="Blob bounce animation" class="site-desc-img">
-            <em>{{ site.description }}</em>
-        </p>
-        <nav class="blog-nav">
-            <a href="https://geopet.github.io/formula-blob/">Formula Blob Home</a> |
-            <a href="https://github.com/geopet/formula-blob">Source on GitHub</a>
-        </nav>
+        <h1 class= 'formula-blob-title'>Formula Blob Dev Blog</h1>
+        <p><em>Updates and insights from the development of Formula Blob.</em></p>
     </header>
     <main>
         <article>
             <div class = "story-section">
                 <div>
-                    {{ content }}
+                    <h1 id="june-21-2025-announcing-formula-blob-version-100">June 21, 2025: Announcing Formula Blob Version 1.0.0!!</h1>
+
+<p>We are thrilled to announce the official release of Formula Blob Version 1.0.0! This milestone marks the culmination of months of hard work, creativity, and dedication to delivering a fun and engaging racing game experience.</p>
+
+<h4 id="whats-new-in-version-100"><strong>What’s New in Version 1.0.0</strong></h4>
+<ul>
+  <li><strong>Polished Gameplay:</strong> The core race mechanics have been refined to ensure a competitive and balanced experience for players.</li>
+  <li><strong>Enhanced Visuals:</strong> Updated blob sprites, dynamic animations, and a cohesive UI bring the game to life.</li>
+  <li><strong>Immersive Audio:</strong> New sound effects and music tracks add excitement and depth to the gameplay.</li>
+  <li><strong>Bug Fixes:</strong> Addressed various issues to ensure smooth and enjoyable gameplay.</li>
+</ul>
+
+<h4 id="dev-blog-launch"><strong>Dev Blog Launch</strong></h4>
+<p>Alongside the game release, we are excited to unveil the Formula Blob development blog. This blog documents the journey of creating the game, offering insights into the design process, challenges, and achievements. Check out the <a href="http://127.0.0.1:4000/formula-blob/blog/">dev blog</a> for behind-the-scenes stories and updates! (You’re reading it right now!)</p>
+
+<h4 id="play-now"><strong>Play Now</strong></h4>
+<p>Formula Blob Version 1.0.0 is now available to <a href="https://geopet.github.io/formula-blob/">play directly in your browser</a> or as a <a href="https://github.com/geopet/formula-blob">downloadable cartridge</a> for Pico-8. Dive into the world of blob racing and experience the thrill of the race!</p>
+
+<p>Thank you for your support and enthusiasm throughout the development of Formula Blob. We can’t wait to see you on the racetrack!</p>
+
+<p>Stay tuned for more updates and features as we continue to expand the Formula Blob universe.</p>
+
                 </div>
             </div>
         </article>
+        <div class = "nav">
+            <p><a href="/formula-blob/blog/">Dev Blog Home</a> | <a href="https://geopet.github.io/formula-blob/">Formula Blob Home</a></p>
+        </div>
     </main>
-    <nav class="blog-nav">
-        <a href="https://geopet.github.io/formula-blob/">Formula Blob Home</a> |
-        <a href="https://geopet.github.io/formula-blob/web/formula-blob.html">Play Formula Blob</a> |
-        <a href="https://github.com/geopet/formula-blob">Source on GitHub</a>
-    </nav>
-    <img src="{{ '/assets/images/blob-bounce.gif' | relative_url }}" alt="Blob bounce animation" class="blog-header-img">
     <footer>
-        <p>&copy; {{ site.title }} {{ site.time | date: "%Y" }}</p>
+        <p>&copy; Formula Blob Dev Blog 2025</p>
     </footer>
 </body>
 </html>
