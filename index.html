@@ -15,7 +15,7 @@
             line-height: 1.8;
             font-size: 18px;
             margin: 0;
-            padding: 0;
+            padding: 0 15px; /* Add padding to the left and right */
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -73,6 +73,10 @@
 
         .blob-image {
             max-width: 100px;
+        }
+
+        h1 {
+            text-align: center; /* Center the header */
         }
     </style>
 </head>
@@ -156,5 +160,19 @@
         <img src="images/blob-bounce-03.gif" alt="Blob Bounce" class="blob-image">
     </div>
 
+    <script>
+        function updateHeader() {
+            const header = document.querySelector("h1");
+            if (window.innerWidth <= 600) {
+                header.innerHTML = "Welcome to<br />Formula Blob";
+            } else {
+                header.innerHTML = "Welcome to Formula Blob";
+            }
+        }
+
+        // Run the function on page load and when the window is resized
+        window.addEventListener("load", updateHeader);
+        window.addEventListener("resize", updateHeader);
+    </script>
 </body>
 </html>
