@@ -1,5 +1,5 @@
 title: Formula Blob Dev Blog
 description: Updates and insights from the development of Formula Blob.
-baseurl: "/formula-blob/blog" # Adjust if hosted in a subdirectory
-url: "https://geopet.github.io"
+baseurl: "/blog" # Adjust if hosted in a subdirectory
+url: "https://formula-blob.geoffpetrie.com"
 theme: minima
