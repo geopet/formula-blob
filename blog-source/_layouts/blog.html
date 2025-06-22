@@ -15,7 +15,7 @@
             line-height: 1.8;
             font-size: 18px;
             margin: 0;
-            padding: 0;
+            padding: 0 15px;;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -99,6 +99,9 @@
     <header>
         <h1 class= 'formula-blob-title'>{{ site.title }}</h1>
         <p><em>{{ site.description }}</em></p>
+        <div class = "nav">
+            <p><a href="{{ "/" | relative_url }}">Dev Blog Home</a> | <a href="https://geopet.github.io/formula-blob/">Play Formula Blob</a></p>
+        </div>
     </header>
     <main>
         <article>
@@ -109,7 +112,7 @@
             </div>
         </article>
         <div class = "nav">
-            <p><a href="{{ "/" | relative_url }}">Dev Blog Home</a> | <a href="https://geopet.github.io/formula-blob/">Formula Blob Home</a></p>
+            <p><a href="{{ "/" | relative_url }}">Dev Blog Home</a> | <a href="https://geopet.github.io/formula-blob/">Play Formula Blob</a></p>
         </div>
     </main>
     <footer>

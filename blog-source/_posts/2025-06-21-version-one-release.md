@@ -17,7 +17,7 @@ We are thrilled to announce the official release of Formula Blob Version 1.0.0! 
 #### **Dev Blog Launch**
 Alongside the game release, we are excited to unveil the Formula Blob development blog. This blog documents the journey of creating the game, offering insights into the design process, challenges, and achievements. Check out the [dev blog](http://127.0.0.1:4000/formula-blob/blog/) for behind-the-scenes stories and updates! (You're reading it right now!)
 
-#### **Play Now**
+#### **Play Now!**
 Formula Blob Version 1.0.0 is now available to [play directly in your browser](https://geopet.github.io/formula-blob/) or as a [downloadable cartridge](https://github.com/geopet/formula-blob) for Pico-8. Dive into the world of blob racing and experience the thrill of the race!
 
 Thank you for your support and enthusiasm throughout the development of Formula Blob. We can’t wait to see you on the racetrack!
