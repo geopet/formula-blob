@@ -34,14 +34,14 @@ Formula Blob is a fast-paced, dynamic racing game built for the PICO-8 fantasy c
 
 There are three ways to play *Formula Blob*.
 
-1. Download the cartridge png file and load it into PICO-8:  
+1. Play the browser version. **(Does not require PICO-8.)**
+- [Play in Browser](https://geopet.github.io/formula-blob/) 
+
+2. Download the cartridge png file and load it into PICO-8:  
 
 <p align="center">
   <img src="images/formula-blob.p8.png" alt="Formula Blob Cart Image" width="410">
 </p>
-
-2. Play the browser version. **(Does not require PICO-8.)**
-- Coming soon!
 
 3. Download the .p8 file from this repo following these instructions:
 
@@ -62,7 +62,7 @@ There are three ways to play *Formula Blob*.
 3. **Win the Race:** Cross the finish line first to claim victory and celebrate with fireworks!
 
 ## Development
-Formula Blob was developed using the PICO-8 fantasy console, leveraging its unique constraints to create a polished and engaging experience. The game features modular code with helper functions for maintainability and future enhancements.
+Formula Blob was developed using the PICO-8 fantasy console, leveraging its unique constraints to create a polished and engaging experience. The game features modular code with helper functions for maintainability and future enhancements. [Read the Dev Blog](https://geopet.github.io/formula-blob/blog) to find out more!
 
 ## Changelog
 See the [changelog](./changelog.md) for a detailed list of updates and improvements.

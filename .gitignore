@@ -4,6 +4,8 @@ blog-source/.bundle/
 blog-source/Gemfile.lock
 blog-source/Gemfile
 blog-source/.jekyll-cache/
+blog-source/reference.md
+blog/reference.md
 
 # Sass cache
 .sass-cache/
