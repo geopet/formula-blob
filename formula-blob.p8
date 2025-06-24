@@ -81,6 +81,7 @@ function _init()
         }
     }
 
+    racer_keys = {}
     selected_blob = 0
 
     -- race variables
@@ -155,6 +156,7 @@ function _update()
 
     if (state == "game-start") then
         lock_timer = 0
+        select_two_blobs()
         game_score_init()
 
         if (btnp(4)) then -- 🅾️ button (z key)
@@ -163,16 +165,17 @@ function _update()
         log_msg = ""
     elseif (state == "race-init") then
         lock_timer = 0
+        select_two_blobs()
 
         -- set blob speed
-        blobs.blob1.speed = (0.5 * rnd(1)) + 0.08
-        blobs.blob2.speed = (0.5 * rnd(1)) + 0.08
+        blobs[racer_keys[1]].speed = (0.5 * rnd(1)) + 0.08
+        blobs[racer_keys[2]].speed = (0.5 * rnd(1)) + 0.08
 
         -- testing values
-        -- blobs.blob1.speed = 0.1
-        -- blobs.blob2.speed = 0.1
+        -- blobs[racer_keys[1]].speed = 0.1
+        -- blobs[racer_keys[2]].speed = 0.1
 
-        win_probability.total_speed = blobs.blob1.speed + blobs.blob2.speed
+        win_probability.total_speed = blobs[racer_keys[1]].speed + blobs[racer_keys[2]].speed
 
         set_fastest_blob()
         calculate_boost_bonus()
@@ -184,19 +187,19 @@ function _update()
         state = "choose"
     elseif (state == "choose") then
         if (log_msg == "start state") then
-            log_msg = "b1 t: " .. blobs.blob1.win_probability.expected_time .. " b2 t: " .. blobs.blob2.win_probability.expected_time
+            log_msg = "b1 t: " .. blobs[racer_keys[1]].win_probability.expected_time .. " b2 t: " .. blobs[racer_keys[2]].win_probability.expected_time
         end
         if (btnp(0)) then -- left blob (1)
             selected_blob = 1
             sfx(0)
-            -- log_msg = "b1 wp: " .. blobs.blob1.win_probability.ratio .. "b1 t: " .. blobs.blob1.win_probability.expected_time
-            -- log_msg = "b1 wp: " .. blobs.blob1.win_probability.ratio .. " b1 ml: " .. blobs.blob1.win_probability.moneyline
+            -- log_msg = "b1 wp: " .. blobs[racer_keys[1]].win_probability.ratio .. "b1 t: " .. blobs[racer_keys[1]].win_probability.expected_time
+            -- log_msg = "b1 wp: " .. blobs[racer_keys[1]].win_probability.ratio .. " b1 ml: " .. blobs[racer_keys[1]].win_probability.moneyline
             log_msg = quick_log.scale .. " " .. quick_log.boost_bonus .. " " .. (1.5 * quick_log.scale)
         elseif (btnp(1)) then -- right blob (2)
             selected_blob = 2
             sfx(0)
-            -- log_msg = "b2 wp: " .. blobs.blob2.win_probability.ratio .. "b2 t: " .. blobs.blob2.win_probability.expected_time
-            -- log_msg = "b2 wp: " .. blobs.blob2.win_probability.ratio .. " b2 ml: " .. blobs.blob2.win_probability.moneyline
+            -- log_msg = "b2 wp: " .. blobs[racer_keys[2]].win_probability.ratio .. "b2 t: " .. blobs[racer_keys[2]].win_probability.expected_time
+            -- log_msg = "b2 wp: " .. blobs[racer_keys[2]].win_probability.ratio .. " b2 ml: " .. blobs[racer_keys[2]].win_probability.moneyline
             log_msg = quick_log.scale .. " " .. quick_log.boost_bonus .. " " .. (1.5 * quick_log.scale)
         elseif (btnp(4)) then
             if selected_blob != 0 then
@@ -215,12 +218,12 @@ function _update()
     elseif (state == "countdown") then
 
         -- trigger false starts randomly
-        if (rnd(1) < 0.02 and blobs.blob1.false_start.target == 0 and blobs.blob1.false_start.current == 0) then
-            blobs.blob1.false_start.target = flr(rnd(37)) + 4
+        if (rnd(1) < 0.02 and blobs[racer_keys[1]].false_start.target == 0 and blobs[racer_keys[1]].false_start.current == 0) then
+            blobs[racer_keys[1]].false_start.target = flr(rnd(37)) + 4
             sfx(18)
         end
-        if (rnd(1) < 0.02 and blobs.blob2.false_start.target == 0 and blobs.blob2.false_start.current == 0) then
-            blobs.blob2.false_start.target = flr(rnd(37)) + 4
+        if (rnd(1) < 0.02 and blobs[racer_keys[2]].false_start.target == 0 and blobs[racer_keys[2]].false_start.current == 0) then
+            blobs[racer_keys[2]].false_start.target = flr(rnd(37)) + 4
             sfx(18)
         end
 
@@ -253,12 +256,12 @@ function _update()
         elseif (lock_timer > 119) then
 
             -- blob setup
-            blobs.blob1.position.x = 10
-            blobs.blob2.position.x = 10
-            blobs.blob1.position.y = 66
-            blobs.blob2.position.y = 96
+            blobs[racer_keys[1]].position.x = 10
+            blobs[racer_keys[2]].position.x = 10
+            blobs[racer_keys[1]].position.y = 66
+            blobs[racer_keys[2]].position.y = 96
 
-            boost_balance(blobs.blob1.speed, blobs.blob2.speed)
+            boost_balance(blobs[racer_keys[1]].speed, blobs[racer_keys[2]].speed)
 
             -- player boost setup
             player_boost.active = false
@@ -348,12 +351,12 @@ function _draw()
     local blob_pulse_2 = sin((time() * 2.5) + arrow_phase) * 1.5 * speed_mod
 
     -- blob sprite animation
-    local blob1_sprite_frame = blobs.blob1.base_sprite.x + flr(time() * 2.5) % 2
+    local blob1_sprite_frame = blobs[racer_keys[1]].base_sprite.x + flr(time() * 2.5) % 2
     local blob1_flip = flr(time() * 2) % 2 == 1
-    local blob1_sprite_boost_frame = blobs.blob1.boost_sprite.x + flr(time() * 2.5) % 2
-    local blob2_sprite_frame = blobs.blob2.base_sprite.x + flr(time() * 1.5) % 2
+    local blob1_sprite_boost_frame = blobs[racer_keys[1]].boost_sprite.x + flr(time() * 2.5) % 2
+    local blob2_sprite_frame = blobs[racer_keys[2]].base_sprite.x + flr(time() * 1.5) % 2
     local blob2_flip = flr(time()) % 2 == 1
-    local blob2_sprite_boost_frame = blobs.blob2.boost_sprite.x + flr(time() * 1.5) % 2
+    local blob2_sprite_boost_frame = blobs[racer_keys[2]].boost_sprite.x + flr(time() * 1.5) % 2
 
     if (state == "game-start") then
         -- Pulsing welcome text
@@ -387,10 +390,10 @@ function _draw()
         -- nothing to display right now
     elseif (state == "choose") then
         -- calculate name layout
-        local blob1_name_width = #blobs.blob1.name * 4
+        local blob1_name_width = #blobs[racer_keys[1]].name * 4
         local blob1_name_x = 30 - blob1_name_width / 2
 
-        local blob2_name_width = #blobs.blob2.name * 4
+        local blob2_name_width = #blobs[racer_keys[2]].name * 4
         local blob2_name_x = 90 - blob2_name_width / 2
 
         -- print score
@@ -400,8 +403,8 @@ function _draw()
         print_centered("choose your blob!", 25, 7)
 
         -- draw blobs
-        sspr(blob1_sprite_frame * 8, blobs.blob1.base_sprite.y, 8, 8, 30-12, 55-12 + blob_pulse, 24, 24, blob1_flip, false)
-        sspr(blob2_sprite_frame * 8, blobs.blob2.base_sprite.y, 8, 8, 90-12, 55-12 + blob_pulse_2, 24, 24, blob2_flip, false)
+        sspr(blob1_sprite_frame * 8, blobs[racer_keys[1]].base_sprite.y, 8, 8, 30-12, 55-12 + blob_pulse, 24, 24, blob1_flip, false)
+        sspr(blob2_sprite_frame * 8, blobs[racer_keys[2]].base_sprite.y, 8, 8, 90-12, 55-12 + blob_pulse_2, 24, 24, blob2_flip, false)
 
         -- highlight selected blob
         if (selected_blob == 1) then
@@ -411,22 +414,22 @@ function _draw()
         end
 
         -- add labels
-        print(blobs.blob1.name, blob1_name_x, 72, 11)
+        print(blobs[racer_keys[1]].name, blob1_name_x, 72, 11)
         print("risk | reward", 8, 82, 11)
 
-        if (blobs.blob1.win_probability.moneyline < 0) then
-            print(abs(blobs.blob1.win_probability.moneyline) .. " | 100", 12, 92, 11)
+        if (blobs[racer_keys[1]].win_probability.moneyline < 0) then
+            print(abs(blobs[racer_keys[1]].win_probability.moneyline) .. " | 100", 12, 92, 11)
         else
-            print("100 | " .. abs(blobs.blob1.win_probability.moneyline), 12, 92, 11)
+            print("100 | " .. abs(blobs[racer_keys[1]].win_probability.moneyline), 12, 92, 11)
         end
 
-        print(blobs.blob2.name, blob2_name_x, 72, 12)
+        print(blobs[racer_keys[2]].name, blob2_name_x, 72, 12)
         print("risk | reward", 68, 82, 12)
 
-        if (blobs.blob2.win_probability.moneyline < 0) then
-            print(abs(blobs.blob2.win_probability.moneyline) .. " | 100", 72, 92, 12)
+        if (blobs[racer_keys[2]].win_probability.moneyline < 0) then
+            print(abs(blobs[racer_keys[2]].win_probability.moneyline) .. " | 100", 72, 92, 12)
         else
-            print("100 | " .. abs(blobs.blob2.win_probability.moneyline), 72, 92, 12)
+            print("100 | " .. abs(blobs[racer_keys[2]].win_probability.moneyline), 72, 92, 12)
         end
 
         print_centered("use ⬅️ or ➡️ to choose", 105, 9)
@@ -438,14 +441,14 @@ function _draw()
         print("current score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
 
         -- prepare "is ready!" line
-        local blob_name = (selected_blob == 1) and blobs.blob1.name or blobs.blob2.name
+        local blob_name = (selected_blob == 1) and blobs[racer_keys[1]].name or blobs[racer_keys[2]].name
         local ready_text = blob_name .. " is ready!"
         print_centered(ready_text, 20, 12)
 
         if (selected_blob == 1) then
-            sspr(blob1_sprite_frame * 8, blobs.blob1.base_sprite.y, 8, 8, 52, 42 + blob_pulse, 24, 24, blob1_flip, false)
+            sspr(blob1_sprite_frame * 8, blobs[racer_keys[1]].base_sprite.y, 8, 8, 52, 42 + blob_pulse, 24, 24, blob1_flip, false)
         else
-            sspr(blob2_sprite_frame * 8, blobs.blob2.base_sprite.y, 8, 8, 52, 42 + blob_pulse_2, 24, 24, blob2_flip, false)
+            sspr(blob2_sprite_frame * 8, blobs[racer_keys[2]].base_sprite.y, 8, 8, 52, 42 + blob_pulse_2, 24, 24, blob2_flip, false)
         end
 
         print_centered("press 🅾️ or z to start race!", 90, 10)
@@ -459,15 +462,15 @@ function _draw()
         local blob2_y_countdown = 96
 
         -- run animation and bobbing
-        local run_anim_1 = blobs.blob1.base_sprite.x + flr(time() * 4) % 2
-        local run_anim_2 = blobs.blob2.base_sprite.x + flr(time() * 3.5) % 2
+        local run_anim_1 = blobs[racer_keys[1]].base_sprite.x + flr(time() * 4) % 2
+        local run_anim_2 = blobs[racer_keys[2]].base_sprite.x + flr(time() * 3.5) % 2
         local bob = sin(time() * 6) * 1.5
 
         draw_track()
 
         -- draw with both bobbing and false start offset
-        sspr(run_anim_1 * 8, 0, 8, 8, pre_race_x - 12 + blobs.blob1.false_start.current, blob1_y_countdown - 12 + bob, 24, 24, false, false)
-        sspr(run_anim_2 * 8, 0, 8, 8, pre_race_x - 12 + blobs.blob2.false_start.current, blob2_y_countdown - 12 + bob, 24, 24, false, false)
+        sspr(run_anim_1 * 8, 0, 8, 8, pre_race_x - 12 + blobs[racer_keys[1]].false_start.current, blob1_y_countdown - 12 + bob, 24, 24, false, false)
+        sspr(run_anim_2 * 8, 0, 8, 8, pre_race_x - 12 + blobs[racer_keys[2]].false_start.current, blob2_y_countdown - 12 + bob, 24, 24, false, false)
 
         if (lock_timer < 30) then
             announcer_opt = {string = "racers on the ready...", x = 22, y = 10, color = 14}
@@ -519,16 +522,16 @@ function _draw()
         draw_track()
 
         if selected_blob == 1 then
-            draw_racer(blobs.blob1, player_boost.active, blob1_sprite_frame, blob1_sprite_boost_frame, 0)
-            draw_racer(blobs.blob2, opponent_boost.active, blob2_sprite_frame, blob2_sprite_boost_frame, 0)
+            draw_racer(blobs[racer_keys[1]], player_boost.active, blob1_sprite_frame, blob1_sprite_boost_frame, 0)
+            draw_racer(blobs[racer_keys[2]], opponent_boost.active, blob2_sprite_frame, blob2_sprite_boost_frame, 0)
         else
-            draw_racer(blobs.blob2, player_boost.active, blob2_sprite_frame, blob2_sprite_boost_frame, 0)
-            draw_racer(blobs.blob1, opponent_boost.active, blob1_sprite_frame, blob1_sprite_boost_frame, 0)
+            draw_racer(blobs[racer_keys[2]], player_boost.active, blob2_sprite_frame, blob2_sprite_boost_frame, 0)
+            draw_racer(blobs[racer_keys[1]], opponent_boost.active, blob1_sprite_frame, blob1_sprite_boost_frame, 0)
         end
 
         if (logging) then
-            print("blob1_x: " .. blobs.blob1.position.x .. " speed: " .. blobs.blob1.speed, 0, 90, 6)
-            print("blob2_x: " .. blobs.blob2.position.x .. " speed: " .. blobs.blob2.speed, 0, 100, 6)
+            print("blob1_x: " .. blobs[racer_keys[1]].position.x .. " speed: " .. blobs[racer_keys[1]].speed, 0, 90, 6)
+            print("blob2_x: " .. blobs[racer_keys[2]].position.x .. " speed: " .. blobs[racer_keys[2]].speed, 0, 100, 6)
         end
 
         print_log_msg(log_msg)
@@ -614,12 +617,47 @@ function game_score_init()
     game_over = false
 end
 
+function select_two_blobs()
+    local keys = {"blob1", "blob2", "blob3"}
+
+    -- shuffle the keys list
+    for i = #keys, 2, -1 do
+        local j = flr(rnd(i)) + 1
+        keys[i], keys[j] = keys[j], keys[i]
+    end
+
+    -- take the first two keys as the racers
+    racer_keys = { keys[1], keys[2] }
+end
+
+function set_blob_names()
+    blobs[racer_keys[1]].name = assign_name()
+    blobs[racer_keys[2]].name = assign_name()
+
+    -- Ensure names are unique
+    while (blobs[racer_keys[1]].name == blobs[racer_keys[2]].name) do
+        blobs[racer_keys[2]].name = assign_name()
+    end
+end
+
+function assign_name()
+    local names = {
+        "mcblobface", "bouncy", "mcblobberson", "blobster", "blobinator", "blobby", "bloob",
+        "max verblobben", "blobo norris", "charles leblob", "lewis hamiblob", "checo blobo",
+        "fenando balobso", "blarblos sainz", "baltteri blobas", "jeff", "super shugars",
+        "nice neice", "saint nick", "bad mike", "captain kenobi", "dr. dad", "leadlight mom",
+        "fancy frankie", "cool c", "jazzy j", "haulin colin", "speedy t"
+    }
+
+    return names[flr(rnd(#names)) + 1] -- pick a random name from the list
+end
+
 function set_win_probability()
     win_probability.track_length = win_probability.finish_line - win_probability.start_line
-    blobs.blob1.win_probability.expected_time = (win_probability.track_length/blobs.blob1.speed)/30
-    blobs.blob2.win_probability.expected_time = (win_probability.track_length/blobs.blob2.speed)/30
-    blobs.blob1.win_probability.ratio = blobs.blob1.speed/win_probability.total_speed
-    blobs.blob2.win_probability.ratio = blobs.blob2.speed/win_probability.total_speed
+    blobs[racer_keys[1]].win_probability.expected_time = (win_probability.track_length/blobs[racer_keys[1]].speed)/30
+    blobs[racer_keys[2]].win_probability.expected_time = (win_probability.track_length/blobs[racer_keys[2]].speed)/30
+    blobs[racer_keys[1]].win_probability.ratio = blobs[racer_keys[1]].speed/win_probability.total_speed
+    blobs[racer_keys[2]].win_probability.ratio = blobs[racer_keys[2]].speed/win_probability.total_speed
 end
 
 -- Converts a win probability (wp) into a moneyline value, a common concept in sports betting.
@@ -639,12 +677,12 @@ function win_probability_to_moneyline(wp)
 end
 
 function set_racer_moneyline()
-    blobs.blob1.win_probability.moneyline = win_probability_to_moneyline(blobs.blob1.win_probability.ratio)
-    blobs.blob2.win_probability.moneyline = win_probability_to_moneyline(blobs.blob2.win_probability.ratio)
+    blobs[racer_keys[1]].win_probability.moneyline = win_probability_to_moneyline(blobs[racer_keys[1]].win_probability.ratio)
+    blobs[racer_keys[2]].win_probability.moneyline = win_probability_to_moneyline(blobs[racer_keys[2]].win_probability.ratio)
 end
 
 function set_fastest_blob()
-    if (blobs.blob1.speed > blobs.blob2.speed) then
+    if (blobs[racer_keys[1]].speed > blobs[racer_keys[2]].speed) then
         boost_meter.fastest_blob = 1
     else
         boost_meter.fastest_blob = 2
@@ -652,8 +690,8 @@ function set_fastest_blob()
 end
 
 function calculate_speed_gap_percent()
-    local average = (blobs.blob1.speed + blobs.blob2.speed) / 2
-    local gap = abs(blobs.blob1.speed - blobs.blob2.speed)
+    local average = (blobs[racer_keys[1]].speed + blobs[racer_keys[2]].speed) / 2
+    local gap = abs(blobs[racer_keys[1]].speed - blobs[racer_keys[2]].speed)
     local percent_speed_gap_difference = gap / average
 
     return percent_speed_gap_difference
@@ -834,26 +872,26 @@ end
 
 function update_blobs_speed()
     if (selected_blob == 1) then
-        blobs.blob1.position.x += blobs.blob1.speed + player_boost.amount
-        blobs.blob2.position.x += blobs.blob2.speed + opponent_boost.amount
+        blobs[racer_keys[1]].position.x += blobs[racer_keys[1]].speed + player_boost.amount
+        blobs[racer_keys[2]].position.x += blobs[racer_keys[2]].speed + opponent_boost.amount
     else
-        blobs.blob2.position.x += blobs.blob2.speed + player_boost.amount
-        blobs.blob1.position.x += blobs.blob1.speed + opponent_boost.amount
+        blobs[racer_keys[2]].position.x += blobs[racer_keys[2]].speed + player_boost.amount
+        blobs[racer_keys[1]].position.x += blobs[racer_keys[1]].speed + opponent_boost.amount
     end
 end
 
 function win_condition_check()
     if race_results.winner_id == 0 then
-        if (blobs.blob1.position.x >= 120) then
+        if (blobs[racer_keys[1]].position.x >= 120) then
             race_results.winner_id = 1
-            race_results.winner = blobs.blob1
-            race_results.loser = blobs.blob2
+            race_results.winner = blobs[racer_keys[1]]
+            race_results.loser = blobs[racer_keys[2]]
             state = "result"
             update_scoring()
-        elseif (blobs.blob2.position.x >= 120) then
+        elseif (blobs[racer_keys[2]].position.x >= 120) then
             race_results.winner_id = 2
-            race_results.winner = blobs.blob2
-            race_results.loser = blobs.blob1
+            race_results.winner = blobs[racer_keys[2]]
+            race_results.loser = blobs[racer_keys[1]]
             state = "result"
             update_scoring()
         end
@@ -865,9 +903,9 @@ function update_scoring()
     local player_moneyline
 
     if (selected_blob == 1) then
-        player_moneyline = blobs.blob1.win_probability.moneyline
+        player_moneyline = blobs[racer_keys[1]].win_probability.moneyline
     else
-        player_moneyline = blobs.blob2.win_probability.moneyline
+        player_moneyline = blobs[racer_keys[2]].win_probability.moneyline
     end
 
     local abs_moneyline = abs(player_moneyline)
@@ -920,27 +958,6 @@ function spawn_fireworks()
             color = 8 + flr(rnd(7)) -- random color from 8 on (bright)
         }
         add(fireworks, f)
-    end
-end
-
-function assign_name()
-    local names = {
-        "blobzilla", "blast", "skids", "mcblobface", "bouncy", "slimer", "wiggly", "blash",
-        "mcblobberson", "blobster", "blobinator", "blobtastic", "blobby", "bloob",
-        "max verblobben", "blobo norris", "charles leblob", "blewis hamiblob", "blobo perez", "fenando balobso",
-        "blance bloll", "blierre basly", "blobos sainz", "baltteri blobas", "jeff"
-    }
-
-    return names[flr(rnd(#names)) + 1] -- pick a random name from the list
-end
-
-function set_blob_names()
-    blobs.blob1.name = assign_name()
-    blobs.blob2.name = assign_name()
-
-    -- Ensure names are unique
-    while (blobs.blob1.name == blobs.blob2.name) do
-        blobs.blob2.name = assign_name()
     end
 end
 
