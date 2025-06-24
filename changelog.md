@@ -2,6 +2,29 @@
 
 ---
 
+## [1.0.0a] - 2025-06-24
+
+### 🚀 Added
+
+- **Third Racer:**
+  - Introduced a third racer (red blob asset) to the game.
+  - Added naming homages to early players who provided feedback.
+
+### 🛠️ Changed / Enhanced
+
+- Refactored blob calls to support dynamic addition of new racers.
+- Updated version to `1.0.0a`.
+
+### 🔧 Refactored
+
+- Improved blob selection logic for future scalability.
+
+### 🐛 Fixed
+
+- Renamed files to replace underscores with dashes for improved consistency.
+
+---
+
 ## [1.0.0] - 2025-06-18
 
 ### 🚀 Added
