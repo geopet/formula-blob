@@ -1,7 +1,7 @@
 pico-8 cartridge // http://www.pico-8.com
 version 42
 __lua__
--- formula blob 1.0.0
+-- formula blob 1.0.0a
 -- by @geopet
 -- https://github.com/geopet/formula-blob
 
@@ -69,9 +69,19 @@ function _init()
             name = nil,
             false_start = { target = 0, current = 0 },
             win_probability = { expected_time = nil, ratio = nil, moneyline = nil }
+        },
+        blob3 = {
+            base_sprite = { x = 7, y = 0 },
+            boost_sprite = { x = 7, y = 8 },
+            position = { x = nil, y = nil },
+            speed = nil,
+            name = nil,
+            false_start = { target = 0, current = 0 },
+            win_probability = { expected_time = nil, ratio = nil, moneyline = nil }
         }
     }
 
+    racer_keys = {}
     selected_blob = 0
 
     -- race variables
@@ -146,6 +156,7 @@ function _update()
 
     if (state == "game-start") then
         lock_timer = 0
+        select_two_blobs()
         game_score_init()
 
         if (btnp(4)) then -- 🅾️ button (z key)
@@ -154,16 +165,17 @@ function _update()
         log_msg = ""
     elseif (state == "race-init") then
         lock_timer = 0
+        select_two_blobs()
 
         -- set blob speed
-        blobs.blob1.speed = (0.5 * rnd(1)) + 0.08
-        blobs.blob2.speed = (0.5 * rnd(1)) + 0.08
+        blobs[racer_keys[1]].speed = (0.5 * rnd(1)) + 0.08
+        blobs[racer_keys[2]].speed = (0.5 * rnd(1)) + 0.08
 
         -- testing values
-        -- blobs.blob1.speed = 0.1
-        -- blobs.blob2.speed = 0.1
+        -- blobs[racer_keys[1]].speed = 0.1
+        -- blobs[racer_keys[2]].speed = 0.1
 
-        win_probability.total_speed = blobs.blob1.speed + blobs.blob2.speed
+        win_probability.total_speed = blobs[racer_keys[1]].speed + blobs[racer_keys[2]].speed
 
         set_fastest_blob()
         calculate_boost_bonus()
@@ -175,19 +187,19 @@ function _update()
         state = "choose"
     elseif (state == "choose") then
         if (log_msg == "start state") then
-            log_msg = "b1 t: " .. blobs.blob1.win_probability.expected_time .. " b2 t: " .. blobs.blob2.win_probability.expected_time
+            log_msg = "b1 t: " .. blobs[racer_keys[1]].win_probability.expected_time .. " b2 t: " .. blobs[racer_keys[2]].win_probability.expected_time
         end
         if (btnp(0)) then -- left blob (1)
             selected_blob = 1
             sfx(0)
-            -- log_msg = "b1 wp: " .. blobs.blob1.win_probability.ratio .. "b1 t: " .. blobs.blob1.win_probability.expected_time
-            -- log_msg = "b1 wp: " .. blobs.blob1.win_probability.ratio .. " b1 ml: " .. blobs.blob1.win_probability.moneyline
+            -- log_msg = "b1 wp: " .. blobs[racer_keys[1]].win_probability.ratio .. "b1 t: " .. blobs[racer_keys[1]].win_probability.expected_time
+            -- log_msg = "b1 wp: " .. blobs[racer_keys[1]].win_probability.ratio .. " b1 ml: " .. blobs[racer_keys[1]].win_probability.moneyline
             log_msg = quick_log.scale .. " " .. quick_log.boost_bonus .. " " .. (1.5 * quick_log.scale)
         elseif (btnp(1)) then -- right blob (2)
             selected_blob = 2
             sfx(0)
-            -- log_msg = "b2 wp: " .. blobs.blob2.win_probability.ratio .. "b2 t: " .. blobs.blob2.win_probability.expected_time
-            -- log_msg = "b2 wp: " .. blobs.blob2.win_probability.ratio .. " b2 ml: " .. blobs.blob2.win_probability.moneyline
+            -- log_msg = "b2 wp: " .. blobs[racer_keys[2]].win_probability.ratio .. "b2 t: " .. blobs[racer_keys[2]].win_probability.expected_time
+            -- log_msg = "b2 wp: " .. blobs[racer_keys[2]].win_probability.ratio .. " b2 ml: " .. blobs[racer_keys[2]].win_probability.moneyline
             log_msg = quick_log.scale .. " " .. quick_log.boost_bonus .. " " .. (1.5 * quick_log.scale)
         elseif (btnp(4)) then
             if selected_blob != 0 then
@@ -206,12 +218,12 @@ function _update()
     elseif (state == "countdown") then
 
         -- trigger false starts randomly
-        if (rnd(1) < 0.02 and blobs.blob1.false_start.target == 0 and blobs.blob1.false_start.current == 0) then
-            blobs.blob1.false_start.target = flr(rnd(37)) + 4
+        if (rnd(1) < 0.02 and blobs[racer_keys[1]].false_start.target == 0 and blobs[racer_keys[1]].false_start.current == 0) then
+            blobs[racer_keys[1]].false_start.target = flr(rnd(37)) + 4
             sfx(18)
         end
-        if (rnd(1) < 0.02 and blobs.blob2.false_start.target == 0 and blobs.blob2.false_start.current == 0) then
-            blobs.blob2.false_start.target = flr(rnd(37)) + 4
+        if (rnd(1) < 0.02 and blobs[racer_keys[2]].false_start.target == 0 and blobs[racer_keys[2]].false_start.current == 0) then
+            blobs[racer_keys[2]].false_start.target = flr(rnd(37)) + 4
             sfx(18)
         end
 
@@ -244,12 +256,12 @@ function _update()
         elseif (lock_timer > 119) then
 
             -- blob setup
-            blobs.blob1.position.x = 10
-            blobs.blob2.position.x = 10
-            blobs.blob1.position.y = 66
-            blobs.blob2.position.y = 96
+            blobs[racer_keys[1]].position.x = 10
+            blobs[racer_keys[2]].position.x = 10
+            blobs[racer_keys[1]].position.y = 66
+            blobs[racer_keys[2]].position.y = 96
 
-            boost_balance(blobs.blob1.speed, blobs.blob2.speed)
+            boost_balance(blobs[racer_keys[1]].speed, blobs[racer_keys[2]].speed)
 
             -- player boost setup
             player_boost.active = false
@@ -339,12 +351,12 @@ function _draw()
     local blob_pulse_2 = sin((time() * 2.5) + arrow_phase) * 1.5 * speed_mod
 
     -- blob sprite animation
-    local blob1_sprite_frame = blobs.blob1.base_sprite.x + flr(time() * 2.5) % 2
+    local blob1_sprite_frame = blobs[racer_keys[1]].base_sprite.x + flr(time() * 2.5) % 2
     local blob1_flip = flr(time() * 2) % 2 == 1
-    local blob1_sprite_boost_frame = blobs.blob1.boost_sprite.x + flr(time() * 2.5) % 2
-    local blob2_sprite_frame = blobs.blob2.base_sprite.x + flr(time() * 1.5) % 2
+    local blob1_sprite_boost_frame = blobs[racer_keys[1]].boost_sprite.x + flr(time() * 2.5) % 2
+    local blob2_sprite_frame = blobs[racer_keys[2]].base_sprite.x + flr(time() * 1.5) % 2
     local blob2_flip = flr(time()) % 2 == 1
-    local blob2_sprite_boost_frame = blobs.blob2.boost_sprite.x + flr(time() * 1.5) % 2
+    local blob2_sprite_boost_frame = blobs[racer_keys[2]].boost_sprite.x + flr(time() * 1.5) % 2
 
     if (state == "game-start") then
         -- Pulsing welcome text
@@ -352,7 +364,7 @@ function _draw()
         local c = 7 + flr((t + 1) * 2)
 
         print_centered("welcome to formula blob!", 20, c)
-        print_centered("version 1.0.0", 30, 12)
+        print_centered("version 1.0.0a", 30, 12)
         print_centered("a fun time by @geopet", 40, 11)
 
         local base_y = 60
@@ -378,10 +390,10 @@ function _draw()
         -- nothing to display right now
     elseif (state == "choose") then
         -- calculate name layout
-        local blob1_name_width = #blobs.blob1.name * 4
+        local blob1_name_width = #blobs[racer_keys[1]].name * 4
         local blob1_name_x = 30 - blob1_name_width / 2
 
-        local blob2_name_width = #blobs.blob2.name * 4
+        local blob2_name_width = #blobs[racer_keys[2]].name * 4
         local blob2_name_x = 90 - blob2_name_width / 2
 
         -- print score
@@ -391,8 +403,8 @@ function _draw()
         print_centered("choose your blob!", 25, 7)
 
         -- draw blobs
-        sspr(blob1_sprite_frame * 8, blobs.blob1.base_sprite.y, 8, 8, 30-12, 55-12 + blob_pulse, 24, 24, blob1_flip, false)
-        sspr(blob2_sprite_frame * 8, blobs.blob2.base_sprite.y, 8, 8, 90-12, 55-12 + blob_pulse_2, 24, 24, blob2_flip, false)
+        sspr(blob1_sprite_frame * 8, blobs[racer_keys[1]].base_sprite.y, 8, 8, 30-12, 55-12 + blob_pulse, 24, 24, blob1_flip, false)
+        sspr(blob2_sprite_frame * 8, blobs[racer_keys[2]].base_sprite.y, 8, 8, 90-12, 55-12 + blob_pulse_2, 24, 24, blob2_flip, false)
 
         -- highlight selected blob
         if (selected_blob == 1) then
@@ -402,22 +414,22 @@ function _draw()
         end
 
         -- add labels
-        print(blobs.blob1.name, blob1_name_x, 72, 11)
+        print(blobs[racer_keys[1]].name, blob1_name_x, 72, 11)
         print("risk | reward", 8, 82, 11)
 
-        if (blobs.blob1.win_probability.moneyline < 0) then
-            print(abs(blobs.blob1.win_probability.moneyline) .. " | 100", 12, 92, 11)
+        if (blobs[racer_keys[1]].win_probability.moneyline < 0) then
+            print(abs(blobs[racer_keys[1]].win_probability.moneyline) .. " | 100", 12, 92, 11)
         else
-            print("100 | " .. abs(blobs.blob1.win_probability.moneyline), 12, 92, 11)
+            print("100 | " .. abs(blobs[racer_keys[1]].win_probability.moneyline), 12, 92, 11)
         end
 
-        print(blobs.blob2.name, blob2_name_x, 72, 12)
+        print(blobs[racer_keys[2]].name, blob2_name_x, 72, 12)
         print("risk | reward", 68, 82, 12)
 
-        if (blobs.blob2.win_probability.moneyline < 0) then
-            print(abs(blobs.blob2.win_probability.moneyline) .. " | 100", 72, 92, 12)
+        if (blobs[racer_keys[2]].win_probability.moneyline < 0) then
+            print(abs(blobs[racer_keys[2]].win_probability.moneyline) .. " | 100", 72, 92, 12)
         else
-            print("100 | " .. abs(blobs.blob2.win_probability.moneyline), 72, 92, 12)
+            print("100 | " .. abs(blobs[racer_keys[2]].win_probability.moneyline), 72, 92, 12)
         end
 
         print_centered("use ⬅️ or ➡️ to choose", 105, 9)
@@ -429,14 +441,14 @@ function _draw()
         print("current score: " .. score.player .. " (" .. score.player_wins .. "-" .. score.player_losses .. ")", 0, 0, 7)
 
         -- prepare "is ready!" line
-        local blob_name = (selected_blob == 1) and blobs.blob1.name or blobs.blob2.name
+        local blob_name = (selected_blob == 1) and blobs[racer_keys[1]].name or blobs[racer_keys[2]].name
         local ready_text = blob_name .. " is ready!"
         print_centered(ready_text, 20, 12)
 
         if (selected_blob == 1) then
-            sspr(blob1_sprite_frame * 8, blobs.blob1.base_sprite.y, 8, 8, 52, 42 + blob_pulse, 24, 24, blob1_flip, false)
+            sspr(blob1_sprite_frame * 8, blobs[racer_keys[1]].base_sprite.y, 8, 8, 52, 42 + blob_pulse, 24, 24, blob1_flip, false)
         else
-            sspr(blob2_sprite_frame * 8, blobs.blob2.base_sprite.y, 8, 8, 52, 42 + blob_pulse_2, 24, 24, blob2_flip, false)
+            sspr(blob2_sprite_frame * 8, blobs[racer_keys[2]].base_sprite.y, 8, 8, 52, 42 + blob_pulse_2, 24, 24, blob2_flip, false)
         end
 
         print_centered("press 🅾️ or z to start race!", 90, 10)
@@ -450,15 +462,15 @@ function _draw()
         local blob2_y_countdown = 96
 
         -- run animation and bobbing
-        local run_anim_1 = blobs.blob1.base_sprite.x + flr(time() * 4) % 2
-        local run_anim_2 = blobs.blob2.base_sprite.x + flr(time() * 3.5) % 2
+        local run_anim_1 = blobs[racer_keys[1]].base_sprite.x + flr(time() * 4) % 2
+        local run_anim_2 = blobs[racer_keys[2]].base_sprite.x + flr(time() * 3.5) % 2
         local bob = sin(time() * 6) * 1.5
 
         draw_track()
 
         -- draw with both bobbing and false start offset
-        sspr(run_anim_1 * 8, 0, 8, 8, pre_race_x - 12 + blobs.blob1.false_start.current, blob1_y_countdown - 12 + bob, 24, 24, false, false)
-        sspr(run_anim_2 * 8, 0, 8, 8, pre_race_x - 12 + blobs.blob2.false_start.current, blob2_y_countdown - 12 + bob, 24, 24, false, false)
+        sspr(run_anim_1 * 8, 0, 8, 8, pre_race_x - 12 + blobs[racer_keys[1]].false_start.current, blob1_y_countdown - 12 + bob, 24, 24, false, false)
+        sspr(run_anim_2 * 8, 0, 8, 8, pre_race_x - 12 + blobs[racer_keys[2]].false_start.current, blob2_y_countdown - 12 + bob, 24, 24, false, false)
 
         if (lock_timer < 30) then
             announcer_opt = {string = "racers on the ready...", x = 22, y = 10, color = 14}
@@ -510,16 +522,16 @@ function _draw()
         draw_track()
 
         if selected_blob == 1 then
-            draw_racer(blobs.blob1, player_boost.active, blob1_sprite_frame, blob1_sprite_boost_frame, 0)
-            draw_racer(blobs.blob2, opponent_boost.active, blob2_sprite_frame, blob2_sprite_boost_frame, 0)
+            draw_racer(blobs[racer_keys[1]], player_boost.active, blob1_sprite_frame, blob1_sprite_boost_frame, 0)
+            draw_racer(blobs[racer_keys[2]], opponent_boost.active, blob2_sprite_frame, blob2_sprite_boost_frame, 0)
         else
-            draw_racer(blobs.blob2, player_boost.active, blob2_sprite_frame, blob2_sprite_boost_frame, 0)
-            draw_racer(blobs.blob1, opponent_boost.active, blob1_sprite_frame, blob1_sprite_boost_frame, 0)
+            draw_racer(blobs[racer_keys[2]], player_boost.active, blob2_sprite_frame, blob2_sprite_boost_frame, 0)
+            draw_racer(blobs[racer_keys[1]], opponent_boost.active, blob1_sprite_frame, blob1_sprite_boost_frame, 0)
         end
 
         if (logging) then
-            print("blob1_x: " .. blobs.blob1.position.x .. " speed: " .. blobs.blob1.speed, 0, 90, 6)
-            print("blob2_x: " .. blobs.blob2.position.x .. " speed: " .. blobs.blob2.speed, 0, 100, 6)
+            print("blob1_x: " .. blobs[racer_keys[1]].position.x .. " speed: " .. blobs[racer_keys[1]].speed, 0, 90, 6)
+            print("blob2_x: " .. blobs[racer_keys[2]].position.x .. " speed: " .. blobs[racer_keys[2]].speed, 0, 100, 6)
         end
 
         print_log_msg(log_msg)
@@ -605,12 +617,47 @@ function game_score_init()
     game_over = false
 end
 
+function select_two_blobs()
+    local keys = {"blob1", "blob2", "blob3"}
+
+    -- shuffle the keys list
+    for i = #keys, 2, -1 do
+        local j = flr(rnd(i)) + 1
+        keys[i], keys[j] = keys[j], keys[i]
+    end
+
+    -- take the first two keys as the racers
+    racer_keys = { keys[1], keys[2] }
+end
+
+function set_blob_names()
+    blobs[racer_keys[1]].name = assign_name()
+    blobs[racer_keys[2]].name = assign_name()
+
+    -- Ensure names are unique
+    while (blobs[racer_keys[1]].name == blobs[racer_keys[2]].name) do
+        blobs[racer_keys[2]].name = assign_name()
+    end
+end
+
+function assign_name()
+    local names = {
+        "mcblobface", "bouncy", "mcblobberson", "blobster", "blobinator", "blobby", "bloob",
+        "max verblobben", "blobo norris", "charles leblob", "lewis hamiblob", "checo blobo",
+        "fenando balobso", "blarblos sainz", "baltteri blobas", "jeff", "super shugars",
+        "nice neice", "saint nick", "bad mike", "captain kenobi", "dr. dad", "leadlight mom",
+        "fancy frankie", "cool c", "jazzy j", "haulin colin", "speedy t"
+    }
+
+    return names[flr(rnd(#names)) + 1] -- pick a random name from the list
+end
+
 function set_win_probability()
     win_probability.track_length = win_probability.finish_line - win_probability.start_line
-    blobs.blob1.win_probability.expected_time = (win_probability.track_length/blobs.blob1.speed)/30
-    blobs.blob2.win_probability.expected_time = (win_probability.track_length/blobs.blob2.speed)/30
-    blobs.blob1.win_probability.ratio = blobs.blob1.speed/win_probability.total_speed
-    blobs.blob2.win_probability.ratio = blobs.blob2.speed/win_probability.total_speed
+    blobs[racer_keys[1]].win_probability.expected_time = (win_probability.track_length/blobs[racer_keys[1]].speed)/30
+    blobs[racer_keys[2]].win_probability.expected_time = (win_probability.track_length/blobs[racer_keys[2]].speed)/30
+    blobs[racer_keys[1]].win_probability.ratio = blobs[racer_keys[1]].speed/win_probability.total_speed
+    blobs[racer_keys[2]].win_probability.ratio = blobs[racer_keys[2]].speed/win_probability.total_speed
 end
 
 -- Converts a win probability (wp) into a moneyline value, a common concept in sports betting.
@@ -630,12 +677,12 @@ function win_probability_to_moneyline(wp)
 end
 
 function set_racer_moneyline()
-    blobs.blob1.win_probability.moneyline = win_probability_to_moneyline(blobs.blob1.win_probability.ratio)
-    blobs.blob2.win_probability.moneyline = win_probability_to_moneyline(blobs.blob2.win_probability.ratio)
+    blobs[racer_keys[1]].win_probability.moneyline = win_probability_to_moneyline(blobs[racer_keys[1]].win_probability.ratio)
+    blobs[racer_keys[2]].win_probability.moneyline = win_probability_to_moneyline(blobs[racer_keys[2]].win_probability.ratio)
 end
 
 function set_fastest_blob()
-    if (blobs.blob1.speed > blobs.blob2.speed) then
+    if (blobs[racer_keys[1]].speed > blobs[racer_keys[2]].speed) then
         boost_meter.fastest_blob = 1
     else
         boost_meter.fastest_blob = 2
@@ -643,8 +690,8 @@ function set_fastest_blob()
 end
 
 function calculate_speed_gap_percent()
-    local average = (blobs.blob1.speed + blobs.blob2.speed) / 2
-    local gap = abs(blobs.blob1.speed - blobs.blob2.speed)
+    local average = (blobs[racer_keys[1]].speed + blobs[racer_keys[2]].speed) / 2
+    local gap = abs(blobs[racer_keys[1]].speed - blobs[racer_keys[2]].speed)
     local percent_speed_gap_difference = gap / average
 
     return percent_speed_gap_difference
@@ -825,26 +872,26 @@ end
 
 function update_blobs_speed()
     if (selected_blob == 1) then
-        blobs.blob1.position.x += blobs.blob1.speed + player_boost.amount
-        blobs.blob2.position.x += blobs.blob2.speed + opponent_boost.amount
+        blobs[racer_keys[1]].position.x += blobs[racer_keys[1]].speed + player_boost.amount
+        blobs[racer_keys[2]].position.x += blobs[racer_keys[2]].speed + opponent_boost.amount
     else
-        blobs.blob2.position.x += blobs.blob2.speed + player_boost.amount
-        blobs.blob1.position.x += blobs.blob1.speed + opponent_boost.amount
+        blobs[racer_keys[2]].position.x += blobs[racer_keys[2]].speed + player_boost.amount
+        blobs[racer_keys[1]].position.x += blobs[racer_keys[1]].speed + opponent_boost.amount
     end
 end
 
 function win_condition_check()
     if race_results.winner_id == 0 then
-        if (blobs.blob1.position.x >= 120) then
+        if (blobs[racer_keys[1]].position.x >= 120) then
             race_results.winner_id = 1
-            race_results.winner = blobs.blob1
-            race_results.loser = blobs.blob2
+            race_results.winner = blobs[racer_keys[1]]
+            race_results.loser = blobs[racer_keys[2]]
             state = "result"
             update_scoring()
-        elseif (blobs.blob2.position.x >= 120) then
+        elseif (blobs[racer_keys[2]].position.x >= 120) then
             race_results.winner_id = 2
-            race_results.winner = blobs.blob2
-            race_results.loser = blobs.blob1
+            race_results.winner = blobs[racer_keys[2]]
+            race_results.loser = blobs[racer_keys[1]]
             state = "result"
             update_scoring()
         end
@@ -856,9 +903,9 @@ function update_scoring()
     local player_moneyline
 
     if (selected_blob == 1) then
-        player_moneyline = blobs.blob1.win_probability.moneyline
+        player_moneyline = blobs[racer_keys[1]].win_probability.moneyline
     else
-        player_moneyline = blobs.blob2.win_probability.moneyline
+        player_moneyline = blobs[racer_keys[2]].win_probability.moneyline
     end
 
     local abs_moneyline = abs(player_moneyline)
@@ -914,27 +961,6 @@ function spawn_fireworks()
     end
 end
 
-function assign_name()
-    local names = {
-        "blobzilla", "blast", "skids", "mcblobface", "bouncy", "slimer", "wiggly", "blash",
-        "mcblobberson", "blobster", "blobinator", "blobtastic", "blobby", "bloob",
-        "max verblobben", "blobo norris", "charles leblob", "blewis hamiblob", "blobo perez", "fenando balobso",
-        "blance bloll", "blierre basly", "blobos sainz", "baltteri blobas", "jeff"
-    }
-
-    return names[flr(rnd(#names)) + 1] -- pick a random name from the list
-end
-
-function set_blob_names()
-    blobs.blob1.name = assign_name()
-    blobs.blob2.name = assign_name()
-
-    -- Ensure names are unique
-    while (blobs.blob1.name == blobs.blob2.name) do
-        blobs.blob2.name = assign_name()
-    end
-end
-
 function print_centered(text, y, color)
     local text_width = #text * 4
     local x = 64 - text_width / 2
@@ -983,20 +1009,20 @@ end
 
 __gfx__
 0000000000000000bbbbbbb000000000000000000000000000000000000000000000000033333333000000000000000000000000000000000000000000000000
-000000000beeee0000eeeeb000cccc0000cccc0000eeee0000eeee00000000000000000033333333000000000000000000000000000000000020000000000200
-00700700beeaeae0beeaeae00ccacac00ccacac00eedede00eedede0000000000000000068686868000000000000000000110000000000000000000000000220
-000770000eeeeee00eeaeae00cccccc00cccccc00eeeeee00eeeeee0000000000000000086868686077777700999999000010000000000000002000000000000
-00077000be2232e0be2232e00ccbabc00ccbabc00ee232e00ee232e0000000000000000068686868077777700999999000000000000001000000000000000000
-007007000e2222e00e2232e00cccccc00cccacc00eee3ee00eee3ee0000000000000000086868686000000000000000000000000000010000000000000020000
-000000000beeee00bbe33e0000cccc0000cccc0000eeee0000e33e00000000000000000068686868000000000000000000000000000000000000000000000000
+000000000beeee0000eeeeb000cccc0000cccc0000eeee0000eeee00008888000088880033333333000000000000000000000000000000000020000000000200
+00700700beeaeae0beeaeae00ccacac00ccacac00eedede00eedede0088b8b80088b8b8068686868000000000000000000110000000000000000000000000220
+000770000eeeeee00eeaeae00cccccc00cccccc00eeeeee00eeeeee0088888800888888086868686077777700999999000010000000000000002000000000000
+00077000be2232e0be2232e00ccbabc00ccbabc00ee232e00ee232e0088a8a800aaca88068686868077777700999999000000000000001000000000000000000
+007007000e2222e00e2232e00cccccc00cccacc00eee3ee00eee3ee008a8ac80088acc8086868686000000000000000000000000000010000000000000020000
+000000000beeee00bbe33e0000cccc0000cccc0000eeee0000e33e00008888000088880068686868000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000086868686000000000000000000000000000000000000000000000000
-0000000000000000000000000000000000000000000000009999999000000000000000006a6a6a6a70707070333333337a7a7a7a000000000000000000000000
-0077770000bbbb00009999000088880000aaaa0009cccc0000cccc900000000000000000a6a6a6a60707070733333333a7a7a7a7000000000000000000000000
-077070700bbebeb009909090088989800aaeaea09cc8c8c09cc8c8c000000000000000006a6a6a6a70707070787878787a7a7a7a000000000000000000000200
-077777700bbbbbb009999990088888800aaaaaa00cccccc00cc8c8c00000000000000000a6a6a6a60707070787878787a7a7a7a7000000000000000000000002
-077656700bba9ab0099c2c90088aca800aaebea09caabac09caabac000000000000000006a6a6a6a70707070787878787a7a7a7a000000000000000000000000
-077777700bbbbbb009999990088888800aaaaaa00caaaac00cababc00000000000000000a6a6a6a60707070787878787a7a7a7a7000000000000000000220000
-0077770000bbbb00009999000088880000aaaa0009cccc0099cccc00000000000000000033333333707070707878787833333333000000000000000000020000
+00000000000000000000000000000000000000000000000099999990000bb000bbbbbbb06a6a6a6a70707070333333337a7a7a7a000000000000000000000000
+0077770000bbbb00009999000088880000aaaa0009cccc0000cccc900b8888000b8787bba6a6a6a60707070733333333a7a7a7a7000000000000000000000000
+077070700bbebeb009909090088989800aaeaea09cc8c8c09cc8c8c008878780088787806a6a6a6a70707070787878787a7a7a7a000000000000000000000200
+077777700bbbbbb009999990088888800aaaaaa00cccccc00cc8c8c0b8888880b8888880a6a6a6a60707070787878787a7a7a7a7000000000000000000000002
+077656700bba9ab0099c2c90088aca800aaebea09caabac09caabac0b88c9c80089c99806a6a6a6a70707070787878787a7a7a7a000000000000000000000000
+077777700bbbbbb009999990088888800aaaaaa00caaaac00cababc008cc9c8008c99c80a6a6a6a60707070787878787a7a7a7a7000000000000000000220000
+0077770000bbbb00009999000088880000aaaa0009cccc0099cccc0000888800bb88880033333333707070707878787833333333000000000000000000020000
 00000000000000000000000000000000000000000000000000000000000000000000000033333333070707078787878733333333000000000000000000000000
 03900920000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 26299363000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
